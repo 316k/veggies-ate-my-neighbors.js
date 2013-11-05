@@ -1,4 +1,4 @@
-veggies-ate-my-neighbors
+Veggies Ate My Neighbors
 ========================
 
-A fantastic game about mutant vegans trying to conquer the world.
+A fantastic game with mutant vegans trying to conquer the world.

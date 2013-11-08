@@ -4,5 +4,5 @@
 *.jar
 *.war
 *.ear
-/VeggiesAteMyNeighbors/nbproject/private/
+nbproject/private/
 /build/

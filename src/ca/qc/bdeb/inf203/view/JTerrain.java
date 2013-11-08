@@ -6,9 +6,9 @@ import javax.swing.JPanel;
  *
  * @author Nicolas Hurtubise, Guillaume Riou
  */
-public class GameBoard extends JPanel {
+public class JTerrain extends JPanel {
 
-    public GameBoard() {
+    public JTerrain() {
         
     }
 }

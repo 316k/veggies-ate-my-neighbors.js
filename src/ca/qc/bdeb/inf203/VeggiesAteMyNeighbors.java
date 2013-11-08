@@ -11,5 +11,7 @@ public class VeggiesAteMyNeighbors {
      */
     public static void main(String[] args) {
         // TODO code application logic here
+        long y =6;
+        System.out.println(y%3);
     }
 }

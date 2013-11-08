@@ -11,13 +11,13 @@ import javax.swing.JFrame;
 public class FenetrePrincipale extends JFrame {
     private final int WIDTH = 800;
     private final int HEIGHT = 450;
-    private GameBoard board;
+    private JTerrain board;
 
     public FenetrePrincipale() {
         this.setTitle("Veggies Ate My Neighbors");
         this.setSize(new Dimension(WIDTH, HEIGHT));
         
-        board = new GameBoard();
+        board = new JTerrain();
         
         this.add(board);
         this.setVisible(true);

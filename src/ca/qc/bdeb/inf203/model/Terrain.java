@@ -2,7 +2,7 @@ package ca.qc.bdeb.inf203.model;
 
 /**
  * Représentation du terrain de jeux.
- * @author Nicolas Hurtubise
+ * @author Nicolas Hurtubise, Guillaume Riou
  */
 public class Terrain {
     /**

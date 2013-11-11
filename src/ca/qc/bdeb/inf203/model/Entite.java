@@ -1,7 +1,6 @@
 package ca.qc.bdeb.inf203.model;
 
 import java.awt.Color;
-import java.awt.Point;
 
 
 /**
@@ -17,7 +16,6 @@ public abstract class Entite {
      * objet color, j'avais juste rien de mieux à mettre.
      */
     private Color colorisation;
-    private Point position;
     private int etat;
     private int vie;
     private Armure armure;

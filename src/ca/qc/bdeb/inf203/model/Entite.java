@@ -19,6 +19,7 @@ public abstract class Entite {
     private int etat;
     private int vie;
     private Armure armure;
+   
     /**
      * Quantité de vie enlevée par une attaque.
      */

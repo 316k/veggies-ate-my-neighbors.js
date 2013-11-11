@@ -1,7 +1,6 @@
 package ca.qc.bdeb.inf203.view;
 
 import java.awt.Dimension;
-import javax.swing.JComponent;
 import javax.swing.JFrame;
 
 /**

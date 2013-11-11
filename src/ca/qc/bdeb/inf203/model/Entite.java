@@ -1,7 +1,6 @@
 package ca.qc.bdeb.inf203.model;
 
 import java.awt.Color;
-import java.awt.Point;
 
 
 /**

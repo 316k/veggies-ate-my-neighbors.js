@@ -7,7 +7,7 @@ package ca.qc.bdeb.inf203.model;
  */
 public class Veggie extends Entite {
     
-
+    
     public Veggie() {
         
     }

@@ -5,8 +5,8 @@
 package ca.qc.bdeb.inf203.model;
 
 /**
- *
- * @author guillaume
+ * Type d'un combatant
+ * @author Guillaume Riou, Nicolas Hurtubise
  */
 public class Type {
     private String type;

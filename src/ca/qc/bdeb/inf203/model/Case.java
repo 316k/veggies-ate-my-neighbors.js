@@ -12,6 +12,6 @@ import java.util.ArrayList;
  * @author guillaume
  */
 public class Case {
-    private ArrayList<Entite> etites;
+    private ArrayList<Combatant> entites;
     
 }

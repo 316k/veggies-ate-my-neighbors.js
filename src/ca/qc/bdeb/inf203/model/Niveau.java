@@ -1,16 +1,21 @@
+/*
+ * To change this template, choose Tools | Templates
+ * and open the template in the editor.
+ */
 package ca.qc.bdeb.inf203.model;
 
 /**
- * Définit un niveau de jeu, c'est à dire les infos pour générer les 
- * ennemis, le nombre de vagues, le nombre de rangées activées. À compléter.
- * 
- * @author Nicolas Hurtubise
+ *
+ * @author guillaume
  */
 public class Niveau {
-    private int level;
-    /*
-     * Nombre de veggies qui vont attaquer
+    /**
+     * Combatants à générer pour cette vague.
      */
-    private int nbrVeggies;
+    private Combatant[] archetypes;
+    /**
+     * Nombre de combatants à générer par index de type.
+     */
+    private int[] nbParArchetype;
     
 }

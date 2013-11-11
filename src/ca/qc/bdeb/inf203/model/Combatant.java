@@ -8,7 +8,7 @@ import java.awt.Color;
  * 
  * @author Nicolas Hurtubise, Guillaume Riou
  */
-public abstract class Entite {
+public abstract class Combatant {
     
     private float facteurTaille;
     /**
@@ -18,8 +18,8 @@ public abstract class Entite {
     private Color colorisation;
     private int etat;
     private int vie;
-    private Armure armure;
-   
+    private Combatant[] equipements;    
+    private int animationCompteur;    
     /**
      * Quantité de vie enlevée par une attaque.
      */
@@ -67,12 +67,12 @@ public abstract class Entite {
         this.vie = vie;
     }
 
-    public Armure getArmure() {
-        return armure;
+    public Combatant[] getEquipements() {
+        return equipements;
     }
 
-    public void setArmure(Armure armure) {
-        this.armure = armure;
+    public void setEquipements(Combatant[] equipements) {
+        this.equipements = equipements;
     }
 
     public int getAttaque() {
@@ -92,8 +92,10 @@ public abstract class Entite {
     }
     
     
-    public void attaquer(Entite subit){
+    
+    public Combatant attaquer(Combatant subit){
         subit.incrementVie(this.attaque);
+        return null;
     }
     
 }

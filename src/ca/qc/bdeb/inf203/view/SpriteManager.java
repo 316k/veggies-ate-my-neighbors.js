@@ -1,75 +1,67 @@
 package ca.qc.bdeb.inf203.view;
 
+import ca.qc.bdeb.inf203.model.RepresentationImage;
 import java.awt.Image;
 import java.io.File;
 import java.io.IOException;
 import java.util.HashMap;
-import java.util.Queue;
-import java.util.concurrent.LinkedBlockingQueue;
 import javax.imageio.ImageIO;
 
 /**
  * Partie graphique des entités.
  *
- * @author guillaume
+ * @author Nicolas Hurtubise
  */
 public class SpriteManager {
 
     /**
-     * Hashmap : Etat de l'entité, Sprite de l'animation.
+     * Hashmap : Etat(s) de l'entité, Sprite de l'animation. Oui, c'est un peu
+     * violent.
      */
-    private HashMap<String, Image[]> sprites;
-    private String etat;
+    private static HashMap< String[], HashMap<Integer, Image>> sprites = new HashMap<>();
 
-    public SpriteManager() {
-        try {
-            //loadSprites("graphics/" + type.getType() + "/" + type.getSousType());
-        }
-        catch (IOException ex) {
-            System.out.println("[Error 27] : Chargement des images impossible");
-        }
-    }
-
-    public Image getSprite() {
-        /*
-         BufferedImage resultat = sprites[etat][compteur];
-
-         if (compteur >= sprites[etat].length) {
-         compteur = 0;
-         } else {
-         compteur++;
-         }
-         return resultat;*/
-        return null;
-    }
-
-    private void loadSprites(String path) throws IOException {
-        sprites = new HashMap<>();
-
-        File root = new File(path);
-        File[] ls = root.listFiles();
-        if (ls == null) {
-            throw new IOException();
-        }
-        for (File directory : ls) {
-            if (directory.isDirectory()) {
-                File[] subDirectory = directory.listFiles();
-                Queue<Image> queueImages = new LinkedBlockingQueue<>();
-
-                for (File file : subDirectory) {
-                    if (file.isFile() && file.getName().matches(".*\\.png$")) {
-                        queueImages.add(ImageIO.read(file));
-                    }
-                }
-                Image[] images = new Image[queueImages.size()];
-
-                Image image;
-                while ((image = queueImages.poll()) != null) {
-                    images[images.length - queueImages.size() - 1] = image;
-                }
-
-                sprites.put(directory.getName(), images);
+    /**
+     * Donne le sprite d'une image voulue
+     *
+     * @todo Implémenter la colorisation
+     * @param ri Représentation de l'image
+     * @param animation numéro d'animation
+     * @return le sprite à blitter
+     */
+    public static Image getSprite(RepresentationImage ri, int animation) {
+        if (sprites.containsKey(ri.getPath())) {
+            return sprites.get(ri.getPath()).get(animation);
+        } else {
+            try {
+                return loadSprite(ri.getPath(), animation);
+            }
+            catch (IOException e) {
+                System.out.println("Error 404: Sprite not found");
+                return null;
             }
         }
+    }
+
+    /**
+     * Charge en cache une image.
+     *
+     * @param path Chemin à utiliser pour le blit de l'image. [0] : type, [1]
+     * sous-type, [2] etat
+     * @param animation numéro d'animation à utiliser
+     * @throws IOException En cas de fichier introuvable
+     * @return Le sprite loadé
+     */
+    private static Image loadSprite(String[] path, int animation) throws IOException {
+        String fichier = "graphics/" + path[0] + "/" + path[1] + "/" + path[2] + "/" + animation + ".png";
+
+        Image sprite = ImageIO.read(new File(fichier));
+
+        if (!sprites.containsKey(path)) {
+            sprites.put(path, new HashMap<Integer, Image>());
+        }
+
+        sprites.get(path).put(animation, sprite);
+
+        return sprite;
     }
 }

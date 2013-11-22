@@ -18,6 +18,5 @@ public class Pois extends Combatant{
         
     }
     
-    
-    
+   
 }

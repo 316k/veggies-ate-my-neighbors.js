@@ -13,5 +13,9 @@ import java.util.ArrayList;
  */
 public class Case {
     private ArrayList<Combatant> entites;
+
+    public ArrayList<Combatant> getEntites() {
+        return entites;
+    }
     
 }

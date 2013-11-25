@@ -1,0 +1,6 @@
+Window's size :
+
+private final int WIDTH = 800;  // (10 * 80px)
+private final int HEIGHT = 480; // (6  * 80px)
+
+Game grid: 9 * 5

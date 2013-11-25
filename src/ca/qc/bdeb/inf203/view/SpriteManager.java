@@ -45,14 +45,18 @@ public class SpriteManager {
     /**
      * Charge en cache une image.
      *
-     * @param path Chemin à utiliser pour le blit de l'image. [0] : type, [1]
-     * sous-type, [2] etat
+     * @param path Chemin à utiliser pour le blit de l'image.
      * @param animation numéro d'animation à utiliser
      * @throws IOException En cas de fichier introuvable
      * @return Le sprite loadé
      */
     private static Image loadSprite(String[] path, int animation) throws IOException {
-        String fichier = "graphics/" + path[0] + "/" + path[1] + "/" + path[2] + "/" + animation + ".png";
+        String fichier = "graphics";
+        for (int i = 0; i < path.length; i++) {
+            fichier += "/" + path[i];
+        }
+
+        fichier += "/" + animation + ".png";
 
         Image sprite = ImageIO.read(new File(fichier));
 

@@ -15,7 +15,7 @@ public class FenetrePrincipale extends JFrame {
     public FenetrePrincipale() {
         this.setTitle("Veggies Ate My Neighbors");
         this.setSize(new Dimension(WIDTH, HEIGHT));
-        
+        this.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
         board = new JTerrain();
         
         this.add(board);

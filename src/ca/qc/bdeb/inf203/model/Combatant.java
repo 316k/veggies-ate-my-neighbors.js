@@ -10,7 +10,6 @@ import java.awt.Rectangle;
  */
 public abstract class Combatant {
     
-    private boolean mechant;
     private int etat;
     private int vie;
     private Combatant[] equipements;
@@ -26,10 +25,9 @@ public abstract class Combatant {
      */
     private float vitesse = -16;
     private RepresentationImage imgRep;
-    /**
-     * Temps passé dans une case en milisecondes...
-     */
-    private long tempsDansCase;
+    private long tempsImmobile;
+    private long tempsPourAvancer;
+    private int sensDeplacement;
     /**
      * Dernier timestamp calculé.
      */
@@ -39,13 +37,19 @@ public abstract class Combatant {
         this.dernierTimestamp = System.currentTimeMillis();
         this.hitbox.height = 40;
         this.hitbox.width = 40;
+        this.tempsPourAvancer = (long)(1/vitesse * 1000);
+        if(this.vitesse>0){
+            sensDeplacement = 1;
+        }else{
+            sensDeplacement = -1;
+        }
+            
+        
     }
 
     public Rectangle getHitbox() {
         return hitbox;
     }
-    
-    
     
     public int getEtat() {
         return etat;
@@ -108,7 +112,13 @@ public abstract class Combatant {
     }
 
     public void Deplacer(){
-        
+        long temps = System.currentTimeMillis();
+        this.tempsImmobile += temps - this.dernierTimestamp ;
+        int nbIncrementPos = (int) (this.tempsImmobile/this.tempsPourAvancer);
+        for (int i = 0; i < nbIncrementPos; i++) {
+            this.hitbox.x += sensDeplacement;
+            this.tempsImmobile -= this.tempsPourAvancer;
+        }
     }
     
     public Combatant attaquer(Combatant subit){

@@ -1,6 +1,6 @@
 package ca.qc.bdeb.inf203.model;
 
-import java.awt.Color;
+import java.awt.Rectangle;
 
 
 /**
@@ -10,43 +10,47 @@ import java.awt.Color;
  */
 public abstract class Combatant {
     
-    private float facteurTaille;
-    /**
-     * Information sur la recolorisation à appliquer, pas nécessairement un
-     * objet color, j'avais juste rien de mieux à mettre.
-     */
-    private Color colorisation;
     private int etat;
     private int vie;
-    private Combatant[] equipements;    
+    private Combatant[] equipements;
+    private Rectangle hitbox;
     private int animationCompteur;    
     /**
      * Quantité de vie enlevée par une attaque.
      */
     private int attaque;
     /**
-     * Nb de secondes / cases.
+     * Nb de pix/sec
+     * 16 est la vitesse de base d'un veggie
      */
-    private int vitesse;
+    private float vitesse = -16;
+    private RepresentationImage imgRep;
+    private long tempsImmobile;
+    private long tempsPourAvancer;
+    private int sensDeplacement;
+    /**
+     * Dernier timestamp calculé.
+     */
+    private long dernierTimestamp;
+
+    public Combatant() {
+        this.dernierTimestamp = System.currentTimeMillis();
+        this.hitbox.height = 40;
+        this.hitbox.width = 40;
+        this.tempsPourAvancer = (long)(1/vitesse * 1000);
+        if(this.vitesse>0){
+            sensDeplacement = 1;
+        }else{
+            sensDeplacement = -1;
+        }
+            
+        
+    }
+
+    public Rectangle getHitbox() {
+        return hitbox;
+    }
     
-    
-
-    public float getFacteurTaille() {
-        return facteurTaille;
-    }
-
-    public void setFacteurTaille(float facteurTaille) {
-        this.facteurTaille = facteurTaille;
-    }
-
-    public Color getColorisation() {
-        return colorisation;
-    }
-
-    public void setColorisation(Color colorisation) {
-        this.colorisation = colorisation;
-    }
-
     public int getEtat() {
         return etat;
     }
@@ -83,15 +87,39 @@ public abstract class Combatant {
         this.attaque = attaque;
     }
 
-    public int getVitesse() {
+    public float getVitesse() {
         return vitesse;
     }
 
     public void setVitesse(int vitesse) {
         this.vitesse = vitesse;
     }
-    
-    
+
+    public int getAnimationCompteur() {
+        return animationCompteur;
+    }
+
+    public void setAnimationCompteur(int animationCompteur) {
+        this.animationCompteur = animationCompteur;
+    }
+
+    public RepresentationImage getImgRep() {
+        return imgRep;
+    }
+
+    public void setImgRep(RepresentationImage imgRep) {
+        this.imgRep = imgRep;
+    }
+
+    public void Deplacer(){
+        long temps = System.currentTimeMillis();
+        this.tempsImmobile += temps - this.dernierTimestamp ;
+        int nbIncrementPos = (int) (this.tempsImmobile/this.tempsPourAvancer);
+        for (int i = 0; i < nbIncrementPos; i++) {
+            this.hitbox.x += sensDeplacement;
+            this.tempsImmobile -= this.tempsPourAvancer;
+        }
+    }
     
     public Combatant attaquer(Combatant subit){
         subit.incrementVie(this.attaque);

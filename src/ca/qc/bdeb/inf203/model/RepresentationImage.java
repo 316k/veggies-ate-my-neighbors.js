@@ -15,7 +15,7 @@ public class RepresentationImage {
     private int[] colorisation;
     /**
      * Chemin à utiliser pour le blit de l'image.
-     * [0] : type, [1] sous-type, [2] etat
+     * Chaque case est un step dans la hiérarchie de fichier.
      */
     private String[] path;
 

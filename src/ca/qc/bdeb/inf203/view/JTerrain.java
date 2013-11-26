@@ -1,6 +1,7 @@
 package ca.qc.bdeb.inf203.view;
 
 import ca.qc.bdeb.inf203.model.RepresentationImage;
+import java.awt.Color;
 import java.awt.Graphics;
 import java.util.logging.Level;
 import java.util.logging.Logger;
@@ -24,7 +25,7 @@ public class JTerrain extends JPanel {
     @Override
     protected void paintComponent(Graphics g) {
         super.paintComponent(g);
-
+        
         int[] colorisation = {0, 0, 0};
         int animation = (int) (System.currentTimeMillis() / 1000 % 2);
         String[] path = {"grass", "ogm", "burned"};

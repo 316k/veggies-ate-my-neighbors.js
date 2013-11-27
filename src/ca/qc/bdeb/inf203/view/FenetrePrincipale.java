@@ -9,13 +9,14 @@ import javax.swing.JFrame;
  */
 public class FenetrePrincipale extends JFrame {
     private final int WIDTH = 800;
-    private final int HEIGHT = 450;
+    private final int HEIGHT = 500;
     private JTerrain board;
 
     public FenetrePrincipale() {
         this.setTitle("Veggies Ate My Neighbors");
         this.setSize(new Dimension(WIDTH, HEIGHT));
         this.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+        this.setResizable(false);
         board = new JTerrain();
         
         this.add(board);

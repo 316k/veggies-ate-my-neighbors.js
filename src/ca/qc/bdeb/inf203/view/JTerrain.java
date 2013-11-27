@@ -47,7 +47,11 @@ public class JTerrain extends JPanel {
         }
 
         // Game Panel
-
+        
+        
+        // Game panel infos
+        
+        
         // Combatants
         SpriteContainer[] sprites = CombatantsControlleur.getImages();
 

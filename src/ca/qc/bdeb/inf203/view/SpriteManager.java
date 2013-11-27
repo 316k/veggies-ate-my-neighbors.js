@@ -36,7 +36,7 @@ public class SpriteManager {
                 return loadSprite(ri.getPath(), animation);
             }
             catch (IOException e) {
-                System.out.println("Error 404: Sprite not found");
+                System.out.println("Error 404 - Sprite not found : " + ".../" + ri.getPath()[ri.getPath().length-1] + "/" + animation + ".png");
                 return null;
             }
         }

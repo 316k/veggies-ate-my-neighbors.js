@@ -13,10 +13,10 @@ import ca.qc.bdeb.inf203.model.Combatant;
 public class Normaux extends Combatant{
 
     @Override
-    public Combatant attaquer(Combatant subit) {
-        return super.attaquer(subit);
-       
+    public Combatant action() {
+        return null;
     }
+
 
     
 }

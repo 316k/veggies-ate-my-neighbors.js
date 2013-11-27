@@ -1,5 +1,6 @@
 package ca.qc.bdeb.inf203.model;
 
+import java.awt.Rectangle;
 import java.util.ArrayList;
 
 /**
@@ -10,8 +11,8 @@ public class Terrain {
     /**
      * Représentation en objets cases de la totalité du terrain.
      */
-    private ArrayList<Combatant> gentils;
-    private ArrayList<Combatant> mechants;
+    private ArrayList<Combatant> entites;
+    
     /**
      * Niveau qui est en train de se dérouler.
      */
@@ -23,23 +24,19 @@ public class Terrain {
         
     }
     private void combatantsLogique(){
-        
-        for (Combatant combatant : mechants) {
-            if(combatant.getHitbox().x == 0){
-                System.out.println("Haha tes nul, ta perdu");
-                System.exit(9/* 9 étant l'erreur "tes trop nul"*/);
-            }
-            for (Combatant antagoniste : gentils) {
-                if(combatant.getHitbox().intersects(antagoniste.getHitbox())){
-                    combatant.attaquer(antagoniste);
-                }else{
-                    combatant.Deplacer();
+        ArrayList<Combatant> morts = new ArrayList<>();
+        for (Combatant combatant : entites) {
+            if (combatant.getVie() >=0){
+                morts.add(combatant);
+            }else{
+                combatant.tic();
+                Rectangle aTester;
+                if(combatant.getEtat() == Etats.DEPLACEMENT){
+                    aTester = combatant.getHitbox();
+                }else if(combatant.getEtat() == Etats.ATTENTELIGNEDEVUE){
+                    aTester = combatant.getLineOfSight();
                 }
             }
-        }
-        
-        for (Combatant combatant : gentils) {
-            
         }
         
     }

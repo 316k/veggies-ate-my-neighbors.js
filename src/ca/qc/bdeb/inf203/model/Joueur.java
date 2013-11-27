@@ -6,34 +6,34 @@ package ca.qc.bdeb.inf203.model;
  * @author Nicolas Hurtubise
  */
 public class Joueur {
-    static private int nbSoleils;
+    private int nbrSoleils;
     /**
      * Plantes et autres choses dans le genre débloquées.
      */
-    private static boolean debloques[] = {true,false,false,false,false,false};
+    private boolean debloques[] = {true,false,false,false,false,false};
 
-    public static int getNbreSoleils() {
-        return nbSoleils;
+    public int getSoleils() {
+        return nbrSoleils;
     }
 
-    public static void setNbreSoleils(int nbreSoleils) {
-        Joueur.nbSoleils = nbreSoleils;
+    public void setSoleils(int nbrSoleils) {
+        this.nbrSoleils = nbrSoleils;
     }
     
-    public static void addSoleil(int nbSoleils){
-        Joueur.nbSoleils += nbSoleils;
+    public void addSoleils(int nbrSoleils){
+        this.nbrSoleils += nbrSoleils;
     }
 
-    public static boolean[] getDebloques() {
+    public boolean[] getDebloques() {
         return debloques;
     }
     
-    public static void debloquer(int debloqIndex){
+    public void debloquer(int debloqIndex){
         debloques[debloqIndex] = true;
     }
 
-    public static void setDebloques(boolean[] debloques) {
-        Joueur.debloques = debloques;
+    public void setDebloques(boolean[] debloques) {
+        this.debloques = debloques;
     }
     
     /**

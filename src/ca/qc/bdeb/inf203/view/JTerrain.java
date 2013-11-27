@@ -1,7 +1,10 @@
 package ca.qc.bdeb.inf203.view;
 
+import ca.qc.bdeb.inf203.controller.CombatantsControlleur;
 import ca.qc.bdeb.inf203.model.RepresentationImage;
 import java.awt.Graphics;
+import java.awt.Point;
+import java.util.Random;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 import javax.swing.JPanel;
@@ -12,11 +15,19 @@ import javax.swing.JPanel;
  */
 public class JTerrain extends JPanel {
 
-    private final int WIDTH = 800;  // (10 * 80px)
-    private final int HEIGHT = 480; // (6 * 80px)
+    private final int CASES_X = 10;
+    private final int CASES_Y = 6;
+    private final int TAILLE_CASE_X = 80;
+    private final int TAILLE_CASE_Y = 80;
+    private final int WIDTH = CASES_X * TAILLE_CASE_X;
+    private final int HEIGHT = CASES_Y * TAILLE_CASE_Y;
+    private SpriteContainer[][] background;
 
     public JTerrain() {
         this.setLayout(null);
+        background = new SpriteContainer[CASES_X][CASES_Y];
+
+        generateBackground();
 
         this.setVisible(true);
     }
@@ -25,23 +36,54 @@ public class JTerrain extends JPanel {
     protected void paintComponent(Graphics g) {
         super.paintComponent(g);
 
-        int[] colorisation = {0, 0, 0};
-        int animation = (int) (System.currentTimeMillis() / 1000 % 2);
-        String[] path = {"grass", "ogm", "burned"};
+        // Background
+        for (SpriteContainer[] spriteRow : background) {
+            for (SpriteContainer sprite : spriteRow) {
+                if (sprite != null) {
+                    g.drawImage(SpriteManager.getSprite(sprite.getRepresentationImage(), sprite.getAnimation()),
+                            sprite.getCoordonnee().x, sprite.getCoordonnee().y, this);
+                }
+            }
+        }
 
-        RepresentationImage ri = new RepresentationImage(colorisation, path);
+        // Game Panel
+        
+        
+        // Game panel infos
+        
+        
+        // Combatants
+        SpriteContainer[] sprites = CombatantsControlleur.getImages();
 
-        g.drawImage(SpriteManager.getSprite(ri, animation), 10, 10, this);
-
-        repaint();
-
+        for (SpriteContainer sprite : sprites) {
+            g.drawImage(SpriteManager.getSprite(sprite.getRepresentationImage(), sprite.getAnimation()),
+                    sprite.getCoordonnee().x, sprite.getCoordonnee().y, this);
+        }
         try {
-            Thread.sleep(1000);
-            this.invalidate();
+            Thread.sleep(100);
         }
         catch (InterruptedException ex) {
             Logger.getLogger(JTerrain.class.getName()).log(Level.SEVERE, null, ex);
         }
+        this.repaint();
+    }
 
+    private void generateBackground() {
+        Random rnd = new Random();
+
+        // Gazon
+        for (int x = 0; x < CASES_X - 1; x++) {
+            for (int y = 0; y < CASES_Y; y++) {
+                Point position = new Point(x * TAILLE_CASE_X, y * TAILLE_CASE_Y);
+                String path[] = {"background", "grass"};
+                RepresentationImage ri = new RepresentationImage(null, path);
+                background[x][y] = new SpriteContainer(position, ri, rnd.nextInt(4));
+            }
+        }
+
+        // Route
+        String path[] = {"background", "road"};
+        RepresentationImage route = new RepresentationImage(null, path);
+        background[CASES_X - 1][0] = new SpriteContainer(new Point((CASES_X - 1) * TAILLE_CASE_X, 0), route, 0);
     }
 }

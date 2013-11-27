@@ -28,6 +28,11 @@ public class RepresentationImage {
         this.colorisation = colorisation;
         this.path = path;
     }
+    
+    public RepresentationImage(String[] path) {
+        this.path = path;
+        this.colorisation = null;
+    }
 
     public int[] getColorisation() {
         return colorisation;

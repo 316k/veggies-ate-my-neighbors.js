@@ -3,6 +3,8 @@ package ca.qc.bdeb.inf203.model;
 import java.awt.Rectangle;
 import java.util.ArrayList;
 
+
+
 /**
  * Classe abstraite qui représente une entitée en jeu.
  *
@@ -10,13 +12,16 @@ import java.util.ArrayList;
  */
 public abstract class Combatant {
 
+
     private Etats etat;
+    private int etat;
     private int vie;
     private ArrayList<Combatant> cibles;
     private Equipement[] equipements;
     private Rectangle hitbox;
     private int animationCompteur;
     private Rectangle lineOfSight;
+    private int animation;
     /**
      * Quantité de vie enlevée par une attaque.
      */
@@ -25,7 +30,7 @@ public abstract class Combatant {
      * Nb de pix/sec 16 est la vitesse de base d'un veggie
      */
     private float vitesse = -16;
-    private RepresentationImage imgRep;
+    private RepresentationImage sprite;
     private long tempsImmobile;
     private long tempsPourAvancer;
     private int sensDeplacement;
@@ -54,6 +59,7 @@ public abstract class Combatant {
     public Rectangle getHitbox() {
         return hitbox;
     }
+
 
     public Etats getEtat() {
         return etat;
@@ -101,19 +107,19 @@ public abstract class Combatant {
     }
 
     public int getAnimationCompteur() {
-        return animationCompteur;
+        return animation;
     }
 
     public void setAnimationCompteur(int animationCompteur) {
-        this.animationCompteur = animationCompteur;
+        this.animation = animationCompteur;
     }
 
     public RepresentationImage getImgRep() {
-        return imgRep;
+        return sprite;
     }
 
     public void setImgRep(RepresentationImage imgRep) {
-        this.imgRep = imgRep;
+        this.sprite = imgRep;
     }
 
     public ArrayList<Combatant> getCibles() {
@@ -194,4 +200,5 @@ public abstract class Combatant {
      * @return
      */
     public abstract Combatant action();
+
 }

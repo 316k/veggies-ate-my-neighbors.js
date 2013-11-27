@@ -23,7 +23,7 @@ public class Soleil extends PowerUp {
     
     @Override
     public void action() {
-        Joueur.addSoleil(nbADonner);
+        Joueur.addSoleils(nbADonner);
     }
     
 }

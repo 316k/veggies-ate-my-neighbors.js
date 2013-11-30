@@ -9,7 +9,7 @@ import java.util.ArrayList;
  *
  * @author Nicolas Hurtubise
  */
-public class CombatantsControlleur {
+public class TerrainControlleur {
 
     /**
      * Donne un SpriteContainer contenant l'information relative aux images et

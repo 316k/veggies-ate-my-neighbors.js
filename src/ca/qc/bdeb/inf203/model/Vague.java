@@ -17,7 +17,7 @@ public class Vague {
     /**
      * Combatants à générer pour cette vague.
      */
-    private Combatant[] archetypes;
+    private Combattant[] archetypes;
     /**
      * Nombre de combatants à générer par index de type.
      */
@@ -37,7 +37,7 @@ public class Vague {
     private long depuisDernierSpawn;
     private long lastTimestamp;
 
-    public Vague(Combatant[] archetypes, int[] nbParArchetype, int delaisMoyen) {
+    public Vague(Combattant[] archetypes, int[] nbParArchetype, int delaisMoyen) {
         this.archetypes = archetypes;
         this.nbParArchetype = nbParArchetype;
         this.nbInitial = getRemainingVeggies();
@@ -67,7 +67,7 @@ public class Vague {
         return false;
     }
 
-    public Combatant spawn() {
+    public Combattant spawn() {
         int quelCombatant;
         do {
             quelCombatant = Vague.rdm.nextInt(this.archetypes.length);

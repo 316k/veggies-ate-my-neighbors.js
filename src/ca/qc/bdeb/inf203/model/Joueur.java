@@ -11,7 +11,16 @@ public class Joueur {
      * Plantes et autres choses dans le genre débloquées.
      */
     private boolean debloques[] = {true,false,false,false,false,false};
+    private static Joueur instance = new Joueur();
 
+    public Joueur() {
+        instance.loadSave(); //parceque.
+    }
+    
+    public static Joueur getInstance() {
+        return instance;
+    }
+    
     public int getSoleils() {
         return nbrSoleils;
     }

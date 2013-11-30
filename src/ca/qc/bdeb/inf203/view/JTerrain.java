@@ -1,8 +1,6 @@
 package ca.qc.bdeb.inf203.view;
 
-import ca.qc.bdeb.inf203.controller.CombatantsControlleur;
-import ca.qc.bdeb.inf203.controller.JoueurControlleur;
-import ca.qc.bdeb.inf203.model.Joueur;
+import ca.qc.bdeb.inf203.controller.TerrainControlleur;
 import ca.qc.bdeb.inf203.model.RepresentationImage;
 import java.awt.Graphics;
 import java.awt.Point;
@@ -78,7 +76,7 @@ public class JTerrain extends JPanel {
 
 
         // Combatants
-        SpriteContainer[] sprites = CombatantsControlleur.getImages();
+        SpriteContainer[] sprites = TerrainControlleur.getImages();
 
         for (SpriteContainer sprite : sprites) {
             blitSpriteContainer(g, sprite);

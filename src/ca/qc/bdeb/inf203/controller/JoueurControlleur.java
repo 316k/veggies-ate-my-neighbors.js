@@ -8,14 +8,13 @@ import ca.qc.bdeb.inf203.model.Joueur;
  */
 public class JoueurControlleur {
     
-    private static Joueur joueur = new Joueur();
     
     public static int getSoleils() {
-        return joueur.getSoleils();
+        return Joueur.getInstance().getSoleils();
     }
     
     public static void addSoleils(int soleils) {
-        joueur.setSoleils(joueur.getSoleils() + soleils);
+        Joueur.getInstance().addSoleils(soleils);
     }
 
 }

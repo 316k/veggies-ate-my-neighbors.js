@@ -4,16 +4,16 @@
  */
 package ca.qc.bdeb.inf203.model.typescombatants;
 
-import ca.qc.bdeb.inf203.model.Combatant;
+import ca.qc.bdeb.inf203.model.Combattant;
 
 /**
  *
  * @author guillaume
  */
-public class Normaux extends Combatant{
+public class Normaux extends Combattant{
 
     @Override
-    public Combatant action() {
+    public Combattant action() {
         return null;
     }
 

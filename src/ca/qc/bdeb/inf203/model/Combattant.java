@@ -2,49 +2,49 @@ package ca.qc.bdeb.inf203.model;
 
 import java.awt.Rectangle;
 import java.util.ArrayList;
-
-
+import java.util.HashMap;
 
 /**
  * Classe abstraite qui représente une entitée en jeu.
  *
  * @author Nicolas Hurtubise, Guillaume Riou
  */
-public abstract class Combatant {
+public abstract class Combattant {
 
-
-    private Etats etat;
-    private int etat;
-    private int vie;
-    private ArrayList<Combatant> cibles;
-    private Equipement[] equipements;
-    private Rectangle hitbox;
-    private int animationCompteur;
-    private Rectangle lineOfSight;
-    private int animation;
+    protected Etats etat;
+    protected int vie;
+    protected ArrayList<Combattant> cibles;
+    protected Equipement[] equipements;
+    protected Rectangle hitbox;
+    protected int animationCompteur;
+    protected Rectangle lineOfSight;
+    protected int animation;
+    protected HashMap<Etats, Integer> nbImagesParActions;
     /**
      * Quantité de vie enlevée par une attaque.
      */
-    private int attaque;
+    protected int attaque;
+    /**
+     * Nombre de frames attendues pour attaquer une fois.
+     */
+    protected int attaqueRate;
     /**
      * Nb de pix/sec 16 est la vitesse de base d'un veggie
      */
-    private float vitesse = -16;
-    private RepresentationImage sprite;
-    private long tempsImmobile;
-    private long tempsPourAvancer;
-    private int sensDeplacement;
+    protected float vitesse = -16;
+    protected RepresentationImage sprite;
+    protected long tempsImmobile;
+    protected long tempsPourAvancer;
+    protected int sensDeplacement;
     /**
      * Dernier timestamp calculé.
      */
-    private long dernierTimestamp;
+    protected long dernierTimestamp;
 
-    public Combatant() {
+    public Combattant() {
         this.dernierTimestamp = System.currentTimeMillis();
         this.hitbox = new Rectangle();
         this.lineOfSight = new Rectangle();
-        this.hitbox.height = 40;
-        this.hitbox.width = 40;
         this.cibles = new ArrayList();
         this.tempsPourAvancer = (long) (1 / vitesse * 1000);
         if (this.vitesse > 0) {
@@ -59,7 +59,6 @@ public abstract class Combatant {
     public Rectangle getHitbox() {
         return hitbox;
     }
-
 
     public Etats getEtat() {
         return etat;
@@ -122,11 +121,11 @@ public abstract class Combatant {
         this.sprite = imgRep;
     }
 
-    public ArrayList<Combatant> getCibles() {
+    public ArrayList<Combattant> getCibles() {
         return cibles;
     }
 
-    public void setCibles(ArrayList<Combatant> cibles) {
+    public void setCibles(ArrayList<Combattant> cibles) {
         this.cibles = cibles;
     }
 
@@ -137,7 +136,6 @@ public abstract class Combatant {
     public void setLineOfSight(Rectangle lineOfSight) {
         this.lineOfSight = lineOfSight;
     }
-    
 
     public void deplacer() {
         long temps = System.currentTimeMillis();
@@ -162,36 +160,43 @@ public abstract class Combatant {
         this.animationCompteur++;
 
     }
-
-    private void attaquer() {
-        float modificateur = 0;
-        for (Combatant cible : cibles) {
-            for (int i = 0; i < this.equipements.length; i++) {
-                modificateur += this.equipements[i].getAttaque();
-            }
-            for (int i = 0; i < cible.equipements.length; i++) {
-                modificateur -= cible.equipements[i].getDefense();
-            }
-            int attaqueTotale = this.attaque - (int) (this.attaque * modificateur);
-            cible.incrementVie(attaqueTotale);
-            for (Equipement equipement : cible.equipements) {
-                if (equipement.isEndommageable()) {
-                    equipement.incrementVies(this.attaque);
+    /** Si c'est le bon temps pour attaquer, enlever de la vie à toutes
+     *  les cibles et à leur équipement en fonction du l'attaque totale 
+     *  de l'entité et de la défense totale des cibles.
+     */
+    protected void attaquer() {
+        
+        if (attaqueRate % animation == 0) {
+            float modificateur = 0;
+            for (Combattant cible : cibles) {
+                for (int i = 0; i < this.equipements.length; i++) {
+                    modificateur += this.equipements[i].getAttaque();
+                }
+                for (int i = 0; i < cible.equipements.length; i++) {
+                    modificateur -= cible.equipements[i].getDefense();
+                }
+                int attaqueTotale = this.attaque - (int) (this.attaque * modificateur);
+                cible.incrementVie(attaqueTotale);
+                for (Equipement equipement : cible.equipements) {
+                    if (equipement.isEndommageable()) {
+                        equipement.incrementVies(this.attaque);
+                    }
+                }
+                if (cible.getVie() <= 0) {
+                    cible = null;
                 }
             }
-            if (cible.getVie() <= 0) {
-                cible = null;
+            boolean tousNull = true;
+            for (Combattant cible : cibles) {
+                if (cible != null) {
+                    tousNull = false;
+                }
+            }
+            if (tousNull) {
+                this.etat = Etats.DEPLACEMENT;
             }
         }
-        boolean tousNull = true;
-        for (Combatant cible : cibles) {
-            if(cible != null){
-                tousNull = false;
-            }
-        }
-        if(tousNull){
-            this.etat = Etats.DEPLACEMENT;
-        }
+
     }
 
     /**
@@ -199,6 +204,5 @@ public abstract class Combatant {
      *
      * @return
      */
-    public abstract Combatant action();
-
+    public abstract Combattant action();
 }

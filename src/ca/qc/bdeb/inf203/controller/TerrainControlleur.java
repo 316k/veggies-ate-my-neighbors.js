@@ -44,4 +44,8 @@ public class TerrainControlleur {
         // (on ne le fait pas si on clique sur un power-up)
         Joueur.instance().setSelection(null);
     }
+    
+    public static int getVague() {
+        return terrain.getVague();
+    }
 }

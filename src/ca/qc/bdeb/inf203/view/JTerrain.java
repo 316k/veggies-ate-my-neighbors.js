@@ -136,7 +136,7 @@ public class JTerrain extends JPanel {
         g.setColor(Color.white);
         g.setFont(infosFont);
         int positionInfosX = WIDTH - (int) (2.8 * TAILLE_CASE_X);
-        g.drawString("Vague 1", positionInfosX, 4 * TAILLE_CASE_Y / 8);
+        g.drawString("Vague " + TerrainControlleur.getVague(), positionInfosX, 4 * TAILLE_CASE_Y / 8);
         g.setFont(scoreFont);
         g.drawString("Kills : " + JoueurControlleur.getKills(), positionInfosX, 7 * TAILLE_CASE_Y / 8);
 
@@ -145,9 +145,7 @@ public class JTerrain extends JPanel {
         Point position = new Point(OFFSET_ITEMS, (int) (1 / 8.0 * TAILLE_CASE_Y));
         Integer selection = JoueurControlleur.getSelection();
         for (Item item : items) {
-            String[] itemPath = {"panel", "box", item.getNom()};
-            RepresentationImage itemRi = new RepresentationImage(itemPath);
-            PositionnedSpriteContainer itemSprite = new PositionnedSpriteContainer(position, itemRi, 0);
+            PositionnedSpriteContainer itemSprite = new PositionnedSpriteContainer(position, new RepresentationImage(new String[]{"panel", "box", item.getNom()}), 0);
 
             blitSpriteContainer(g, itemSprite);
 
@@ -159,7 +157,7 @@ public class JTerrain extends JPanel {
 
             g.setColor(item.getRecharge() == 1 ? Color.black : Color.gray);
             g.setFont(sunFont);
-            g.drawString("" + item.getCout(), position.x + ITEM_WIDTH / 3, (int) (position.y * 6.2));
+            g.drawString("" + item.getCout(), position.x + ITEM_WIDTH / 5, (int) (position.y * 6.2));
 
             if (selection != null && item.equals(items[selection])) {
                 g.setColor(new Color(255, 170, 0, 170));

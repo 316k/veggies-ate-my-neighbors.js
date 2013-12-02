@@ -14,6 +14,9 @@ import java.util.Random;
  */
 public class Terrain {
 
+    /**
+     * Constantes de taille du terrain
+     */
     public static final int CASES_X = 9;
     public static final int CASES_Y = 5;
     public static final int TAILLE_CASE_X = 80;
@@ -41,12 +44,14 @@ public class Terrain {
     private long delaisSoleil = 2000;
     private long dernierTimeStampSoleil;
     private long dernierTempsSoleil;
+    private int vague = 1;
+
     private Random rdm = new Random();
 
     public Terrain() {
         entites = new ArrayList<>();
         powerUps = new ArrayList<>();
-        this.vagueEnCours = Vague.generateVague(1);
+        this.vagueEnCours = Vague.generateVague(vague);
     }
 
     public void tic() {
@@ -55,7 +60,11 @@ public class Terrain {
         prochainVeggieLogique();
         ajouterSoleil();
     }
-
+    
+    public int getVague() {
+        return vague;
+    }
+    
     private void combattantsLogique() {
         ArrayList<Combattant> morts = new ArrayList<>();
         for (Combattant combattant : entites) {
@@ -97,22 +106,22 @@ public class Terrain {
 
     private void ajouterSoleil() {
         long temps = System.currentTimeMillis();
-        this.dernierTempsSoleil += (temps - dernierTimeStampSoleil);
+        this.dernierTempsSoleil += (temps - dernierTimestampSoleil);
         if (dernierTempsSoleil >= delaisSoleil) {
             //Le 34 est arbitraire, comprendre la largeur du terrain.
             this.powerUps.add(new Soleil(25, rdm.nextInt(314), 0));
             System.out.println("PLUS DE SOLEIL");
             this.dernierTempsSoleil = 0;
         }
-        this.dernierTimeStampSoleil = temps;
+        this.dernierTimestampSoleil = temps;
     }
 
-    private ArrayList<Combattant> verifierCollision(Rectangle aVerifer, Combattant celuiQuonTeste) {
+    private ArrayList<Combattant> verifierCollision(Rectangle zone, Combattant combatant) {
         ArrayList<Combattant> cibles = new ArrayList<>();
 
         for (Combattant combattant : entites) {
-            if (!combattant.equals(celuiQuonTeste)) {
-                if (aVerifer.intersects(combattant.getHitbox())) {
+            if (!combattant.equals(combatant)) {
+                if (zone.intersects(combattant.getHitbox())) {
                     cibles.add(combattant);
                 }
             }

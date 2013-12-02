@@ -19,7 +19,8 @@ public class Soleil extends PowerUp {
     public Soleil(int valeur,int x, int y) {
         super("soleil");
         this.valeur = valeur;
-        this.position = new Rectangle(x,y,largeur,hauteur);
+        this.hitbox = new Rectangle(x,y,largeur,hauteur);
+        this.animation = 0;
     }
 
     @Override

@@ -18,6 +18,8 @@ public class PlanteUnlock extends PowerUp {
     public PlanteUnlock(Item item) {
         super(item.getNom());
         this.item = item;
+//        this.hitbox = new Rectangle(x,y,largeur,hauteur);
+        this.animation = 0;
     }
 
     @Override

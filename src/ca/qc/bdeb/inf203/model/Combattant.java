@@ -113,7 +113,7 @@ public abstract class Combattant {
         this.animation = animationCompteur;
     }
 
-    public RepresentationImage getImgRep() {
+    public RepresentationImage getImg() {
         return sprite;
     }
 

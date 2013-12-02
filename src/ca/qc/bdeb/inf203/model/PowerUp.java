@@ -8,17 +8,31 @@ import java.awt.Rectangle;
  */
 public abstract class PowerUp {
     protected RepresentationImage img;
-    protected Rectangle position;
-    
+    protected Rectangle hitbox;
+    protected int animation;
+
     public PowerUp(String path[]) {
         this.img = new RepresentationImage(path);
     }
     
     public PowerUp(String path) {
-        this.position = new Rectangle();
+        this.hitbox = new Rectangle();
         String[] pathArray = {"powerups", path};
         this.img = new RepresentationImage(pathArray);
     }
     
     public abstract void action();
+    
+    
+    public RepresentationImage getImg() {
+        return img;
+    }
+
+    public Rectangle getHitbox() {
+        return hitbox;
+    }
+    
+    public int getAnimation() {
+        return animation;
+    }
 }

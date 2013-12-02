@@ -57,7 +57,7 @@ public class SpriteManager {
      */
     private static BufferedImage loadSprite(SpriteContainer sprite) throws IOException {
         String fichier = "assets/graphics";
-        System.out.println("Loading");
+        System.out.println("Loading " + sprite);
         fichier += "/" + sprite.getPath();
 
         BufferedImage image = ImageIO.read(new File(fichier));

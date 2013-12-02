@@ -5,10 +5,7 @@
 package ca.qc.bdeb.inf203.model;
 
 import ca.qc.bdeb.inf203.model.typescombatants.Normaux;
-import java.lang.reflect.InvocationTargetException;
 import java.util.Random;
-import java.util.logging.Level;
-import java.util.logging.Logger;
 
 /**
  * Vague en 2 phases, aléatoire dispersé et masse de trucs.

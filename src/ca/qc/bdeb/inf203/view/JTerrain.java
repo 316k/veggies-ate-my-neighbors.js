@@ -76,15 +76,7 @@ public class JTerrain extends JPanel {
         this.addMouseMotionListener(new MouseMotionAdapter() {
             @Override
             public void mouseMoved(MouseEvent e) {
-                if (caseSelectionnee != null && e.getPoint().distance(caseSelectionnee) < 20) {
-                    return;
-                }
-                // Si un item est sélectionné, on affiche la case sous la souris
-                if (JoueurControlleur.getSelection() != null && e.getPoint().x < TAILLE_CASE_X * (CASES_X - 1) && e.getPoint().y > TAILLE_CASE_Y * 1) {
-                    caseSelectionnee = new Point(e.getPoint().x / TAILLE_CASE_X, e.getPoint().y / TAILLE_CASE_Y);
-                } else {
-                    caseSelectionnee = null;
-                }
+                refreshCaseSelectionnee(e);
             }
         });
 
@@ -94,6 +86,7 @@ public class JTerrain extends JPanel {
                 if (e.getY() > TAILLE_CASE_Y) {
                     // Le clic est dans le terrain
                     TerrainControlleur.clic(e.getPoint());
+                    refreshCaseSelectionnee(e);
                 } else {
                     // Le clic est dans le panel
                     if ((e.getPoint().x - OFFSET_ITEMS) % (ITEM_WIDTH + MARGIN_ITEMS) < 66 && (e.getPoint().x - OFFSET_ITEMS) > 0 && (e.getPoint().x - OFFSET_ITEMS) < (ITEM_WIDTH + MARGIN_ITEMS) * JoueurControlleur.getItems().length) {
@@ -104,7 +97,7 @@ public class JTerrain extends JPanel {
                 }
             }
         });
-        
+
         this.setVisible(true);
     }
 
@@ -218,5 +211,17 @@ public class JTerrain extends JPanel {
         String path[] = {"background", "road"};
         RepresentationImage route = new RepresentationImage(null, path);
         background[CASES_X - 1][0] = new SpriteContainer(new Point((CASES_X - 1) * TAILLE_CASE_X, 0), route, 0);
+    }
+
+    private void refreshCaseSelectionnee(MouseEvent e) {
+        if (caseSelectionnee != null && e.getPoint().distance(caseSelectionnee) < 20) {
+            return;
+        }
+        // Si un item est sélectionné, on affiche la case sous la souris
+        if (JoueurControlleur.getSelection() != null && e.getPoint().x < TAILLE_CASE_X * (CASES_X - 1) && e.getPoint().y > TAILLE_CASE_Y * 1) {
+            caseSelectionnee = new Point(e.getPoint().x / TAILLE_CASE_X, e.getPoint().y / TAILLE_CASE_Y);
+        } else {
+            caseSelectionnee = null;
+        }
     }
 }

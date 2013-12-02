@@ -1,7 +1,9 @@
 package ca.qc.bdeb.inf203.model;
 
+import ca.qc.bdeb.inf203.model.typespowerups.Soleil;
 import java.awt.Rectangle;
 import java.util.ArrayList;
+import java.util.Random;
 
 /**
  * Représentation du terrain de jeux.
@@ -9,7 +11,7 @@ import java.util.ArrayList;
  */
 public class Terrain {
     /**
-     * Les chiffres sont purement symboliques.
+     * Les chiffres sont purement arbitraires.
      */
     private static int RANG_UN = 24;
     private static int RANG_DEUX = 56;
@@ -21,11 +23,27 @@ public class Terrain {
      * Représentation en objets cases de la totalité du terrain.
      */
     private ArrayList<Combattant> entites;
-    
+    private ArrayList<PowerUp> powerUps;
     /**
      * Niveau qui est en train de se dérouler.
      */
     private Vague vagueEnCours;
+    /**
+     * Delais en milis.
+     */
+    private long delaisSoleil;
+    private long dernierTimeStampSoleil;
+    private long dernierTempsSoleil;
+    private Random rdm = new Random();
+    
+    
+    public Terrain() {
+        entites = new ArrayList<>();
+        powerUps = new ArrayList<>();
+    }
+    
+    
+    
     
     public void tic(){
         // faire la logique d'un tic de jeu ...
@@ -54,10 +72,18 @@ public class Terrain {
             }
         }
     }
-    private void spawnLogique(){
+    private void prochainVeggieLogique(){
         if(vagueEnCours.spawnReady()){
             //faut faire un traitement avec ça.
             vagueEnCours.spawn();
+        }
+    }
+    private void ajouterSoleil(){
+        long temps = System.currentTimeMillis();
+        this.dernierTempsSoleil += (temps-dernierTimeStampSoleil);
+        if(dernierTempsSoleil >= delaisSoleil){
+            //Le 34 est arbitraire, comprendre la largeur du terrain.
+            this.powerUps.add(new Soleil(25,rdm.nextInt(314),0));
         }
     }
     private ArrayList<Combattant> verifierCollision(Rectangle aVerifer, Combattant celuiQuonTeste){

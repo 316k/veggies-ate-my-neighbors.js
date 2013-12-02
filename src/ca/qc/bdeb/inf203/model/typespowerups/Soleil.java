@@ -2,6 +2,7 @@ package ca.qc.bdeb.inf203.model.typespowerups;
 
 import ca.qc.bdeb.inf203.model.Joueur;
 import ca.qc.bdeb.inf203.model.PowerUp;
+import java.awt.Rectangle;
 
 /**
  *
@@ -10,10 +11,15 @@ import ca.qc.bdeb.inf203.model.PowerUp;
 public class Soleil extends PowerUp {
 
     private int valeur;
-
-    public Soleil(int valeur) {
+    /**
+     * Faut synchroniser avec les sprites.
+     */
+    private int hauteur = 30;
+    private int largeur = 30;
+    public Soleil(int valeur,int x, int y) {
         super("soleil");
         this.valeur = valeur;
+        this.position = new Rectangle(x,y,largeur,hauteur);
     }
 
     @Override

@@ -33,7 +33,6 @@ public class Terrain {
         return powerUps;
     }
     private ArrayList<PowerUp> powerUps;
-
     /**
      * Niveau qui est en train de se dérouler.
      */
@@ -50,21 +49,24 @@ public class Terrain {
         entites = new ArrayList<>();
         powerUps = new ArrayList<>();
         this.vagueEnCours = Vague.generateVague(1);
-        
+
     }
 
     public void tic() {
         // faire la logique d'un tic de jeu ...
         combattantsLogique();
+        prochainVeggieLogique();
+        ajouterSoleil();
     }
 
     private void combattantsLogique() {
         ArrayList<Combattant> morts = new ArrayList<>();
         for (Combattant combattant : entites) {
-            if (combattant.getVie() >= 0) {
+            if (combattant.getVie() <= 0) {
                 morts.add(combattant);
             } else {
                 combattant.tic();
+                
                 Rectangle aTester = null;
                 if (combattant.getEtat() == Etats.DEPLACEMENT) {
                     aTester = combattant.getHitbox();
@@ -79,15 +81,18 @@ public class Terrain {
                 }
             }
         }
+        this.entites.removeAll(morts);
     }
 
     private void prochainVeggieLogique() {
         if (vagueEnCours.spawnReady()) {
             //faut faire un traitement avec ça.
             Combattant combattant = vagueEnCours.spawn();
-            if(combattant == null){
+            if (combattant == null) {
+
                 this.vagueEnCours = Vague.generateVague(0);
-            }else{
+
+            } else {
                 this.entites.add(combattant);
             }
         }
@@ -100,6 +105,7 @@ public class Terrain {
             //Le 34 est arbitraire, comprendre la largeur du terrain.
             this.powerUps.add(new Soleil(25, rdm.nextInt(314), 0));
         }
+        this.dernierTimeStampSoleil = temps;
     }
 
     private ArrayList<Combattant> verifierCollision(Rectangle aVerifer, Combattant celuiQuonTeste) {
@@ -114,5 +120,4 @@ public class Terrain {
         }
         return cibles;
     }
-    
 }

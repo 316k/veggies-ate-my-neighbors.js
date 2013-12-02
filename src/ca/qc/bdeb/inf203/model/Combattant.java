@@ -9,10 +9,10 @@ import java.util.HashMap;
  *
  * @author Nicolas Hurtubise, Guillaume Riou
  */
-public abstract class Combattant {
+public class Combattant {
 
     protected Etats etat;
-    protected int vie;
+    protected int vie = 6;
     protected ArrayList<Combattant> cibles;
     protected Equipement[] equipements;
     protected Rectangle hitbox;
@@ -42,20 +42,37 @@ public abstract class Combattant {
     protected long dernierTimestamp;
 
     public Combattant() {
+        initialise();
+    }
+
+    public Combattant(Combattant archetype){
+        this.hitbox = archetype.getHitbox();
+        this.sprite = archetype.getSprite();
+        this.attaque = archetype.getAttaque();
+        this.nbImagesParActions = archetype.nbImagesParActions;
+        this.vie = archetype.getVie();
+        this.equipements = archetype.getEquipements();
+        this.vitesse = archetype.getVitesse();
+        this.attaqueRate = archetype.getAttaqueRate();
+        initialise();
+    }
+        
+    public final void initialise(){
         this.dernierTimestamp = System.currentTimeMillis();
         this.hitbox = new Rectangle();
         this.lineOfSight = new Rectangle();
         this.cibles = new ArrayList();
-        this.tempsPourAvancer = (long) (1 / vitesse * 1000);
+        this.tempsPourAvancer = Math.abs((long) (1 / vitesse * 1000));
         if (this.vitesse > 0) {
             sensDeplacement = 1;
         } else {
             sensDeplacement = -1;
         }
-
-
+        this.etat = Etats.DEPLACEMENT;
     }
-
+    
+    
+    
     public Rectangle getHitbox() {
         return hitbox;
     }
@@ -117,6 +134,18 @@ public abstract class Combattant {
         return sprite;
     }
 
+    public HashMap<Etats, Integer> getNbImagesParActions() {
+        return nbImagesParActions;
+    }
+
+    public int getAttaqueRate() {
+        return attaqueRate;
+    }
+
+    public RepresentationImage getSprite() {
+        return sprite;
+    }
+    
     public void setImgRep(RepresentationImage imgRep) {
         this.sprite = imgRep;
     }
@@ -139,12 +168,13 @@ public abstract class Combattant {
 
     public void deplacer() {
         long temps = System.currentTimeMillis();
-        this.tempsImmobile += temps - this.dernierTimestamp;
+        this.tempsImmobile += (temps - this.dernierTimestamp);
         int nbIncrementPos = (int) (this.tempsImmobile / this.tempsPourAvancer);
         for (int i = 0; i < nbIncrementPos; i++) {
             this.hitbox.x += sensDeplacement;
             this.tempsImmobile -= this.tempsPourAvancer;
         }
+        this.dernierTimestamp = temps;
     }
 
     public Combattant tic() {
@@ -205,5 +235,7 @@ public abstract class Combattant {
      *
      * @return
      */
-    public abstract Combattant action();
+    public Combattant action(){
+        return null;
+    }
 }

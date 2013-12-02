@@ -5,7 +5,10 @@
 package ca.qc.bdeb.inf203.model;
 
 import ca.qc.bdeb.inf203.model.typescombatants.Normaux;
+import java.lang.reflect.InvocationTargetException;
 import java.util.Random;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 
 /**
  * Vague en 2 phases, aléatoire dispersé et masse de trucs.
@@ -44,6 +47,8 @@ public class Vague {
         this.nbInitial = getRemainingVeggies();
         this.delaisMoyen = delaisMoyen;
         this.delais = delaisMoyen;
+        this.lastTimestamp = System.currentTimeMillis();
+        setDelais();
     }
 
     private void setDelais() {
@@ -61,14 +66,16 @@ public class Vague {
 
     public boolean spawnReady() {
         long temps = System.currentTimeMillis();
-        this.depuisDernierSpawn += temps - this.lastTimestamp;
+        this.depuisDernierSpawn += (temps - this.lastTimestamp);
         if (this.depuisDernierSpawn > this.delais) {
             return true;
         }
+        this.lastTimestamp = temps;
         return false;
     }
 
     public Combattant spawn() {
+
         if (this.getRemainingVeggies() == 0) {
             return null;
         }
@@ -78,15 +85,13 @@ public class Vague {
         } while (this.nbParArchetype[quelCombatant] == 0);
         this.nbParArchetype[quelCombatant]--;
 
-        if (getRemainingVeggies() == 0) {
+        if (getRemainingVeggies() < (this.nbInitial / 2)) {
             this.delaisMoyen = 400;
         }
+        this.depuisDernierSpawn = 0;
         this.setDelais();
-        this.depuisDernierSpawn -= delais;
-        return this.archetypes[quelCombatant];
-
-
-
+        //Deep magic starts here.
+        return archetypes[quelCombatant].getClass().cast(new Combattant(this.archetypes[quelCombatant]));
     }
 
     /**

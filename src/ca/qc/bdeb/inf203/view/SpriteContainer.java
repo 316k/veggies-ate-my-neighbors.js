@@ -9,18 +9,19 @@ import java.awt.Point;
  */
 public class SpriteContainer {
 
-    private Point coordonnee;
-    private RepresentationImage image;
-    private int animation;
+    protected RepresentationImage image;
+    protected int animation;
+    protected int[] colorisation = null;
 
-    public SpriteContainer(Point coordonnee, RepresentationImage image, int animation) {
-        this.coordonnee = coordonnee;
+    public SpriteContainer(RepresentationImage image, int animation) {
         this.image = image;
         this.animation = animation;
     }
 
-    public Point getCoordonnee() {
-        return coordonnee;
+    public SpriteContainer(RepresentationImage image, int animation, int[] colorisation) {
+        this.image = image;
+        this.animation = animation;
+        this.colorisation = colorisation;
     }
 
     public RepresentationImage getRepresentationImage() {
@@ -29,5 +30,16 @@ public class SpriteContainer {
 
     public int getAnimation() {
         return animation;
+    }
+
+    public String getPath() {
+        String path = "";
+        for (int i = 0; i < image.getPath().length; i++) {
+            path += image.getPath()[i] + "/";
+        }
+
+        path += animation + ".png";
+
+        return path;
     }
 }

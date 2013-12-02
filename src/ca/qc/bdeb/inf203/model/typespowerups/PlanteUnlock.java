@@ -14,11 +14,12 @@ import ca.qc.bdeb.inf203.model.PowerUp;
  */
 public class PlanteUnlock extends PowerUp {
     private Item item;
+    private int largeur = 65;
 
     public PlanteUnlock(Item item) {
         super(item.getNom());
         this.item = item;
-//        this.hitbox = new Rectangle(x,y,largeur,hauteur);
+        this.hitbox = new Rectangle(x,y,largeur,hauteur);
         this.animation = 0;
     }
 

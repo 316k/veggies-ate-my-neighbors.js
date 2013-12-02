@@ -1,7 +1,11 @@
 package ca.qc.bdeb.inf203.view;
 
 import ca.qc.bdeb.inf203.model.RepresentationImage;
+import java.awt.AlphaComposite;
+import java.awt.Color;
+import java.awt.Graphics2D;
 import java.awt.Image;
+import java.awt.image.BufferedImage;
 import java.io.File;
 import java.io.IOException;
 import java.util.HashMap;
@@ -15,10 +19,9 @@ import javax.imageio.ImageIO;
 public class SpriteManager {
 
     /**
-     * Hashmap : Etat(s) de l'entité, Sprite de l'animation. Oui, c'est un peu
-     * violent.
+     * Hashmap : Etat(s) de l'entité, Sprite de l'animation.
      */
-    private static HashMap< String[], HashMap<Integer, Image>> sprites = new HashMap<>();
+    private static HashMap<SpriteContainer, BufferedImage> sprites = new HashMap<>();
 
     /**
      * Donne le sprite d'une image voulue
@@ -28,18 +31,21 @@ public class SpriteManager {
      * @param animation numéro d'animation
      * @return le sprite à blitter
      */
-    public static Image getSprite(RepresentationImage ri, int animation) {
-        if (sprites.containsKey(ri.getPath())) {
-            return sprites.get(ri.getPath()).get(animation);
+    public static Image getImage(SpriteContainer sprite) {
+        BufferedImage image;
+        if (sprites.containsKey(sprite)) {
+            image = sprites.get(sprite);
         } else {
             try {
-                return loadSprite(ri.getPath(), animation);
+                image = loadSprite(sprite);
             }
             catch (IOException e) {
-                System.out.println("Error 404 - Sprite not found : " + ".../" + ri.getPath()[ri.getPath().length-1] + "/" + animation + ".png");
+                System.out.println("Error 404 - Sprite not found : ");
                 return null;
             }
         }
+
+        return image;
     }
 
     /**
@@ -50,22 +56,33 @@ public class SpriteManager {
      * @throws IOException En cas de fichier introuvable
      * @return Le sprite loadé
      */
-    private static Image loadSprite(String[] path, int animation) throws IOException {
+    private static BufferedImage loadSprite(SpriteContainer sprite) throws IOException {
         String fichier = "assets/graphics";
-        for (int i = 0; i < path.length; i++) {
-            fichier += "/" + path[i];
+        
+        fichier += "/" + sprite.getPath();
+
+        BufferedImage image = ImageIO.read(new File(fichier));
+
+
+        if (sprite.getRepresentationImage().getColorisation() != null) {
+            BufferedImage coloredImage = new BufferedImage(image.getWidth(), image.getHeight(), BufferedImage.TYPE_INT_ARGB);
+
+            Graphics2D g = (Graphics2D) coloredImage.getGraphics();
+            g.setColor(new Color(sprite.getRepresentationImage().getColorisation()[0], sprite.getRepresentationImage().getColorisation()[1], sprite.getRepresentationImage().getColorisation()[2]));
+            g.fillRect(0, 0, image.getWidth(), image.getHeight());
+
+            AlphaComposite ac;
+            ac = AlphaComposite.getInstance(AlphaComposite.SRC_ATOP, 0.5f);
+
+            // paint original with composite
+            g.setComposite(ac);
+            g.drawImage(image, 0, 0, image.getWidth(), image.getHeight(), 0, 0, image.getWidth(), image.getHeight(), null);
+
+            image = coloredImage;
         }
 
-        fichier += "/" + animation + ".png";
+        sprites.put(sprite, image);
 
-        Image sprite = ImageIO.read(new File(fichier));
-
-        if (!sprites.containsKey(path)) {
-            sprites.put(path, new HashMap<Integer, Image>());
-        }
-
-        sprites.get(path).put(animation, sprite);
-
-        return sprite;
+        return image;
     }
 }

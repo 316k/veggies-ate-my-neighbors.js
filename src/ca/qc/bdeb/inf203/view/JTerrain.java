@@ -10,8 +10,6 @@ import java.awt.FontFormatException;
 import java.awt.Graphics;
 import java.awt.GraphicsEnvironment;
 import java.awt.Point;
-import java.awt.event.KeyAdapter;
-import java.awt.event.KeyEvent;
 import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
 import java.awt.event.MouseMotionAdapter;
@@ -37,8 +35,8 @@ public class JTerrain extends JPanel {
     private final int ITEM_WIDTH = 65;
     private final int OFFSET_ITEMS = (int) (1.2 * TAILLE_CASE_X);
     private final int MARGIN_ITEMS = (int) (0.2 * ITEM_WIDTH);
-    private SpriteContainer[][] background;
-    private SpriteContainer panel;
+    private PositionnedSpriteContainer[][] background;
+    private PositionnedSpriteContainer panel;
     /**
      * Les coordonnées du point correspondent à un nombre de cases en x et y
      */
@@ -65,13 +63,13 @@ public class JTerrain extends JPanel {
         }
 
         this.setLayout(null);
-        background = new SpriteContainer[CASES_X][CASES_Y];
+        background = new PositionnedSpriteContainer[CASES_X][CASES_Y];
 
 
         generateBackground();
 
         String path[] = {"panel"};
-        panel = new SpriteContainer(new Point(0, 0), new RepresentationImage(path), 0);
+        panel = new PositionnedSpriteContainer(new Point(0, 0), new RepresentationImage(path), 0);
 
         this.addMouseMotionListener(new MouseMotionAdapter() {
             @Override
@@ -101,8 +99,8 @@ public class JTerrain extends JPanel {
         this.setVisible(true);
     }
 
-    protected void blitSpriteContainer(Graphics g, SpriteContainer sprite) {
-        g.drawImage(SpriteManager.getSprite(sprite.getRepresentationImage(), sprite.getAnimation()),
+    protected void blitSpriteContainer(Graphics g, PositionnedSpriteContainer sprite) {
+        g.drawImage(SpriteManager.getImage(sprite),
                 sprite.getCoordonnee().x, sprite.getCoordonnee().y, this);
     }
 
@@ -111,8 +109,8 @@ public class JTerrain extends JPanel {
         super.paintComponent(g);
 
         // Background
-        for (SpriteContainer[] spriteRow : background) {
-            for (SpriteContainer sprite : spriteRow) {
+        for (PositionnedSpriteContainer[] spriteRow : background) {
+            for (PositionnedSpriteContainer sprite : spriteRow) {
                 if (sprite != null) {
                     blitSpriteContainer(g, sprite);
                 }
@@ -125,7 +123,7 @@ public class JTerrain extends JPanel {
         // Soleils
         String[] path = {"panel", "box", "sun"};
         RepresentationImage ri = new RepresentationImage(path);
-        SpriteContainer sprite = new SpriteContainer(new Point((int) (0.1 * TAILLE_CASE_X), TAILLE_CASE_Y / 8), ri, 0);
+        PositionnedSpriteContainer sprite = new PositionnedSpriteContainer(new Point((int) (0.1 * TAILLE_CASE_X), TAILLE_CASE_Y / 8), ri, 0);
 
         blitSpriteContainer(g, sprite);
 
@@ -148,7 +146,7 @@ public class JTerrain extends JPanel {
         for (Item item : items) {
             String[] itemPath = {"panel", "box", item.getNom()};
             RepresentationImage itemRi = new RepresentationImage(itemPath);
-            SpriteContainer itemSprite = new SpriteContainer(position, itemRi, 0);
+            PositionnedSpriteContainer itemSprite = new PositionnedSpriteContainer(position, itemRi, 0);
 
             blitSpriteContainer(g, itemSprite);
 
@@ -164,16 +162,16 @@ public class JTerrain extends JPanel {
 
             if (selection != null && item.equals(items[selection])) {
                 g.setColor(new Color(255, 170, 0, 170));
-                g.fillRect(itemSprite.getCoordonnee().x, itemSprite.getCoordonnee().y, SpriteManager.getSprite(ri, 0).getWidth(this), SpriteManager.getSprite(ri, 0).getHeight(this));
+                g.fillRect(itemSprite.getCoordonnee().x, itemSprite.getCoordonnee().y, SpriteManager.getImage(sprite).getWidth(this), SpriteManager.getImage(sprite).getHeight(this));
             }
 
             position.move((int) (position.x + ITEM_WIDTH + MARGIN_ITEMS), position.y);
         }
 
         // Combatants
-        SpriteContainer[] sprites = TerrainControlleur.getImages();
+        PositionnedSpriteContainer[] sprites = TerrainControlleur.getImages();
 
-        for (SpriteContainer combatantSprite : sprites) {
+        for (PositionnedSpriteContainer combatantSprite : sprites) {
             blitSpriteContainer(g, combatantSprite);
         }
 
@@ -202,15 +200,16 @@ public class JTerrain extends JPanel {
             for (int y = 0; y < CASES_Y; y++) {
                 Point position = new Point(x * TAILLE_CASE_X, y * TAILLE_CASE_Y);
                 String path[] = {"background", "grass"};
-                RepresentationImage ri = new RepresentationImage(null, path);
-                background[x][y] = new SpriteContainer(position, ri, rnd.nextInt(4));
+                int[] colorization = {255, 0, 0};
+                RepresentationImage ri = new RepresentationImage(colorization, path);
+                background[x][y] = new PositionnedSpriteContainer(position, ri, rnd.nextInt(4));
             }
         }
 
         // Route
         String path[] = {"background", "road"};
         RepresentationImage route = new RepresentationImage(null, path);
-        background[CASES_X - 1][0] = new SpriteContainer(new Point((CASES_X - 1) * TAILLE_CASE_X, 0), route, 0);
+        background[CASES_X - 1][0] = new PositionnedSpriteContainer(new Point((CASES_X - 1) * TAILLE_CASE_X, 0), route, 0);
     }
 
     private void refreshCaseSelectionnee(MouseEvent e) {

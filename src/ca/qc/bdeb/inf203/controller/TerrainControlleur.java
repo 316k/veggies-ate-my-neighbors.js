@@ -4,6 +4,7 @@ import ca.qc.bdeb.inf203.model.Combattant;
 import ca.qc.bdeb.inf203.model.Joueur;
 import ca.qc.bdeb.inf203.model.PowerUp;
 import ca.qc.bdeb.inf203.model.Terrain;
+import ca.qc.bdeb.inf203.view.PositionnedSpriteContainer;
 import ca.qc.bdeb.inf203.view.SpriteContainer;
 import java.awt.Point;
 import java.util.ArrayList;
@@ -22,21 +23,21 @@ public class TerrainControlleur {
      *
      * @return Les informations relatives aux images des combatants en jeu
      */
-    public static SpriteContainer[] getImages() {
+    public static PositionnedSpriteContainer[] getImages() {
         ArrayList<Combattant> combatants = terrain.getEntites();
         ArrayList<PowerUp> powerups = terrain.getPowerUps();
         
-        ArrayList<SpriteContainer> images = new ArrayList<>();
+        ArrayList<PositionnedSpriteContainer> images = new ArrayList<>();
         
         for (Combattant combatant : combatants) {
-            images.add(new SpriteContainer(combatant.getHitbox().getLocation(), combatant.getImg(), combatant.getAnimationCompteur()));
+            images.add(new PositionnedSpriteContainer(combatant.getHitbox().getLocation(), combatant.getImg(), combatant.getAnimationCompteur()));
         }
         
         for (PowerUp powerUp : powerups) {
-            images.add(new SpriteContainer(powerUp.getHitbox().getLocation(), powerUp.getImg(), powerUp.getAnimation()));
+            images.add(new PositionnedSpriteContainer(powerUp.getHitbox().getLocation(), powerUp.getImg(), powerUp.getAnimation()));
         }
         
-        return images.toArray(new SpriteContainer[combatants.size() + powerups.size()]);
+        return images.toArray(new PositionnedSpriteContainer[combatants.size() + powerups.size()]);
     }
 
     public static void clic(Point point) {

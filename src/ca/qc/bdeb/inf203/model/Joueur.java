@@ -9,9 +9,8 @@ import java.util.ArrayList;
  * @author Nicolas Hurtubise, Guillaume Riou
  */
 public class Joueur {
-    
-    private static Joueur instance = new Joueur();
 
+    private static Joueur instance = new Joueur();
     private int nbrSoleils;
     private ArrayList<Item> items = new ArrayList<>();
     private Integer selection = null;
@@ -24,7 +23,7 @@ public class Joueur {
     public void setScore(int score) {
         this.kills = score;
     }
-    
+
     public static Joueur instance() {
         return instance;
     }
@@ -38,13 +37,17 @@ public class Joueur {
         items.add(new Item("unknown", 0, 999));
         nbrSoleils = 9999;
     }
-    
+
     public int getSoleils() {
         return nbrSoleils;
     }
 
     public void setSelection(Integer selection) {
-        this.selection = selection;
+        if (selection != null && items.get(selection).getRecharge() == 1) {
+            this.selection = selection;
+        } else {
+            this.selection = null;
+        }
     }
 
     public Integer getSelection() {
@@ -62,7 +65,7 @@ public class Joueur {
     public Item[] getItems() {
         return items.toArray(new Item[items.size()]);
     }
-    
+
     public void debloquerItem(Item item) {
         this.items.add(item);
     }

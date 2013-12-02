@@ -56,7 +56,7 @@ public class Combattant {
         this.attaqueRate = archetype.getAttaqueRate();
         initialise();
     }
-        
+    
     public final void initialise(){
         this.dernierTimestamp = System.currentTimeMillis();
         this.hitbox = new Rectangle();

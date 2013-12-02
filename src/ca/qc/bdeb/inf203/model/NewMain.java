@@ -19,12 +19,13 @@ public class NewMain {
     public static void main(String[] args) {
         // TODO code application logic here
         Terrain t = new Terrain();
+        
         while(true){
             t.tic();
             if(!t.getEntites().isEmpty()){
                 System.out.println(t.getEntites().get(0).hitbox.x);
             }
-            
+
             try {
                 Thread.sleep(10);
             } catch (InterruptedException ex) {

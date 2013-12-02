@@ -25,7 +25,9 @@ public class Peashooter extends Combattant{
         this.sprite = new RepresentationImage(path);
     }
 
-    
+    public Peashooter(Combattant c) {
+        super(c);
+    }
     
     
     @Override

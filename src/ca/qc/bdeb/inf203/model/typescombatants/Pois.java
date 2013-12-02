@@ -30,7 +30,9 @@ public class Pois extends Combattant{
         this.sprite = new RepresentationImage(path);
 
     }
-    
+    public Pois(Combattant c) {
+        super(c);
+    }
     @Override
     protected void attaquer() {
         super.attaquer();

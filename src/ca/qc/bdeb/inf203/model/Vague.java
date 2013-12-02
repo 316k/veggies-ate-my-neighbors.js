@@ -88,10 +88,22 @@ public class Vague {
         if (getRemainingVeggies() < (this.nbInitial / 2)) {
             this.delaisMoyen = 400;
         }
+        
         this.depuisDernierSpawn = 0;
         this.setDelais();
-        //Deep magic starts here.
-        return archetypes[quelCombatant].getClass().cast(new Combattant(this.archetypes[quelCombatant]));
+        try {
+            try {
+                //Deep magic starts here.
+                return archetypes[quelCombatant].getClass().getConstructor(new Class[]{Combattant.class}).newInstance(archetypes[quelCombatant]);
+            } catch (    NoSuchMethodException | SecurityException ex) {
+                //Franchement, ça va jamais arriver ... 
+                ex.printStackTrace();
+            }
+        } catch (InstantiationException | IllegalAccessException | IllegalArgumentException | InvocationTargetException ex) {
+            //Ça non plus d'ailleur.
+            ex.printStackTrace();
+        }
+        return null;
     }
 
     /**

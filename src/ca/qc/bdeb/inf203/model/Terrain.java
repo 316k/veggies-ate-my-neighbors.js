@@ -38,7 +38,7 @@ public class Terrain {
     /**
      * Delais en milis.
      */
-    private long delaisSoleil;
+    private long delaisSoleil = 2000;
     private long dernierTimeStampSoleil;
     private long dernierTempsSoleil;
     private Random rdm = new Random();
@@ -101,6 +101,8 @@ public class Terrain {
         if (dernierTempsSoleil >= delaisSoleil) {
             //Le 34 est arbitraire, comprendre la largeur du terrain.
             this.powerUps.add(new Soleil(25, rdm.nextInt(314), 0));
+            System.out.println("PLUS DE SOLEIL");
+            this.dernierTempsSoleil = 0;
         }
         this.dernierTimeStampSoleil = temps;
     }

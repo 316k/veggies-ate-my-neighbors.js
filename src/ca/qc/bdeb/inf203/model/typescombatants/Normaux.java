@@ -10,8 +10,17 @@ import ca.qc.bdeb.inf203.model.Combattant;
  *
  * @author guillaume
  */
-public class Normaux extends Combattant{
+public class Normaux extends Combattant {
 
+    public Normaux(Combattant c) {
+        super(c);
+    }
+
+    public Normaux() {
+    }
+
+    
+    
     @Override
     public Combattant action() {
         return null;

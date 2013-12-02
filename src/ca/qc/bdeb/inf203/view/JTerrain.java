@@ -8,9 +8,10 @@ import java.awt.Color;
 import java.awt.Font;
 import java.awt.FontFormatException;
 import java.awt.Graphics;
-import java.awt.Graphics2D;
 import java.awt.GraphicsEnvironment;
 import java.awt.Point;
+import java.awt.event.KeyAdapter;
+import java.awt.event.KeyEvent;
 import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
 import java.awt.event.MouseMotionAdapter;
@@ -38,6 +39,8 @@ public class JTerrain extends JPanel {
     private final int MARGIN_ITEMS = (int) (0.2 * ITEM_WIDTH);
     private SpriteContainer[][] background;
     private SpriteContainer panel;
+    private String cheatCode = "";
+    
     /**
      * Les coordonnées du point correspondent à un nombre de cases en x et y
      */
@@ -103,6 +106,26 @@ public class JTerrain extends JPanel {
                 }
             }
         });
+        
+        // FIXME :( le panel ne reçoit pas les événements Key*
+        this.addKeyListener(new KeyAdapter() {
+
+            @Override
+            public void keyTyped(KeyEvent e) {
+                cheatCode += e.getKeyChar();
+                if(cheatCode.endsWith("galarneau")) {
+                    JoueurControlleur.addSoleils(100);
+                } else if(cheatCode.endsWith("Monsanté")) {
+                    System.out.println("Ce code secret est protégé par les conventions internationnales sur la propriété intélectuelle. Tout contrevenant sera poursuivit en justice.");
+                }
+                
+                // Les cheat codes font au plus 10 caractères
+                if(cheatCode.length() == 10) {
+                    cheatCode = cheatCode.substring(1, 10);
+                }
+            }
+            
+});
 
         this.setVisible(true);
     }

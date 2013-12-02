@@ -1,5 +1,6 @@
 package ca.qc.bdeb.inf203.controller;
 
+import ca.qc.bdeb.inf203.model.Item;
 import ca.qc.bdeb.inf203.model.Joueur;
 
 /**
@@ -17,5 +18,12 @@ public class JoueurControlleur {
     public static void addSoleils(int soleils) {
         joueur.setSoleils(joueur.getSoleils() + soleils);
     }
-
+    
+    public static Item[] getItems() {
+        return joueur.getItems();
+    }
+    
+    public static void setSelection(Integer selection) {
+        joueur.setSelection(selection);
+    }
 }

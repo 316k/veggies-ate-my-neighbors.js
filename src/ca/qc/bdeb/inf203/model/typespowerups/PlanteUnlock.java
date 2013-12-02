@@ -22,7 +22,7 @@ public class PlanteUnlock extends PowerUp {
 
     @Override
     public void action() {
-        Joueur.debloquer(indexADebloquer);
+        Joueur.debloquerItem(indexADebloquer);
     }
     
 }

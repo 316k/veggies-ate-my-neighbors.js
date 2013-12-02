@@ -1,52 +1,65 @@
 package ca.qc.bdeb.inf203.model;
 
+import java.util.ArrayList;
+
 /**
- * Contient les données relatives au joueur
- * (plantes disponibles, nombre de soleils, high-score, ...)
- * @author Nicolas Hurtubise
+ * Contient les données relatives au joueur (plantes disponibles, nombre de
+ * soleils, high-score, ...)
+ *
+ * @author Nicolas Hurtubise, Guillaume Riou
  */
 public class Joueur {
+
     private int nbrSoleils;
-    /**
-     * Plantes et autres choses dans le genre débloquées.
-     */
-    private boolean debloques[] = {true,false,false,false,false,false};
+    private ArrayList<Item> items = new ArrayList<>();
+    private Integer selection = null;
+
+    public Joueur() {
+        items.add(new Item("pea-shooter", 10));
+        items.add(new Item("sunflower", 10));
+        items.add(new Item("unknown", 10));
+        items.add(new Item("unknown", 0));
+        items.add(new Item("unknown", 0));
+        nbrSoleils = 99999;
+    }
 
     public int getSoleils() {
         return nbrSoleils;
     }
 
+    public void setSelection(Integer selection) {
+        this.selection = selection;
+    }
+
+    public int getSelection() {
+        return selection;
+    }
+
     public void setSoleils(int nbrSoleils) {
         this.nbrSoleils = nbrSoleils;
     }
-    
-    public void addSoleils(int nbrSoleils){
+
+    public void addSoleils(int nbrSoleils) {
         this.nbrSoleils += nbrSoleils;
     }
 
-    public boolean[] getDebloques() {
-        return debloques;
-    }
-    
-    public void debloquer(int debloqIndex){
-        debloques[debloqIndex] = true;
+    public Item[] getItems() {
+        return items.toArray(new Item[items.size()]);
     }
 
-    public void setDebloques(boolean[] debloques) {
-        this.debloques = debloques;
+    public void debloquerItem(String nom, double vitesseRechargement) {
+        items.add(new Item(nom, vitesseRechargement));
     }
-    
+
     /**
      * Load la dernière save
      */
-    public void loadSave(){
-        
+    public void loadSave() {
     }
+
     /**
      * Save dans le fichier de save (lol)
      */
-    public void Save(){
-        
+    public void Save() {
     }
-    
 }

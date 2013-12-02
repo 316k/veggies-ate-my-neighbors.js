@@ -3,6 +3,7 @@ package ca.qc.bdeb.inf203.controller;
 import ca.qc.bdeb.inf203.model.RepresentationImage;
 import ca.qc.bdeb.inf203.view.SpriteContainer;
 import java.awt.Point;
+import java.awt.Rectangle;
 import java.util.ArrayList;
 
 /**
@@ -10,6 +11,9 @@ import java.util.ArrayList;
  * @author Nicolas Hurtubise
  */
 public class CombatantsControlleur {
+    
+    // @Test
+    private static Point point = new Point(100, 50);
 
     /**
      * Donne un SpriteContainer contenant l'information relative aux images et
@@ -24,7 +28,7 @@ public class CombatantsControlleur {
         String path[] = {"plants", "pea-shooter", "shooting"};
         RepresentationImage ri = new RepresentationImage(path);
 
-        images.add(new SpriteContainer(new Point(100, 50), ri, animation));
+        images.add(new SpriteContainer(point, ri, animation));
 
         animation = (int) (System.currentTimeMillis() * 0.012 % 4);
         String path2[] = {"powerups", "sun"};
@@ -39,5 +43,9 @@ public class CombatantsControlleur {
         images.add(new SpriteContainer(new Point(125 + (int) (System.currentTimeMillis() * 0.1 % 700), 70), ri3, animation));
 
         return images.toArray(new SpriteContainer[images.size()]);
+    }
+
+    public static void clic(Point point) {
+        CombatantsControlleur.point = point;
     }
 }

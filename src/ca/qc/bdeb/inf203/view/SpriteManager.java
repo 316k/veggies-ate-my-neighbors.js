@@ -51,7 +51,7 @@ public class SpriteManager {
      * @return Le sprite loadé
      */
     private static Image loadSprite(String[] path, int animation) throws IOException {
-        String fichier = "graphics";
+        String fichier = "assets/graphics";
         for (int i = 0; i < path.length; i++) {
             fichier += "/" + path[i];
         }

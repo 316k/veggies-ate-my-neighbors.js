@@ -26,4 +26,12 @@ public class JoueurControlleur {
     public static void setSelection(Integer selection) {
         joueur.setSelection(selection);
     }
+    
+    public static int getKills() {
+        return joueur.getKills();
+    }
+
+    public static Integer getSelection() {
+        return joueur.getSelection();
+    }
 }

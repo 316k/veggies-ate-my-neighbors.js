@@ -13,14 +13,24 @@ public class Joueur {
     private int nbrSoleils;
     private ArrayList<Item> items = new ArrayList<>();
     private Integer selection = null;
+    private int kills = 0;
+
+    public int getKills() {
+        return kills;
+    }
+
+    public void setScore(int score) {
+        this.kills = score;
+    }
 
     public Joueur() {
-        items.add(new Item("pea-shooter", 10));
-        items.add(new Item("sunflower", 10));
-        items.add(new Item("unknown", 10));
-        items.add(new Item("unknown", 0));
-        items.add(new Item("unknown", 0));
-        nbrSoleils = 99999;
+        items.add(new Item("pea-shooter", 10, 100));
+        items.add(new Item("sunflower", 10, 50));
+        items.add(new Item("unknown", 0, 250));
+        items.add(new Item("unknown", 0, 400));
+        items.add(new Item("unknown", 0, 600));
+        items.add(new Item("unknown", 0, 999));
+        nbrSoleils = 9999;
     }
 
     public int getSoleils() {
@@ -31,7 +41,7 @@ public class Joueur {
         this.selection = selection;
     }
 
-    public int getSelection() {
+    public Integer getSelection() {
         return selection;
     }
 
@@ -47,8 +57,8 @@ public class Joueur {
         return items.toArray(new Item[items.size()]);
     }
 
-    public void debloquerItem(String nom, double vitesseRechargement) {
-        items.add(new Item(nom, vitesseRechargement));
+    public void debloquerItem(String nom, double vitesseRechargement, int cout) {
+        items.add(new Item(nom, vitesseRechargement, cout));
     }
 
     /**

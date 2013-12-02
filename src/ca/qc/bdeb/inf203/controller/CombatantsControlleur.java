@@ -47,5 +47,9 @@ public class CombatantsControlleur {
 
     public static void clic(Point point) {
         CombatantsControlleur.point = point;
+        // Si un combatant est créé, on enlève la sélection du joueur
+        // (on ne le fait pas si on clique sur un power-up)
+        JoueurControlleur.getKills();
+        JoueurControlleur.setSelection(null);
     }
 }

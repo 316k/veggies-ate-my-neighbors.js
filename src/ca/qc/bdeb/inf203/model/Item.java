@@ -17,12 +17,24 @@ public class Item {
      * utilisable).
      */
     private double recharge;
+    /**
+     * Vitesse à laquelle la recharge se fait (en charge/seconde)
+     */
     private double vitesseRechargement;
+    /**
+     * Nombre de soleils nécessaires à la création de l'item
+     */
+    private int cout;
 
-    public Item(String nom, double vitesseRechargement) {
+    public Item(String nom, double vitesseRechargement, int cout) {
         this.nom = nom;
         this.vitesseRechargement = vitesseRechargement;
+        this.cout = cout;
         this.recharge = 1;
+    }
+
+    public int getCout() {
+        return cout;
     }
 
     public double getRecharge() {

@@ -5,7 +5,6 @@ import ca.qc.bdeb.inf203.model.Joueur;
 import ca.qc.bdeb.inf203.model.PowerUp;
 import ca.qc.bdeb.inf203.model.Terrain;
 import ca.qc.bdeb.inf203.view.PositionnedSpriteContainer;
-import ca.qc.bdeb.inf203.view.SpriteContainer;
 import java.awt.Point;
 import java.util.ArrayList;
 

@@ -1,6 +1,5 @@
 package ca.qc.bdeb.inf203.view;
 
-import ca.qc.bdeb.inf203.model.RepresentationImage;
 import java.awt.AlphaComposite;
 import java.awt.Color;
 import java.awt.Graphics2D;
@@ -19,9 +18,9 @@ import javax.imageio.ImageIO;
 public class SpriteManager {
 
     /**
-     * Hashmap : Etat(s) de l'entité, Sprite de l'animation.
+     * Hashmap : JSON du SpriteContainer, Sprite de l'animation.
      */
-    private static HashMap<SpriteContainer, BufferedImage> sprites = new HashMap<>();
+    private static HashMap<String, BufferedImage> sprites = new HashMap<>();
 
     /**
      * Donne le sprite d'une image voulue
@@ -33,8 +32,8 @@ public class SpriteManager {
      */
     public static Image getImage(SpriteContainer sprite) {
         BufferedImage image;
-        if (sprites.containsKey(sprite)) {
-            image = sprites.get(sprite);
+        if (sprites.containsKey(sprite.toString())) {
+            image = sprites.get(sprite.toString());
         } else {
             try {
                 image = loadSprite(sprite);
@@ -58,7 +57,7 @@ public class SpriteManager {
      */
     private static BufferedImage loadSprite(SpriteContainer sprite) throws IOException {
         String fichier = "assets/graphics";
-        
+        System.out.println("Loading");
         fichier += "/" + sprite.getPath();
 
         BufferedImage image = ImageIO.read(new File(fichier));
@@ -81,7 +80,7 @@ public class SpriteManager {
             image = coloredImage;
         }
 
-        sprites.put(sprite, image);
+        sprites.put(sprite.toString(), image);
 
         return image;
     }

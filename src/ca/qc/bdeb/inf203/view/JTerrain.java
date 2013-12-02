@@ -4,6 +4,7 @@ import ca.qc.bdeb.inf203.controller.JoueurControlleur;
 import ca.qc.bdeb.inf203.model.Item;
 import ca.qc.bdeb.inf203.controller.TerrainControlleur;
 import ca.qc.bdeb.inf203.model.RepresentationImage;
+import ca.qc.bdeb.inf203.model.Terrain;
 import java.awt.Color;
 import java.awt.Font;
 import java.awt.FontFormatException;
@@ -26,10 +27,10 @@ import javax.swing.JPanel;
  */
 public class JTerrain extends JPanel {
 
-    private final int CASES_X = 10;
-    private final int CASES_Y = 6;
-    private final int TAILLE_CASE_X = 80;
-    private final int TAILLE_CASE_Y = 80;
+    private final int CASES_X = Terrain.CASES_X + 1;
+    private final int CASES_Y = Terrain.CASES_Y + 1;
+    private final int TAILLE_CASE_X = Terrain.TAILLE_CASE_X;
+    private final int TAILLE_CASE_Y = Terrain.TAILLE_CASE_Y;
     private final int WIDTH = CASES_X * TAILLE_CASE_X;
     private final int HEIGHT = CASES_Y * TAILLE_CASE_Y;
     private final int ITEM_WIDTH = 65;
@@ -200,8 +201,7 @@ public class JTerrain extends JPanel {
             for (int y = 0; y < CASES_Y; y++) {
                 Point position = new Point(x * TAILLE_CASE_X, y * TAILLE_CASE_Y);
                 String path[] = {"background", "grass"};
-                int[] colorization = {255, 0, 0};
-                RepresentationImage ri = new RepresentationImage(colorization, path);
+                RepresentationImage ri = new RepresentationImage(path);
                 background[x][y] = new PositionnedSpriteContainer(position, ri, rnd.nextInt(4));
             }
         }

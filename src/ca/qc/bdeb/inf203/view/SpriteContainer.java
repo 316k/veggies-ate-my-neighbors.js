@@ -11,17 +11,10 @@ public class SpriteContainer {
 
     protected RepresentationImage image;
     protected int animation;
-    protected int[] colorisation = null;
 
     public SpriteContainer(RepresentationImage image, int animation) {
         this.image = image;
         this.animation = animation;
-    }
-
-    public SpriteContainer(RepresentationImage image, int animation, int[] colorisation) {
-        this.image = image;
-        this.animation = animation;
-        this.colorisation = colorisation;
     }
 
     public RepresentationImage getRepresentationImage() {
@@ -41,5 +34,14 @@ public class SpriteContainer {
         path += animation + ".png";
 
         return path;
+    }
+
+    @Override
+    public String toString() {
+        String color = "null";
+        if (image.getColorisation() != null) {
+            color = image.getColorisation()[0] + ";" + image.getColorisation()[1] + ";" + image.getColorisation()[2];
+        }
+        return "{animation:'" + this.animation + "',path:'" + this.getPath() + "',colorisation:'" + color + "'}";
     }
 }

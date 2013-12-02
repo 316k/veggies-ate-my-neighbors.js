@@ -1,6 +1,8 @@
 package ca.qc.bdeb.inf203.model;
 
+import ca.qc.bdeb.inf203.model.typespowerups.PlanteUnlock;
 import ca.qc.bdeb.inf203.model.typespowerups.Soleil;
+import java.awt.Point;
 import java.awt.Rectangle;
 import java.util.ArrayList;
 import java.util.Random;
@@ -12,14 +14,10 @@ import java.util.Random;
  */
 public class Terrain {
 
-    /**
-     * Les chiffres sont purement arbitraires.
-     */
-    private static int RANG_UN = 24;
-    private static int RANG_DEUX = 56;
-    private static int RANG_TROIS = 78;
-    private static int RANG_QUATRE = 90;
-    private static int RANG_CINQ = 120;
+    public static final int CASES_X = 9;
+    public static final int CASES_Y = 5;
+    public static final int TAILLE_CASE_X = 80;
+    public static final int TAILLE_CASE_Y = 80;
     /**
      * Représentation en objets cases de la totalité du terrain.
      */
@@ -49,7 +47,6 @@ public class Terrain {
         entites = new ArrayList<>();
         powerUps = new ArrayList<>();
         this.vagueEnCours = Vague.generateVague(1);
-
     }
 
     public void tic() {
@@ -66,7 +63,7 @@ public class Terrain {
                 morts.add(combattant);
             } else {
                 combattant.tic();
-                
+
                 Rectangle aTester = null;
                 if (combattant.getEtat() == Etats.DEPLACEMENT) {
                     aTester = combattant.getHitbox();

@@ -13,17 +13,17 @@ import ca.qc.bdeb.inf203.model.RepresentationImage;
  * @author 1029172
  */
 public class Soleil extends PowerUp {
-    private int nbADonner;
+    private int valeur;
     
 
-    public Soleil(int nbADonner, RepresentationImage img) {
-        super(img);
-        this.nbADonner = nbADonner;       
+    public Soleil(int valeur) {
+        super("soleil");
+        this.valeur = valeur;       
     }
     
     @Override
     public void action() {
-        Joueur.addSoleils(nbADonner);
+        Joueur.instance().addSoleils(valeur);
     }
     
 }

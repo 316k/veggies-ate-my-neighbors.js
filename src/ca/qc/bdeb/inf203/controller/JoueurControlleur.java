@@ -9,29 +9,28 @@ import ca.qc.bdeb.inf203.model.Joueur;
  */
 public class JoueurControlleur {
     
-    private static Joueur joueur = new Joueur();
     
     public static int getSoleils() {
-        return joueur.getSoleils();
+        return Joueur.instance().getSoleils();
     }
     
     public static void addSoleils(int soleils) {
-        joueur.setSoleils(joueur.getSoleils() + soleils);
+        Joueur.instance().addSoleils(soleils);
     }
     
     public static Item[] getItems() {
-        return joueur.getItems();
+        return Joueur.instance().getItems();
     }
     
     public static void setSelection(Integer selection) {
-        joueur.setSelection(selection);
+        Joueur.instance().setSelection(selection);
     }
     
     public static int getKills() {
-        return joueur.getKills();
+        return Joueur.instance().getKills();
     }
 
     public static Integer getSelection() {
-        return joueur.getSelection();
+        return Joueur.instance().getSelection();
     }
 }

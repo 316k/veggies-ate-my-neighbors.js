@@ -4,25 +4,25 @@
  */
 package ca.qc.bdeb.inf203.model.typespowerups;
 
+import ca.qc.bdeb.inf203.model.Item;
 import ca.qc.bdeb.inf203.model.Joueur;
 import ca.qc.bdeb.inf203.model.PowerUp;
-import ca.qc.bdeb.inf203.model.RepresentationImage;
 
 /**
  *
  * @author 1029172
  */
 public class PlanteUnlock extends PowerUp {
-    int indexADebloquer;
+    private Item item;
 
-    public PlanteUnlock(RepresentationImage img ,int indexADebloquer) {
-        super(img);
-        this.indexADebloquer = indexADebloquer;
+    public PlanteUnlock(Item item) {
+        super(item.getNom());
+        this.item = item;
     }
 
     @Override
     public void action() {
-        Joueur.debloquerItem(indexADebloquer);
+        Joueur.instance().debloquerItem(item);
     }
     
 }

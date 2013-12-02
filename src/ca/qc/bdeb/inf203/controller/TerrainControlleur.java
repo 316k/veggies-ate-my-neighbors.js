@@ -3,14 +3,13 @@ package ca.qc.bdeb.inf203.controller;
 import ca.qc.bdeb.inf203.model.RepresentationImage;
 import ca.qc.bdeb.inf203.view.SpriteContainer;
 import java.awt.Point;
-import java.awt.Rectangle;
 import java.util.ArrayList;
 
 /**
  *
  * @author Nicolas Hurtubise
  */
-public class CombatantsControlleur {
+public class TerrainControlleur {
     
     // @Test
     private static Point point = new Point(100, 50);
@@ -46,7 +45,7 @@ public class CombatantsControlleur {
     }
 
     public static void clic(Point point) {
-        CombatantsControlleur.point = point;
+        TerrainControlleur.point = point;
         // Si un combatant est créé, on enlève la sélection du joueur
         // (on ne le fait pas si on clique sur un power-up)
         JoueurControlleur.getKills();

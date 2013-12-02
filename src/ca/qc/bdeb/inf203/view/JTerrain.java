@@ -1,8 +1,8 @@
 package ca.qc.bdeb.inf203.view;
 
-import ca.qc.bdeb.inf203.controller.CombatantsControlleur;
 import ca.qc.bdeb.inf203.controller.JoueurControlleur;
 import ca.qc.bdeb.inf203.model.Item;
+import ca.qc.bdeb.inf203.controller.TerrainControlleur;
 import ca.qc.bdeb.inf203.model.RepresentationImage;
 import java.awt.Color;
 import java.awt.Font;
@@ -95,7 +95,7 @@ public class JTerrain extends JPanel {
             public void mouseClicked(MouseEvent e) {
                 if (e.getY() > TAILLE_CASE_Y) {
                     // Le clic est dans le terrain
-                    CombatantsControlleur.clic(e.getPoint());
+                    TerrainControlleur.clic(e.getPoint());
                 } else {
                     // Le clic est dans le panel
                     if ((e.getPoint().x - OFFSET_ITEMS) % (ITEM_WIDTH + MARGIN_ITEMS) < 66 && (e.getPoint().x - OFFSET_ITEMS) > 0 && (e.getPoint().x - OFFSET_ITEMS) < (ITEM_WIDTH + MARGIN_ITEMS) * JoueurControlleur.getItems().length) {
@@ -200,7 +200,7 @@ public class JTerrain extends JPanel {
         }
 
         // Combatants
-        SpriteContainer[] sprites = CombatantsControlleur.getImages();
+        SpriteContainer[] sprites = TerrainControlleur.getImages();
 
         for (SpriteContainer combatantSprite : sprites) {
             blitSpriteContainer(g, combatantSprite);

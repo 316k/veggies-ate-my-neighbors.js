@@ -9,8 +9,14 @@ import java.awt.Rectangle;
 public abstract class PowerUp {
     private RepresentationImage img;
     private Rectangle position;
-    public PowerUp(RepresentationImage img) {
-        this.img = img;
+    
+    public PowerUp(String path[]) {
+        this.img = new RepresentationImage(path);
+    }
+    
+    public PowerUp(String path) {
+        String[] pathArray = {path};
+        this.img = new RepresentationImage(pathArray);
     }
     
     

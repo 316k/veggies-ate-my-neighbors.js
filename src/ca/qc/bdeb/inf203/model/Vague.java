@@ -5,7 +5,10 @@
 package ca.qc.bdeb.inf203.model;
 
 import ca.qc.bdeb.inf203.model.typescombatants.Normaux;
+import java.lang.reflect.InvocationTargetException;
 import java.util.Random;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 
 /**
  * Vague en 2 phases, aléatoire dispersé et masse de trucs.
@@ -82,14 +85,13 @@ public class Vague {
         } while (this.nbParArchetype[quelCombatant] == 0);
         this.nbParArchetype[quelCombatant]--;
 
-        if (getRemainingVeggies() < (this.nbInitial/2)) {
+        if (getRemainingVeggies() < (this.nbInitial / 2)) {
             this.delaisMoyen = 400;
         }
-        this.depuisDernierSpawn = 0 ;
+        this.depuisDernierSpawn = 0;
         this.setDelais();
-        
-        return new Combattant(this.archetypes[quelCombatant]);
-
+        //Deep magic starts here.
+        return archetypes[quelCombatant].getClass().cast(new Combattant(this.archetypes[quelCombatant]));
     }
 
     /**

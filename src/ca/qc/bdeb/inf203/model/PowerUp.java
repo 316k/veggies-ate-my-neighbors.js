@@ -15,10 +15,9 @@ public abstract class PowerUp {
     }
     
     public PowerUp(String path) {
-        String[] pathArray = {path};
+        String[] pathArray = {"powerups", path};
         this.img = new RepresentationImage(pathArray);
     }
-    
     
     public abstract void action();
 }

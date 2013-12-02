@@ -1,6 +1,7 @@
 package ca.qc.bdeb.inf203.controller;
 
 import ca.qc.bdeb.inf203.model.RepresentationImage;
+import ca.qc.bdeb.inf203.model.Terrain;
 import ca.qc.bdeb.inf203.view.SpriteContainer;
 import java.awt.Point;
 import java.util.ArrayList;
@@ -10,9 +11,10 @@ import java.util.ArrayList;
  * @author Nicolas Hurtubise
  */
 public class TerrainControlleur {
-    
+
     // @Test
     private static Point point = new Point(100, 50);
+    private static Terrain terrain = new Terrain();
 
     /**
      * Donne un SpriteContainer contenant l'information relative aux images et
@@ -48,7 +50,6 @@ public class TerrainControlleur {
         TerrainControlleur.point = point;
         // Si un combatant est créé, on enlève la sélection du joueur
         // (on ne le fait pas si on clique sur un power-up)
-        JoueurControlleur.getKills();
         JoueurControlleur.setSelection(null);
     }
 }

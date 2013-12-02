@@ -39,8 +39,6 @@ public class JTerrain extends JPanel {
     private final int MARGIN_ITEMS = (int) (0.2 * ITEM_WIDTH);
     private SpriteContainer[][] background;
     private SpriteContainer panel;
-    private String cheatCode = "";
-    
     /**
      * Les coordonnées du point correspondent à un nombre de cases en x et y
      */
@@ -107,26 +105,6 @@ public class JTerrain extends JPanel {
             }
         });
         
-        // FIXME :( le panel ne reçoit pas les événements Key*
-        this.addKeyListener(new KeyAdapter() {
-
-            @Override
-            public void keyTyped(KeyEvent e) {
-                cheatCode += e.getKeyChar();
-                if(cheatCode.endsWith("galarneau")) {
-                    JoueurControlleur.addSoleils(100);
-                } else if(cheatCode.endsWith("Monsanté")) {
-                    System.out.println("Ce code secret est protégé par les conventions internationnales sur la propriété intélectuelle. Tout contrevenant sera poursuivit en justice.");
-                }
-                
-                // Les cheat codes font au plus 10 caractères
-                if(cheatCode.length() == 10) {
-                    cheatCode = cheatCode.substring(1, 10);
-                }
-            }
-            
-});
-
         this.setVisible(true);
     }
 
@@ -189,8 +167,8 @@ public class JTerrain extends JPanel {
 
             g.setColor(item.getRecharge() == 1 ? Color.black : Color.gray);
             g.setFont(sunFont);
-            g.drawString("" + item.getCout(), position.x + ITEM_WIDTH/3, (int) (position.y * 6.2));
-            
+            g.drawString("" + item.getCout(), position.x + ITEM_WIDTH / 3, (int) (position.y * 6.2));
+
             if (selection != null && item.equals(items[selection])) {
                 g.setColor(new Color(255, 170, 0, 170));
                 g.fillRect(itemSprite.getCoordonnee().x, itemSprite.getCoordonnee().y, SpriteManager.getSprite(ri, 0).getWidth(this), SpriteManager.getSprite(ri, 0).getHeight(this));

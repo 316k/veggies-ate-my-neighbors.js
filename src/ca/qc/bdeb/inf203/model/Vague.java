@@ -4,6 +4,7 @@
  */
 package ca.qc.bdeb.inf203.model;
 
+import ca.qc.bdeb.inf203.model.typescombatants.Normaux;
 import java.util.Random;
 
 /**
@@ -46,7 +47,7 @@ public class Vague {
     }
 
     private void setDelais() {
-        int variation = (int)(this.delaisMoyen*0.5f);
+        int variation = (int) (this.delaisMoyen * 0.5f);
         this.delais = delaisMoyen + Vague.rdm.nextInt(variation) - variation;
     }
 
@@ -68,18 +69,24 @@ public class Vague {
     }
 
     public Combattant spawn() {
+        if (this.getRemainingVeggies() == 0) {
+            return null;
+        }
         int quelCombatant;
         do {
             quelCombatant = Vague.rdm.nextInt(this.archetypes.length);
         } while (this.nbParArchetype[quelCombatant] == 0);
-        this.nbParArchetype[quelCombatant] --;
-        
-        if(getRemainingVeggies() == 0){
+        this.nbParArchetype[quelCombatant]--;
+
+        if (getRemainingVeggies() == 0) {
             this.delaisMoyen = 400;
         }
         this.setDelais();
         this.depuisDernierSpawn -= delais;
         return this.archetypes[quelCombatant];
+
+
+
     }
 
     /**
@@ -89,6 +96,9 @@ public class Vague {
      * @return
      */
     public static Vague generateVague(int numeroDeVague) {
-        return null;
+        Combattant[] cbt = {new Normaux()};
+        int[] nbpa = {5};
+        Vague retour = new Vague(cbt, nbpa, 5000);
+        return retour;
     }
 }

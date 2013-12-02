@@ -3,6 +3,7 @@ package ca.qc.bdeb.inf203.model.typescombatants;
 
 import ca.qc.bdeb.inf203.model.Combattant;
 import ca.qc.bdeb.inf203.model.Etats;
+import ca.qc.bdeb.inf203.model.RepresentationImage;
 
 /**
  *
@@ -10,16 +11,36 @@ import ca.qc.bdeb.inf203.model.Etats;
  */
 public class Peashooter extends Combattant{
 
+    public Peashooter() {
+        super();
+        this.attaqueRate = 0;
+        this.vitesse = 70;
+        this.attaque = 30;
+        /**
+         * @TODO Mettre les vrais width et height.
+         */
+        this.hitbox.width = 15;
+        this.hitbox.height = 15;
+        String[] path = {"plants","pea-shooter"};
+        this.sprite = new RepresentationImage(path);
+    }
+
+    
+    
+    
     @Override
-    public void tic() {
+    public Combattant tic() {
+        Combattant retour = null;
         switch (etat) {
             case ATTAQUE:
-                action();
+                retour = action();
                 break;
             case DEPLACEMENT:
                 deplacer();
                 break;
+            
         }
+        return retour;
     }   
     /**
      * l'action à distance d'un peashooter est de retourner un pois

@@ -40,6 +40,8 @@ public class Terrain {
     public Terrain() {
         entites = new ArrayList<>();
         powerUps = new ArrayList<>();
+        this.vagueEnCours = Vague.generateVague(1);
+        
     }
     
     
@@ -75,7 +77,12 @@ public class Terrain {
     private void prochainVeggieLogique(){
         if(vagueEnCours.spawnReady()){
             //faut faire un traitement avec ça.
-            vagueEnCours.spawn();
+            Combattant combattant = vagueEnCours.spawn();
+            if(combattant == null){
+                this.vagueEnCours = Vague.generateVague(0);
+            }else{
+                this.entites.add(combattant);
+            }
         }
     }
     private void ajouterSoleil(){
@@ -98,4 +105,5 @@ public class Terrain {
         }
         return cibles;
     }
+    
 }

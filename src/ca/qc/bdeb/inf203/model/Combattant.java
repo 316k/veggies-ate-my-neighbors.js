@@ -147,8 +147,9 @@ public abstract class Combattant {
         }
     }
 
-    public void tic() {
+    public Combattant tic() {
         // effectuer l'action par rapport à l'état.
+        Combattant retour = null;
         switch (etat) {
             case ATTAQUE:
                 attaquer();
@@ -158,7 +159,7 @@ public abstract class Combattant {
                 break;
         }
         this.animationCompteur++;
-
+        return retour;
     }
     /** Si c'est le bon temps pour attaquer, enlever de la vie à toutes
      *  les cibles et à leur équipement en fonction du l'attaque totale 

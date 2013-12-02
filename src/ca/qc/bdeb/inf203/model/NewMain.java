@@ -16,6 +16,8 @@ public class NewMain {
     public static void main(String[] args) {
         // TODO code application logic here
         Terrain t = new Terrain();
-        
+        while(true){
+            t.tic();
+        }
     }
 }

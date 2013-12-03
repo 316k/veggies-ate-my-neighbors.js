@@ -1,11 +1,12 @@
 package ca.qc.bdeb.inf203.model;
 
 /**
- * Item dans l'inventaire du joueur.
+ * Item dans l'inventaire du joueur (graines de plantes, ...).
  *
  * @author Nicolas Hurtubise
  */
 public class Item {
+
     private Combattant combattant;
     private String nom;
     /**
@@ -30,8 +31,6 @@ public class Item {
         this.combattant = combattant;
     }
 
-    
-    
     public int getCout() {
         return cout;
     }
@@ -55,6 +54,4 @@ public class Item {
     public double getVitesseRechargement() {
         return vitesseRechargement;
     }
-    
-    
 }

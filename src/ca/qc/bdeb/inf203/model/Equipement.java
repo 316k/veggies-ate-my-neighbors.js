@@ -2,7 +2,7 @@
 package ca.qc.bdeb.inf203.model;
 
 /**
- *
+ * Équipement sur un combatant
  * @author Guillaume Riou
  */
 public class Equipement {
@@ -11,7 +11,7 @@ public class Equipement {
      */
     private float defense;
     /**
-     * Vies du truc.
+     * Vies de l'équipement.
      */
     private int vies;
     /**

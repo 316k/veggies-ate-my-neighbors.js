@@ -7,8 +7,8 @@ import java.awt.Point;
 import java.awt.Rectangle;
 
 /**
- *
- * @author 1029172
+ * Power-up débloquant un type de plante.
+ * @author Guillaume Riou, Nicolas Hurtubise
  */
 public class PlanteUnlock extends PowerUp {
 

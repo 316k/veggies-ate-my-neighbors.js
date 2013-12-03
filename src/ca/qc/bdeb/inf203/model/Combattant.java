@@ -7,7 +7,7 @@ import java.util.logging.Level;
 import java.util.logging.Logger;
 
 /**
- * Classe abstraite qui représente une entitée en jeu.
+ * Classe abstraite qui représente un combatant en jeu.
  *
  * @author Nicolas Hurtubise, Guillaume Riou
  */

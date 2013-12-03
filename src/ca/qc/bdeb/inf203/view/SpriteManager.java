@@ -11,9 +11,9 @@ import java.util.HashMap;
 import javax.imageio.ImageIO;
 
 /**
- * Partie graphique des entités.
+ * Gestionnaire d'images, de colorisation et de cache.
  *
- * @author Nicolas Hurtubise
+ * @author Nicolas Hurtubise, Guillaume Riou
  */
 public class SpriteManager {
 

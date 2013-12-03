@@ -6,8 +6,8 @@ import ca.qc.bdeb.inf203.model.RepresentationImage;
 import java.util.HashMap;
 
 /**
- *
- * @author Guillaume Riou
+ * Plante Tire-poids.
+ * @author Guillaume Riou, Nicolas Hurtubise
  */
 public class Peashooter extends Combattant {
 

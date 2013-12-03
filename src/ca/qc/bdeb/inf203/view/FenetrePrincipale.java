@@ -1,15 +1,14 @@
 package ca.qc.bdeb.inf203.view;
 
 import ca.qc.bdeb.inf203.controller.JoueurControlleur;
-import java.awt.Color;
 import java.awt.Dimension;
 import java.awt.event.KeyAdapter;
 import java.awt.event.KeyEvent;
 import javax.swing.JFrame;
 
 /**
- *
- * @author Nicolas Hurtubise
+ * Fenêtre de jeu.
+ * @author Nicolas Hurtubise, Guillaume Riou
  */
 public class FenetrePrincipale extends JFrame {
     

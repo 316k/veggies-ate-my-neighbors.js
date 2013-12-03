@@ -8,7 +8,7 @@ import java.util.ArrayList;
 import java.util.Random;
 
 /**
- * Représentation du terrain de jeux.
+ * Représentation du terrain de jeu.
  *
  * @author Nicolas Hurtubise, Guillaume Riou
  */

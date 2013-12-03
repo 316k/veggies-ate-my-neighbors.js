@@ -4,9 +4,9 @@ import ca.qc.bdeb.inf203.model.typescombatants.Veggie;
 import java.util.Random;
 
 /**
- * Vague en 2 phases, aléatoire dispersé et masse de trucs.
+ * Vague en 2 phases, aléatoire, dispersée, ...
  *
- * @author guillaume
+ * @author Guillaume Riou, Nicolas Hurtubise
  */
 public class Vague {
 

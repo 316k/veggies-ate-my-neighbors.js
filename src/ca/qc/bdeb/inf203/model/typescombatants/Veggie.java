@@ -6,7 +6,7 @@ import ca.qc.bdeb.inf203.model.RepresentationImage;
 import java.util.HashMap;
 
 /**
- *
+ * Veggie
  * @author Guillaume Riou, Nicolas Hurtubise
  */
 public class Veggie extends Combattant {

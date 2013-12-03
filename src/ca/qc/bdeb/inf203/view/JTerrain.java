@@ -22,6 +22,7 @@ import java.util.logging.Logger;
 import javax.swing.JPanel;
 
 /**
+ * Terrain de jeu visible (blitté dans un JPanel).
  *
  * @author Nicolas Hurtubise, Guillaume Riou
  */

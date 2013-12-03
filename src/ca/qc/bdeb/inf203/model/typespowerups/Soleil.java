@@ -5,8 +5,9 @@ import ca.qc.bdeb.inf203.model.PowerUp;
 import java.awt.Rectangle;
 
 /**
+ * Power-up conférant des unités solaires au joueur qui les rammasse.
  *
- * @author 1029172
+ * @author Guillaume Riou, Nicolas Hurtubise
  */
 public class Soleil extends PowerUp {
 
@@ -16,10 +17,11 @@ public class Soleil extends PowerUp {
     private int valeur;
     private int hauteur = 30;
     private int largeur = 30;
-    public Soleil(int valeur,int x, int y) {
+
+    public Soleil(int valeur, int x, int y) {
         super("sun");
         this.valeur = valeur;
-        this.hitbox = new Rectangle(x,y,largeur,hauteur);
+        this.hitbox = new Rectangle(x, y, largeur, hauteur);
         this.animation = 0;
     }
 

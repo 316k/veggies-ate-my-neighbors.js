@@ -3,7 +3,7 @@ package ca.qc.bdeb.inf203.model;
 import java.awt.Rectangle;
 
 /**
- *
+ * Power-up que le joueur peut rammasser dans la grille de jeu.
  * @author Nicolas Hurtubise, Guillaume Riou
  */
 public abstract class PowerUp {

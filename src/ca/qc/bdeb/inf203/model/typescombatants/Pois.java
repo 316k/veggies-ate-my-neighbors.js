@@ -5,8 +5,8 @@ import ca.qc.bdeb.inf203.model.Combattant;
 import ca.qc.bdeb.inf203.model.RepresentationImage;
 
 /**
- *
- * @author guillaume
+ * Poids (lancé par un tire-poids)
+ * @author Guillaume Riou, Nicolas Hurtubise
  */
 public class Pois extends Combattant implements Cloneable{
     

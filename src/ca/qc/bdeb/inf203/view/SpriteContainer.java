@@ -1,11 +1,11 @@
 package ca.qc.bdeb.inf203.view;
 
 import ca.qc.bdeb.inf203.model.RepresentationImage;
-import java.awt.Point;
 
 /**
+ * Conteneur pour les sprites (RepresentationImage + animation)
  *
- * @author Nicolas Hurtubise
+ * @author Nicolas Hurtubise, Guillaume Riou
  */
 public class SpriteContainer {
 

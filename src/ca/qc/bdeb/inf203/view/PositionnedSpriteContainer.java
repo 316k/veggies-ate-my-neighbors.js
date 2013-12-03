@@ -4,8 +4,8 @@ import ca.qc.bdeb.inf203.model.RepresentationImage;
 import java.awt.Point;
 
 /**
- *
- * @author Nicolas Hurtubise
+ * SpriteContainer avec une position
+ * @author Nicolas Hurtubise, Guillaume Riou
  */
 public class PositionnedSpriteContainer extends SpriteContainer {
 

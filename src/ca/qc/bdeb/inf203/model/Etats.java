@@ -1,8 +1,8 @@
 package ca.qc.bdeb.inf203.model;
 
 /**
- *
- * @author Guillaume
+ * États possibles pour les combatants
+ * @author Guillaume Riou, Nicolas Hurtubise
  */
 public enum Etats {
     

@@ -4,8 +4,8 @@ import java.util.logging.Level;
 import java.util.logging.Logger;
 
 /**
- *
- * @author 1029172
+ * Test file
+ * @author Guillaume Riou, Nicolas Hurtubise
  */
 public class NewMain {
 

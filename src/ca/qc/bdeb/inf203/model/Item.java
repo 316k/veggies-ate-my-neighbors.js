@@ -6,7 +6,7 @@ package ca.qc.bdeb.inf203.model;
  * @author Nicolas Hurtubise
  */
 public class Item {
-
+    private Combattant combattant;
     private String nom;
     /**
      * Rechargement de l'item (où [0,1[ est en rechargement, et 1 est
@@ -29,6 +29,8 @@ public class Item {
         this.recharge = 1;
     }
 
+    
+    
     public int getCout() {
         return cout;
     }
@@ -44,4 +46,14 @@ public class Item {
     public String getNom() {
         return nom;
     }
+
+    public Combattant getCombattant() {
+        return combattant;
+    }
+
+    public double getVitesseRechargement() {
+        return vitesseRechargement;
+    }
+    
+    
 }

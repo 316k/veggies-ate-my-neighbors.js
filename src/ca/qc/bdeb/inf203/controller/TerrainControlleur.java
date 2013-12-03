@@ -45,7 +45,7 @@ public class TerrainControlleur {
         ArrayList<PositionnedSpriteContainer> images = new ArrayList<>();
         
         for (Combattant combatant : combatants) {
-            images.add(new PositionnedSpriteContainer(combatant.getHitbox().getLocation(), combatant.getImg(), combatant.getAnimationCompteur()));
+            images.add(new PositionnedSpriteContainer(combatant.getHitbox().getLocation(), combatant.getImg(), combatant.getAnimation()));
         }
         
         for (PowerUp powerUp : powerups) {

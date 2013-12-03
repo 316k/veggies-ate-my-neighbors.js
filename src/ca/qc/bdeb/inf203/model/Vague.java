@@ -89,9 +89,9 @@ public class Vague {
 
         this.depuisDernierSpawn = 0;
         this.setDelais();
-        
+        //Gardée pour la postérités, j'aimais vraiment ces lignes de codes. :(
         //Deep magic starts here.
-        try {
+        /*try {
 
             
             return archetypes[quelCombatant].getClass().getConstructor(new Class[]{Combattant.class}).newInstance(archetypes[quelCombatant]);
@@ -100,7 +100,9 @@ public class Vague {
             //Ça devrait jamais arriver.
             ex.printStackTrace();
         }
-        return null;
+        return null;*/
+        return archetypes[quelCombatant].clone();
+        
     }
 
     /**

@@ -9,7 +9,7 @@ import ca.qc.bdeb.inf203.model.RepresentationImage;
  *
  * @author Guillaume Riou
  */
-public class Peashooter extends Combattant{
+public class Peashooter extends Combattant implements Cloneable{
 
     public Peashooter() {
         super();
@@ -62,5 +62,5 @@ public class Peashooter extends Combattant{
         }
         return new Pois();
     }
-    
+
 }

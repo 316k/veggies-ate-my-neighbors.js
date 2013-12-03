@@ -3,13 +3,15 @@ package ca.qc.bdeb.inf203.model;
 import java.awt.Rectangle;
 import java.util.ArrayList;
 import java.util.HashMap;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 
 /**
  * Classe abstraite qui représente une entitée en jeu.
  *
  * @author Nicolas Hurtubise, Guillaume Riou
  */
-public class Combattant {
+public class Combattant implements Cloneable{
 
     protected Etats etat;
     protected int vie = 6;
@@ -122,8 +124,8 @@ public class Combattant {
         this.vitesse = vitesse;
     }
 
-    public int getAnimationCompteur() {
-        return animation;
+    public int getAnimation() {
+        return animation%nbImagesParActions.get(etat);
     }
 
     public void setAnimationCompteur(int animationCompteur) {
@@ -238,4 +240,18 @@ public class Combattant {
     public Combattant action(){
         return null;
     }
+
+    @Override
+    protected Combattant clone() {
+        try {
+            return (Combattant)super.clone(); //To change body of generated methods, choose Tools | Templates.
+        } catch (CloneNotSupportedException ex) {
+            Logger.getLogger(Combattant.class.getName()).log(Level.SEVERE, null, ex);
+        }
+        return null;
+    }
+
+    
+    
+    
 }

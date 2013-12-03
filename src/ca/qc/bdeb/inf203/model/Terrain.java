@@ -1,7 +1,7 @@
 package ca.qc.bdeb.inf203.model;
 
-import ca.qc.bdeb.inf203.model.typespowerups.PlanteUnlock;
 import ca.qc.bdeb.inf203.model.typespowerups.Soleil;
+import java.awt.Dimension;
 import java.awt.Point;
 import java.awt.Rectangle;
 import java.util.ArrayList;
@@ -123,7 +123,30 @@ public class Terrain {
             }
         }
     }
-
+    
+    public void clic(Point point){
+        Rectangle clic = new Rectangle(point, new Dimension(1,1));
+        
+        
+        for (int i = 0; i < powerUps.size(); i++) {
+            if(clic.intersects(powerUps.get(i).hitbox)){
+                powerUps.get(i).action();
+                powerUps.remove(i);
+                return;
+            }
+        }
+        
+        for (Combattant combattant : entites) {
+            if(combattant.hitbox.intersects(clic)){
+                return;
+            }
+        }
+        Combattant aAjouter = Joueur.instance().getItems()[Joueur.instance().getSelection()].getCombattant().clone();
+        aAjouter.hitbox.setLocation(clic.x, clic.y/* Logique chiante de mettre centrée dans les cases. Trop saoul.*/);
+        entites.add(aAjouter);
+        
+    }
+    
     private ArrayList<Combattant> verifierCollision(Rectangle zone, Combattant combattant) {
         ArrayList<Combattant> cibles = new ArrayList<>();
 

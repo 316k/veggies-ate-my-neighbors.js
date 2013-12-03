@@ -10,7 +10,7 @@ import ca.qc.bdeb.inf203.model.Combattant;
  *
  * @author guillaume
  */
-public class Normaux extends Combattant {
+public class Normaux extends Combattant implements Cloneable{
 
     public Normaux(Combattant c) {
         super(c);
@@ -26,7 +26,6 @@ public class Normaux extends Combattant {
     public Combattant action() {
         return null;
     }
-
 
     
 }

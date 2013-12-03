@@ -12,7 +12,7 @@ import ca.qc.bdeb.inf203.model.RepresentationImage;
  *
  * @author guillaume
  */
-public class Pois extends Combattant{
+public class Pois extends Combattant implements Cloneable{
     
     
     

@@ -83,6 +83,7 @@ public class Joueur {
 
         Combattant combattant = getItem().getCombattant().clone();
         combattant.hitbox.setLocation(position);
+        combattant.lineOfSight.setLocation(position);
         getItem().setRecharge(0);
         selection = null;
         return combattant;

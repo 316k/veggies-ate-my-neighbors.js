@@ -9,11 +9,15 @@ import ca.qc.bdeb.inf203.model.RepresentationImage;
  * @author Guillaume Riou, Nicolas Hurtubise
  */
 public class Pois extends Combattant implements Cloneable{
-    
-    
-    
+
     public Pois() {
         super();
+    }
+    
+    
+    
+    protected void initialise() {
+        super.initialise();
         this.attaqueRate = 0;
         this.vitesse = 70;
         this.attaque = 30;

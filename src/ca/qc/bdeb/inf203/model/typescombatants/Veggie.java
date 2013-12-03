@@ -11,11 +11,12 @@ import java.util.HashMap;
  */
 public class Veggie extends Combattant {
 
-    public Veggie(Combattant c) {
-        super(c);
+    public Veggie() {
+        super();
     }
 
-    public Veggie() {
+    protected void initialise() {
+        super.initialise();
         this.sprite = new RepresentationImage(new String[]{"veggies", "normal"});
         this.hitbox.height = 80;
         this.hitbox.width = 60;
@@ -30,6 +31,6 @@ public class Veggie extends Combattant {
         return null;
     }
 
-
+    
     
 }

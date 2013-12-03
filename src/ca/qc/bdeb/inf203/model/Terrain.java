@@ -80,6 +80,7 @@ public class Terrain {
                 }
                 if (zoneCollision != null) {
                     ArrayList<Combattant> cibles = getCollisions(zoneCollision, combattant);
+                    
                     if (!cibles.isEmpty()) {
                         combattant.setEtat(Etats.ATTAQUE);
                         System.out.println("ATTAQUE");
@@ -164,11 +165,12 @@ public class Terrain {
      */
     private ArrayList<Combattant> getCollisions(Rectangle zone, Combattant combattantExclus) {
         ArrayList<Combattant> cibles = new ArrayList<>();
-
+        
         for (Combattant combattant : entites) {
             if (!combattant.equals(combattantExclus)) {
                 if (zone.intersects(combattant.getHitbox())) {
                     cibles.add(combattant);
+                    System.out.println("INTERSEECCCTTSSS !!!!");
                 }
             }
         }

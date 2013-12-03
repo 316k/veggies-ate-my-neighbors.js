@@ -49,6 +49,7 @@ public abstract class Combattant implements Cloneable {
 
     /**
      * Copy constructor
+     *
      * @param combatant combatant à copier
      */
     public Combattant(Combattant combatant) {
@@ -63,7 +64,7 @@ public abstract class Combattant implements Cloneable {
         initialise();
     }
 
-    public final void initialise() {
+    protected void initialise() {
         this.dernierTimestamp = System.currentTimeMillis();
         this.hitbox = new Rectangle();
         this.lineOfSight = new Rectangle();
@@ -208,35 +209,33 @@ public abstract class Combattant implements Cloneable {
      */
     protected void attaquer() {
 
-        if (attaqueRate % animation == 0) {
-            float modificateur = 0;
-            for (Combattant cible : cibles) {
-                for (int i = 0; i < this.equipement.length; i++) {
-                    modificateur += this.equipement[i].getAttaque();
-                }
-                for (int i = 0; i < cible.equipement.length; i++) {
-                    modificateur -= cible.equipement[i].getDefense();
-                }
-                int attaqueTotale = this.attaque - (int) (this.attaque * modificateur);
-                cible.incrementVie(attaqueTotale);
-                for (Equipement equipement : cible.equipement) {
-                    if (equipement.isEndommageable()) {
-                        equipement.incrementVies(this.attaque);
-                    }
-                }
-                if (cible.getVie() <= 0) {
-                    cible = null;
+        float modificateur = 0;
+        for (Combattant cible : cibles) {
+            for (int i = 0; i < this.equipement.length; i++) {
+                modificateur += this.equipement[i].getAttaque();
+            }
+            for (int i = 0; i < cible.equipement.length; i++) {
+                modificateur -= cible.equipement[i].getDefense();
+            }
+            int attaqueTotale = this.attaque - (int) (this.attaque * modificateur);
+            cible.incrementVie(attaqueTotale);
+            for (Equipement equipement : cible.equipement) {
+                if (equipement.isEndommageable()) {
+                    equipement.incrementVies(this.attaque);
                 }
             }
-            boolean tousNull = true;
-            for (Combattant cible : cibles) {
-                if (cible != null) {
-                    tousNull = false;
-                }
+            if (cible.getVie() <= 0) {
+                cible = null;
             }
-            if (tousNull) {
-                this.etat = Etats.DEPLACEMENT;
+        }
+        boolean tousNull = true;
+        for (Combattant cible : cibles) {
+            if (cible != null) {
+                tousNull = false;
             }
+        }
+        if (tousNull) {
+            this.etat = Etats.DEPLACEMENT;
         }
 
     }
@@ -256,8 +255,7 @@ public abstract class Combattant implements Cloneable {
             Combattant clone = (Combattant) super.clone();
             clone.initialise();
             return clone;
-        }
-        catch (CloneNotSupportedException ex) {
+        } catch (CloneNotSupportedException ex) {
             Logger.getLogger(Combattant.class.getName()).log(Level.SEVERE, null, ex);
         }
 

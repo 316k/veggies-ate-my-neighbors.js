@@ -26,10 +26,10 @@ public class Peashooter extends Combattant {
         this.nbImagesParActions.put(Etats.ATTENTELIGNEDEVUE, 11);
         this.sprite = new RepresentationImage(new String[]{"plants", "pea-shooter", "normal"});
     }
-
-    public Peashooter(Combattant c) {
-        super(c);
-        this.attaqueRate = 0;
+    @Override
+    protected void initialise() {
+        super.initialise();
+        this.attaqueRate = 1;
         this.vitesse = 0;
         this.attaque = 30;
         this.hitbox.width = 80;
@@ -78,4 +78,8 @@ public class Peashooter extends Combattant {
         }
         return new Pois();
     }
+
+    
+    
+    
 }

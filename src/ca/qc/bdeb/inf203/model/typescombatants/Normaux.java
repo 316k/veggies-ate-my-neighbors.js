@@ -14,6 +14,7 @@ public class Normaux extends Combattant {
 
     public Normaux(Combattant c) {
         super(c);
+        
     }
 
     public Normaux() {

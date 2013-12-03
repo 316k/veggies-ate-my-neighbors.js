@@ -144,7 +144,8 @@ public class Terrain {
             }
         }
 
-        if (Joueur.instance().getItem() != null && Joueur.instance().getItem().getRecharge() == 1) {
+        // On assume que l'item est sélectionné <=> il est complètement rechargé
+        if (Joueur.instance().getItem() != null) {
             entites.add(Joueur.instance().useCurrentItem(caseClic.getLocation()));
         }
     }

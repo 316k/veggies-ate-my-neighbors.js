@@ -11,7 +11,7 @@ import java.util.logging.Logger;
  *
  * @author Nicolas Hurtubise, Guillaume Riou
  */
-public class Combattant implements Cloneable {
+public abstract class Combattant implements Cloneable {
 
     protected Etats etat;
     protected int vie = 6;

@@ -11,17 +11,27 @@ import java.util.logging.Logger;
  *
  * @author Nicolas Hurtubise, Guillaume Riou
  */
-public abstract class Combattant implements Cloneable {
+public abstract class Combattant extends Entite implements Cloneable {
 
+    /**
+     * État du combattant
+     */
     protected Etats etat;
+    /**
+     * Points de vie
+     */
     protected int vie = 6;
+    /**
+     * Les combattants visés par l'attaque du combattant
+     */
     protected ArrayList<Combattant> cibles;
+    /**
+     * L'équipement sur le combattant
+     */
     protected Equipement[] equipement;
-    protected Rectangle hitbox;
     protected int animationCompteur;
     protected Rectangle lineOfSight;
-    protected int animation;
-    protected HashMap<Etats, Integer> nbImagesParActions;
+    protected HashMap<Etats, Integer> nbrImagesParActions;
     /**
      * Quantité de vie enlevée par une attaque.
      */
@@ -34,33 +44,15 @@ public abstract class Combattant implements Cloneable {
      * Nb de pix/sec 16 est la vitesse de base d'un veggie
      */
     protected float vitesse = -16;
-    protected RepresentationImage sprite;
     protected long tempsImmobile;
     protected long tempsPourAvancer;
-    protected int sensDeplacement;
     /**
      * Dernier timestamp calculé.
      */
     protected long dernierTimestamp;
 
     public Combattant() {
-        initialise();
-    }
-
-    /**
-     * Copy constructor
-     *
-     * @param combatant combatant à copier
-     */
-    public Combattant(Combattant combatant) {
-        this.hitbox = combatant.getHitbox();
-        this.sprite = combatant.getSprite();
-        this.attaque = combatant.getAttaque();
-        this.nbImagesParActions = combatant.nbImagesParActions;
-        this.vie = combatant.getVie();
-        this.equipement = combatant.getEquipement();
-        this.vitesse = combatant.getVitesse();
-        this.attaqueRate = combatant.getAttaqueRate();
+        super();
         initialise();
     }
 
@@ -70,11 +62,6 @@ public abstract class Combattant implements Cloneable {
         this.lineOfSight = new Rectangle();
         this.cibles = new ArrayList();
         this.tempsPourAvancer = Math.abs((long) (1 / vitesse * 1000));
-        if (this.vitesse > 0) {
-            sensDeplacement = 1;
-        } else {
-            sensDeplacement = -1;
-        }
         this.etat = Etats.DEPLACEMENT;
     }
 
@@ -127,20 +114,20 @@ public abstract class Combattant implements Cloneable {
         this.vitesse = vitesse;
     }
 
-    public int getAnimation() {
-        return animation % nbImagesParActions.get(etat);
+    public int getAnimationCompteur() {
+        return animationCompteur % nbrImagesParActions.get(etat);
     }
 
     public void setAnimationCompteur(int animationCompteur) {
-        this.animation = animationCompteur;
+        this.animationCompteur = animationCompteur;
     }
 
     public RepresentationImage getImg() {
         return sprite;
     }
 
-    public HashMap<Etats, Integer> getNbImagesParActions() {
-        return nbImagesParActions;
+    public HashMap<Etats, Integer> getNbrImagesParActions() {
+        return nbrImagesParActions;
     }
 
     public int getAttaqueRate() {
@@ -180,6 +167,7 @@ public abstract class Combattant implements Cloneable {
         this.tempsImmobile += (temps - this.dernierTimestamp);
         int nbIncrementPos = (int) (this.tempsImmobile / this.tempsPourAvancer);
         for (int i = 0; i < nbIncrementPos; i++) {
+            int sensDeplacement = (int) (vitesse / Math.abs(vitesse));
             this.hitbox.x += sensDeplacement;
             this.lineOfSight.x += sensDeplacement;
             this.tempsImmobile -= this.tempsPourAvancer;
@@ -253,9 +241,12 @@ public abstract class Combattant implements Cloneable {
     protected Combattant clone() {
         try {
             Combattant clone = (Combattant) super.clone();
+
             clone.initialise();
+
             return clone;
-        } catch (CloneNotSupportedException ex) {
+        }
+        catch (CloneNotSupportedException ex) {
             Logger.getLogger(Combattant.class.getName()).log(Level.SEVERE, null, ex);
         }
 

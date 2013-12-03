@@ -1,5 +1,6 @@
 package ca.qc.bdeb.inf203.view;
 
+import ca.qc.bdeb.inf203.VeggiesAteMyNeighbors;
 import ca.qc.bdeb.inf203.controller.JoueurControlleur;
 import ca.qc.bdeb.inf203.model.Item;
 import ca.qc.bdeb.inf203.controller.TerrainControlleur;
@@ -52,6 +53,7 @@ public class JTerrain extends JPanel {
     private Font sunFont;
     private Font infosFont;
     private Font scoreFont;
+    private boolean repainting = false;
 
     public JTerrain() {
         try {
@@ -110,88 +112,79 @@ public class JTerrain extends JPanel {
 
     @Override
     protected void paintComponent(Graphics g) {
-        super.paintComponent(g);
+        synchronized (VeggiesAteMyNeighbors.verrou) {
 
-        // Background
-        for (PositionnedSpriteContainer[] spriteRow : background) {
-            for (PositionnedSpriteContainer sprite : spriteRow) {
-                if (sprite != null) {
-                    blitSpriteContainer(g, sprite);
+            // Background
+            for (PositionnedSpriteContainer[] spriteRow : background) {
+                for (PositionnedSpriteContainer sprite : spriteRow) {
+                    if (sprite != null) {
+                        blitSpriteContainer(g, sprite);
+                    }
                 }
             }
-        }
 
-        // Game Panel
-        blitSpriteContainer(g, panel);
+            // Game Panel
+            blitSpriteContainer(g, panel);
 
-        // Soleils
-        String[] path = {"panel", "box", "sun"};
-        RepresentationImage ri = new RepresentationImage(path);
-        PositionnedSpriteContainer sprite = new PositionnedSpriteContainer(new Point((int) (0.1 * TAILLE_CASE_X), TAILLE_CASE_Y / 8), ri, 0);
+            // Soleils
+            String[] path = {"panel", "box", "sun"};
+            RepresentationImage ri = new RepresentationImage(path);
+            PositionnedSpriteContainer sprite = new PositionnedSpriteContainer(new Point((int) (0.1 * TAILLE_CASE_X), TAILLE_CASE_Y / 8), ri, 0);
 
-        blitSpriteContainer(g, sprite);
-
-        g.setColor(Color.black);
-        g.setFont(sunFont);
-        g.drawString("" + JoueurControlleur.getSoleils(), (int) (0.2 * TAILLE_CASE_X), 13 * TAILLE_CASE_Y / 16);
-
-        // Infos
-        g.setColor(Color.white);
-        g.setFont(infosFont);
-        int positionInfosX = WIDTH - (int) (2.8 * TAILLE_CASE_X);
-        g.drawString("Vague " + TerrainControlleur.getVague(), positionInfosX, 4 * TAILLE_CASE_Y / 8);
-        g.setFont(scoreFont);
-        g.drawString("Kills : " + JoueurControlleur.getKills(), positionInfosX, 7 * TAILLE_CASE_Y / 8);
-
-        // Game panel items
-        Item[] items = JoueurControlleur.getItems();
-        Point position = new Point(OFFSET_ITEMS, (int) (1 / 8.0 * TAILLE_CASE_Y));
-        Integer selection = JoueurControlleur.getSelection();
-        for (Item item : items) {
-            PositionnedSpriteContainer itemSprite = new PositionnedSpriteContainer(position, new RepresentationImage(new String[]{"panel", "box", item.getNom()}), 0);
-
-            blitSpriteContainer(g, itemSprite);
-
-            g.setColor(item.getRecharge() == 1 ? Color.green : Color.red);
-            g.fillRect((int) (position.x + 2 / 16.0 * TAILLE_CASE_X), (int) (11 / 16.0 * TAILLE_CASE_Y), (int) (item.getRecharge() * 19 / 32.0 * TAILLE_CASE_X) - 1, (int) (1 / 8.0 * TAILLE_CASE_Y));
+            blitSpriteContainer(g, sprite);
 
             g.setColor(Color.black);
-            g.drawRect((int) (position.x + 2 / 16.0 * TAILLE_CASE_X), (int) (11 / 16.0 * TAILLE_CASE_Y), (int) (19 / 32.0 * TAILLE_CASE_X) - 1, (int) (1 / 8.0 * TAILLE_CASE_Y));
-
-            g.setColor(item.getRecharge() == 1 ? Color.black : Color.gray);
             g.setFont(sunFont);
-            g.drawString("" + item.getCout(), position.x + ITEM_WIDTH / 5, (int) (position.y * 6.2));
+            g.drawString("" + JoueurControlleur.getSoleils(), (int) (0.2 * TAILLE_CASE_X), 13 * TAILLE_CASE_Y / 16);
 
-            if (selection != null && item.equals(items[selection])) {
-                g.setColor(new Color(255, 170, 0, 170));
-                g.fillRect(itemSprite.getCoordonnee().x, itemSprite.getCoordonnee().y, SpriteManager.getImage(sprite).getWidth(this), SpriteManager.getImage(sprite).getHeight(this));
+            // Infos
+            g.setColor(Color.white);
+            g.setFont(infosFont);
+            int positionInfosX = WIDTH - (int) (2.8 * TAILLE_CASE_X);
+            g.drawString("Vague " + TerrainControlleur.getVague(), positionInfosX, 4 * TAILLE_CASE_Y / 8);
+            g.setFont(scoreFont);
+            g.drawString("Kills : " + JoueurControlleur.getKills(), positionInfosX, 7 * TAILLE_CASE_Y / 8);
+
+            // Game panel items
+            Item[] items = JoueurControlleur.getItems();
+            Point position = new Point(OFFSET_ITEMS, (int) (1 / 8.0 * TAILLE_CASE_Y));
+            Integer selection = JoueurControlleur.getSelection();
+            for (Item item : items) {
+                PositionnedSpriteContainer itemSprite = new PositionnedSpriteContainer(position, new RepresentationImage(new String[]{"panel", "box", item.getNom()}), 0);
+
+                blitSpriteContainer(g, itemSprite);
+
+                g.setColor(item.getRecharge() == 1 ? Color.green : Color.red);
+                g.fillRect((int) (position.x + 2 / 16.0 * TAILLE_CASE_X), (int) (11 / 16.0 * TAILLE_CASE_Y), (int) (item.getRecharge() * 19 / 32.0 * TAILLE_CASE_X) - 1, (int) (1 / 8.0 * TAILLE_CASE_Y));
+
+                g.setColor(Color.black);
+                g.drawRect((int) (position.x + 2 / 16.0 * TAILLE_CASE_X), (int) (11 / 16.0 * TAILLE_CASE_Y), (int) (19 / 32.0 * TAILLE_CASE_X) - 1, (int) (1 / 8.0 * TAILLE_CASE_Y));
+
+                g.setColor(item.getRecharge() == 1 ? Color.black : Color.gray);
+                g.setFont(sunFont);
+                g.drawString("" + item.getCout(), position.x + ITEM_WIDTH / 5, (int) (position.y * 6.2));
+
+                if (selection != null && item.equals(items[selection])) {
+                    g.setColor(new Color(255, 170, 0, 170));
+                    g.fillRect(itemSprite.getCoordonnee().x, itemSprite.getCoordonnee().y, SpriteManager.getImage(sprite).getWidth(this), SpriteManager.getImage(sprite).getHeight(this));
+                }
+
+                position.move((int) (position.x + ITEM_WIDTH + MARGIN_ITEMS), position.y);
             }
 
-            position.move((int) (position.x + ITEM_WIDTH + MARGIN_ITEMS), position.y);
-        }
+            // Combatants
+            PositionnedSpriteContainer[] sprites = TerrainControlleur.getImages();
 
-        // Combatants
-        PositionnedSpriteContainer[] sprites = TerrainControlleur.getImages();
+            for (PositionnedSpriteContainer combatantSprite : sprites) {
+                blitSpriteContainer(g, combatantSprite);
+            }
 
-        for (PositionnedSpriteContainer combatantSprite : sprites) {
-            blitSpriteContainer(g, combatantSprite);
+            // Case sélectionnée
+            if (caseSelectionnee != null) {
+                g.setColor(new Color(255, 170, 0));
+                g.drawRect(caseSelectionnee.x * TAILLE_CASE_X, caseSelectionnee.y * TAILLE_CASE_Y, TAILLE_CASE_X, TAILLE_CASE_Y);
+            }
         }
-
-        // Case sélectionnée
-        if (caseSelectionnee != null) {
-            g.setColor(new Color(255, 170, 0));
-            g.drawRect(caseSelectionnee.x * TAILLE_CASE_X, caseSelectionnee.y * TAILLE_CASE_Y, TAILLE_CASE_X, TAILLE_CASE_Y);
-        }
-
-        // Refresh
-        try {
-            Thread.sleep(40);
-        }
-        catch (InterruptedException ex) {
-            Logger.getLogger(JTerrain.class.getName()).log(Level.SEVERE, null, ex);
-        }
-
-        this.repaint();
     }
 
     private void generateBackground() {

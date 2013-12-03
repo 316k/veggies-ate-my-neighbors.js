@@ -1,23 +1,25 @@
 package ca.qc.bdeb.inf203.model.typescombatants;
 
-
 import ca.qc.bdeb.inf203.model.Combattant;
+import ca.qc.bdeb.inf203.model.Etats;
 import ca.qc.bdeb.inf203.model.RepresentationImage;
+import java.util.HashMap;
 
 /**
- * Poids (lancé par un tire-poids)
+ * Pois (lancé par un tire-pois)
+ *
  * @author Guillaume Riou, Nicolas Hurtubise
  */
-public class Pois extends Combattant implements Cloneable{
+public class Pois extends Combattant implements Cloneable {
 
     public Pois() {
         super();
+        initialise();
     }
-    
-    
-    
-    protected void initialise() {
-        super.initialise();
+
+    @Override
+    protected final void initialise() {
+        super.initialise(); //To change body of generated methods, choose Tools | Templates.
         this.attaqueRate = 0;
         this.vitesse = 70;
         this.attaque = 30;
@@ -26,13 +28,14 @@ public class Pois extends Combattant implements Cloneable{
          */
         this.hitbox.width = 15;
         this.hitbox.height = 15;
-        String[] path = {"plants","pea"};
+        String[] path = {"plants", "pea"};
+        this.nbrImagesParActions = new HashMap<>();
+        this.nbrImagesParActions.put(Etats.ATTAQUE, 5);
+        this.nbrImagesParActions.put(Etats.ATTENTELIGNEDEVUE, 5);
+        this.nbrImagesParActions.put(Etats.DEPLACEMENT, 5);
         this.sprite = new RepresentationImage(path);
+    }
 
-    }
-    public Pois(Combattant c) {
-        super(c);
-    }
     @Override
     protected void attaquer() {
         super.attaquer();
@@ -43,9 +46,4 @@ public class Pois extends Combattant implements Cloneable{
     public Combattant action() {
         return null;
     }
-    
-    
-
-    
-   
 }

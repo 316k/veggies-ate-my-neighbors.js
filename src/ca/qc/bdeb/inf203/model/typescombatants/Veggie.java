@@ -7,30 +7,31 @@ import java.util.HashMap;
 
 /**
  * Veggie
+ *
  * @author Guillaume Riou, Nicolas Hurtubise
  */
 public class Veggie extends Combattant {
 
     public Veggie() {
         super();
+        initialise();
     }
 
-    protected void initialise() {
+    @Override
+    protected final void initialise() {
         super.initialise();
         this.sprite = new RepresentationImage(new String[]{"veggies", "normal"});
         this.hitbox.height = 80;
         this.hitbox.width = 60;
-        this.nbImagesParActions = new HashMap<>();
-        this.nbImagesParActions.put(Etats.DEPLACEMENT, 5);
-        this.nbImagesParActions.put(Etats.ATTAQUE, 5);
+        this.nbrImagesParActions = new HashMap<>();
+        this.nbrImagesParActions.put(Etats.DEPLACEMENT, 5);
+        this.nbrImagesParActions.put(Etats.ATTAQUE, 5);
     }
-
     
+    
+
     @Override
     public Combattant action() {
         return null;
     }
-
-    
-    
 }

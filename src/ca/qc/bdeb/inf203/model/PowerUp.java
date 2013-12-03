@@ -4,27 +4,26 @@ import java.awt.Rectangle;
 
 /**
  * Power-up que le joueur peut rammasser dans la grille de jeu.
+ *
  * @author Nicolas Hurtubise, Guillaume Riou
  */
-public abstract class PowerUp {
+public abstract class PowerUp extends Entite implements Cloneable {
 
-    protected RepresentationImage img;
-    protected Rectangle hitbox;
     protected int animation;
 
     public PowerUp(String path[]) {
-        this.img = new RepresentationImage(path);
+        this.sprite = new RepresentationImage(path);
     }
 
     public PowerUp(String path) {
         this.hitbox = new Rectangle();
-        this.img = new RepresentationImage(new String[]{"powerups", path});
+        this.sprite = new RepresentationImage(new String[]{"powerups", path});
     }
 
     public abstract void action();
 
     public RepresentationImage getImg() {
-        return img;
+        return sprite;
     }
 
     public Rectangle getHitbox() {

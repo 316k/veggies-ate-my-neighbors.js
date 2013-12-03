@@ -1,20 +1,21 @@
 package ca.qc.bdeb.inf203;
 
 import ca.qc.bdeb.inf203.controller.TerrainControlleur;
-import ca.qc.bdeb.inf203.view.FenetrePrincipale;
+import ca.qc.bdeb.inf203.controller.FenetreControlleur;
 
 /**
  *
  * @author Nicolas Hurtubise
  */
 public class VeggiesAteMyNeighbors {
-
+    public static final Object verrou = new Object();
     /**
      * @param args the command line arguments
      */
     public static void main(String[] args) {
         // À déplacer dans un contrôlleur
-        new FenetrePrincipale();
+        
+        FenetreControlleur.init();
         TerrainControlleur.t.start();
     }
 }

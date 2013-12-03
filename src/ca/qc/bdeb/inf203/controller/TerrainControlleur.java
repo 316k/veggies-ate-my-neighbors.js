@@ -6,6 +6,7 @@ import ca.qc.bdeb.inf203.model.Terrain;
 import ca.qc.bdeb.inf203.view.PositionnedSpriteContainer;
 import java.awt.Point;
 import java.util.ArrayList;
+import java.util.ConcurrentModificationException;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 
@@ -21,8 +22,10 @@ public class TerrainControlleur {
         public void run() {
             while (true) {
                 terrain.tic();
+                FenetreControlleur.refresh();
+                
                 try {
-                    Thread.sleep(1);
+                    Thread.sleep(4);
                 }
                 catch (InterruptedException ex) {
                     Logger.getLogger(TerrainControlleur.class.getName()).log(Level.SEVERE, null, ex);
@@ -38,20 +41,27 @@ public class TerrainControlleur {
      * @return Les informations relatives aux images des combatants en jeu
      */
     public static PositionnedSpriteContainer[] getImages() {
-        ArrayList<Combattant> combatants = terrain.getEntites();
-        ArrayList<PowerUp> powerups = terrain.getPowerUps();
+        try {
+            ArrayList<Combattant> combatants = terrain.getEntites();
+            ArrayList<PowerUp> powerups = terrain.getPowerUps();
 
-        ArrayList<PositionnedSpriteContainer> images = new ArrayList<>();
+            ArrayList<PositionnedSpriteContainer> images = new ArrayList<>();
 
-        for (Combattant combatant : combatants) {
-            images.add(new PositionnedSpriteContainer(combatant.getHitbox().getLocation(), combatant.getImg(), combatant.getAnimation()));
+            for (Combattant combatant : combatants) {
+                images.add(new PositionnedSpriteContainer(combatant.getHitbox().getLocation(), combatant.getImg(), combatant.getAnimationCompteur()));
+            }
+
+            for (PowerUp powerUp : powerups) {
+                images.add(new PositionnedSpriteContainer(powerUp.getHitbox().getLocation(), powerUp.getImg(), powerUp.getAnimation()));
+            }
+
+            return images.toArray(new PositionnedSpriteContainer[combatants.size() + powerups.size()]);
         }
-
-        for (PowerUp powerUp : powerups) {
-            images.add(new PositionnedSpriteContainer(powerUp.getHitbox().getLocation(), powerUp.getImg(), powerUp.getAnimation()));
+        catch (ConcurrentModificationException e) {
+            System.out.println("ConcurrentModificationException dans TerrainControlleur.");
+            // Autre tentative
+            return new PositionnedSpriteContainer[0];
         }
-
-        return images.toArray(new PositionnedSpriteContainer[combatants.size() + powerups.size()]);
     }
 
     public static void clic(Point point) {

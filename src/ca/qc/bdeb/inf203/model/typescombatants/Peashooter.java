@@ -7,27 +7,19 @@ import ca.qc.bdeb.inf203.model.Terrain;
 import java.util.HashMap;
 
 /**
- * Plante Tire-poids.
+ * Plante Tire-pois.
+ *
  * @author Guillaume Riou, Nicolas Hurtubise
  */
 public class Peashooter extends Combattant {
 
     public Peashooter() {
         super();
-        this.attaqueRate = 0;
-        this.vitesse = 0;
-        this.attaque = 30;
-        this.hitbox.width = 80;
-        this.hitbox.height = 80;
-        this.lineOfSight.height = 80;
-        this.lineOfSight.width = Terrain.TAILLE_CASE_X* Terrain.CASES_X;
-        this.nbImagesParActions = new HashMap<>();
-        this.nbImagesParActions.put(Etats.DEPLACEMENT, 4);
-        this.nbImagesParActions.put(Etats.ATTENTELIGNEDEVUE, 11);
-        this.sprite = new RepresentationImage(new String[]{"plants", "pea-shooter", "normal"});
+        initialise();
     }
+    
     @Override
-    protected void initialise() {
+    protected final void initialise() {
         super.initialise();
         this.attaqueRate = 1;
         this.vitesse = 0;
@@ -35,38 +27,37 @@ public class Peashooter extends Combattant {
         this.hitbox.width = 80;
         this.hitbox.height = 80;
         this.lineOfSight.height = 80;
-        this.lineOfSight.width = Terrain.TAILLE_CASE_X* Terrain.CASES_X;
-        this.nbImagesParActions = new HashMap<>();
-        this.nbImagesParActions.put(Etats.DEPLACEMENT, 4);
-        this.nbImagesParActions.put(Etats.ATTENTELIGNEDEVUE, 11);
+        this.lineOfSight.width = Terrain.TAILLE_CASE_X * Terrain.CASES_X;
+        this.nbrImagesParActions = new HashMap<>();
+        this.nbrImagesParActions.put(Etats.DEPLACEMENT, 4);
+        this.nbrImagesParActions.put(Etats.ATTENTELIGNEDEVUE, 11);
+        this.nbrImagesParActions.put(Etats.ATTAQUE, 3);
         this.etat = Etats.ATTENTELIGNEDEVUE;
         this.sprite = new RepresentationImage(new String[]{"plants", "pea-shooter", "normal"});
-        
     }
 
     @Override
     public Combattant tic() {
-        Combattant retour = null;
+        Combattant pois = null;
         switch (etat) {
             case ATTAQUE:
-                retour = action();
+                pois = action();
                 break;
             case DEPLACEMENT:
                 deplacer();
                 break;
 
         }
-        return retour;
+        return pois;
     }
 
     /**
-     * l'action à distance d'un peashooter est de retourner un pois
+     * L'action à distance d'un peashooter est de retourner un pois
      *
      * @return
      */
     @Override
     public Combattant action() {
-        System.out.println("AAAAAAAAA");
         boolean tousMorts = true;
         for (Combattant combattant : cibles) {
             if (combattant.getVie() > 0) {
@@ -76,10 +67,9 @@ public class Peashooter extends Combattant {
         if (tousMorts) {
             this.etat = Etats.ATTENTELIGNEDEVUE;
         }
-        return new Pois();
-    }
+        Combattant pois = new Pois();
+        pois.getHitbox().setLocation(this.hitbox.x + 190, this.hitbox.y);
 
-    
-    
-    
+        return pois;
+    }
 }

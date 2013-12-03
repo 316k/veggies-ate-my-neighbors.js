@@ -1,10 +1,12 @@
 package ca.qc.bdeb.inf203.model;
 
+import ca.qc.bdeb.inf203.VeggiesAteMyNeighbors;
 import ca.qc.bdeb.inf203.model.typespowerups.Soleil;
 import java.awt.Dimension;
 import java.awt.Point;
 import java.awt.Rectangle;
 import java.util.ArrayList;
+import java.util.ConcurrentModificationException;
 import java.util.Random;
 
 /**
@@ -55,9 +57,11 @@ public class Terrain {
 
     public void tic() {
         // faire la logique d'un tic de jeu ...
-        combattantsLogique();
-        prochainVeggieLogique();
-        ajouterSoleil();
+        synchronized (VeggiesAteMyNeighbors.verrou) {
+            combattantsLogique();
+            prochainVeggieLogique();
+            ajouterSoleil();
+        }
     }
 
     public int getVague() {
@@ -65,30 +69,41 @@ public class Terrain {
     }
 
     private void combattantsLogique() {
-        ArrayList<Combattant> morts = new ArrayList<>();
-        for (Combattant combattant : entites) {
-            if (combattant.getVie() <= 0) {
-                morts.add(combattant);
-            } else {
-                combattant.tic();
+        try {
+            ArrayList<Combattant> morts = new ArrayList<>();
+            ArrayList<Combattant> nouveaux = new ArrayList<>();
+            for (Combattant combattant : entites) {
+                if (combattant.getVie() <= 0) {
+                    morts.add(combattant);
+                } else {
+                    // Certains combatants créent des nouveaux items lors des tic
+                    Combattant nouveauCombattant = combattant.tic();
 
-                Rectangle zoneCollision = null;
-                if (combattant.getEtat() == Etats.DEPLACEMENT) {
-                    zoneCollision = combattant.getHitbox();
-                } else if (combattant.getEtat() == Etats.ATTENTELIGNEDEVUE) {
-                    zoneCollision = combattant.getLineOfSight();
-                }
-                if (zoneCollision != null) {
-                    ArrayList<Combattant> cibles = getCollisions(zoneCollision, combattant);
-                    
-                    if (!cibles.isEmpty()) {
-                        combattant.setEtat(Etats.ATTAQUE);
-                        System.out.println("ATTAQUE");
+                    if (nouveauCombattant != null) {
+                        nouveaux.add(nouveauCombattant);
+                    }
+
+                    Rectangle zoneCollision = null;
+                    if (combattant.getEtat() == Etats.DEPLACEMENT) {
+                        zoneCollision = combattant.getHitbox();
+                    } else if (combattant.getEtat() == Etats.ATTENTELIGNEDEVUE) {
+                        zoneCollision = combattant.getLineOfSight();
+                    }
+                    if (zoneCollision != null) {
+                        ArrayList<Combattant> cibles = getCollisions(zoneCollision, combattant);
+
+                        if (!cibles.isEmpty()) {
+                            combattant.setEtat(Etats.ATTAQUE);
+                        }
                     }
                 }
             }
+            this.entites.removeAll(morts);
+            this.entites.addAll(nouveaux);
         }
-        this.entites.removeAll(morts);
+        catch (ConcurrentModificationException e) {
+            System.out.println("ConcurrentModificationException dans Terrain");
+        }
     }
 
     private void prochainVeggieLogique() {
@@ -96,19 +111,19 @@ public class Terrain {
             // On attend le que le prochain spawn soit prêt
             return;
         }
-            //faut faire un traitement avec ça.
-            Combattant combattant = vagueEnCours.spawn();
-            
-            if(combattant == null) {
-                vagueEnCours = Vague.generateVague(++vague);
-                return;
-            }
+        //faut faire un traitement avec ça.
+        Combattant combattant = vagueEnCours.spawn();
 
-            combattant.hitbox.x = CASES_X * TAILLE_CASE_X;
-            
-            //Met au hasard dans une rangée.
-            combattant.hitbox.y = (1 + rdm.nextInt(CASES_Y + 1)) * TAILLE_CASE_Y;
-            this.entites.add(combattant);
+        if (combattant == null) {
+            vagueEnCours = Vague.generateVague(++vague);
+            return;
+        }
+
+        combattant.hitbox.x = CASES_X * TAILLE_CASE_X;
+
+        //Met au hasard dans une rangée.
+        combattant.hitbox.y = (1 + rdm.nextInt(CASES_Y + 1)) * TAILLE_CASE_Y;
+        this.entites.add(combattant);
     }
 
     private void ajouterSoleil() {
@@ -117,7 +132,6 @@ public class Terrain {
         if (dernierTempsSoleil >= delaisSoleil) {
             //Le 34 est arbitraire, comprendre la largeur du terrain.
             this.powerUps.add(new Soleil(25, rdm.nextInt(CASES_X * TAILLE_CASE_X), 0));
-            System.out.println("PLUS DE SOLEIL");
             this.dernierTempsSoleil = 0;
         }
         this.dernierTimeStampSoleil = temps;
@@ -165,12 +179,11 @@ public class Terrain {
      */
     private ArrayList<Combattant> getCollisions(Rectangle zone, Combattant combattantExclus) {
         ArrayList<Combattant> cibles = new ArrayList<>();
-        
+
         for (Combattant combattant : entites) {
             if (!combattant.equals(combattantExclus)) {
                 if (zone.intersects(combattant.getHitbox())) {
                     cibles.add(combattant);
-                    System.out.println("INTERSEECCCTTSSS !!!!");
                 }
             }
         }

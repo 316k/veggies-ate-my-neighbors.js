@@ -80,21 +80,13 @@ public class Joueur {
     }
 
     public Combattant useCurrentItem(Point position) {
-        try {
 
-            Object combattant = getItem().getCombattant().getClass().getConstructor(new Class[]{Combattant.class}).newInstance(getItem().getCombattant());
-            Rectangle hitbox = (Rectangle) Combattant.class.getMethod("getHitbox", null).invoke(combattant);
-            Rectangle los = (Rectangle) Combattant.class.getMethod("getLineOfSight", null).invoke(combattant);
-            hitbox.setLocation(position);
-            los.setLocation(position);
-            getItem().setRecharge(0);
-            selection = null;
-            return (Combattant)combattant;
-        } catch (InvocationTargetException | InstantiationException | IllegalAccessException | NoSuchMethodException | SecurityException | IllegalArgumentException ex) {
-            //Ça devrait jamais arriver.
-            ex.printStackTrace();
-        }
-        return null;
+        Combattant combattant = getItem().getCombattant().clone();
+        combattant.hitbox.setLocation(position);
+        getItem().setRecharge(0);
+        selection = null;
+        return combattant;
+
     }
 
     /**

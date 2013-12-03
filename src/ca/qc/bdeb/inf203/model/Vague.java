@@ -15,12 +15,12 @@ public class Vague {
     /**
      * Combatants à générer pour cette vague.
      */
-    private Combattant[] archetypes;
+    private final Combattant[] archetypes;
     /**
      * Nombre de combatants à générer par index de type.
      */
     private int[] nbParArchetype;
-    private int nbInitial;
+    private final int nbInitial;
     /**
      * Delais moyen entre les spawns en milisecondes.
      */

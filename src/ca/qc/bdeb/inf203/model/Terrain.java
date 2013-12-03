@@ -82,6 +82,7 @@ public class Terrain {
                     ArrayList<Combattant> cibles = getCollisions(zoneCollision, combattant);
                     if (!cibles.isEmpty()) {
                         combattant.setEtat(Etats.ATTAQUE);
+                        System.out.println("ATTAQUE");
                     }
                 }
             }

@@ -180,6 +180,7 @@ public abstract class Combattant implements Cloneable {
         int nbIncrementPos = (int) (this.tempsImmobile / this.tempsPourAvancer);
         for (int i = 0; i < nbIncrementPos; i++) {
             this.hitbox.x += sensDeplacement;
+            this.lineOfSight.x += sensDeplacement;
             this.tempsImmobile -= this.tempsPourAvancer;
         }
         this.dernierTimestamp = temps;

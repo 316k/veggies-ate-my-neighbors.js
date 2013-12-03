@@ -3,6 +3,7 @@ package ca.qc.bdeb.inf203.model.typescombatants;
 import ca.qc.bdeb.inf203.model.Combattant;
 import ca.qc.bdeb.inf203.model.Etats;
 import ca.qc.bdeb.inf203.model.RepresentationImage;
+import ca.qc.bdeb.inf203.model.Terrain;
 import java.util.HashMap;
 
 /**
@@ -18,6 +19,8 @@ public class Peashooter extends Combattant {
         this.attaque = 30;
         this.hitbox.width = 80;
         this.hitbox.height = 80;
+        this.lineOfSight.height = 80;
+        this.lineOfSight.width = Terrain.TAILLE_CASE_X* Terrain.CASES_X;
         this.nbImagesParActions = new HashMap<>();
         this.nbImagesParActions.put(Etats.DEPLACEMENT, 4);
         this.nbImagesParActions.put(Etats.ATTENTELIGNEDEVUE, 11);
@@ -26,6 +29,19 @@ public class Peashooter extends Combattant {
 
     public Peashooter(Combattant c) {
         super(c);
+        this.attaqueRate = 0;
+        this.vitesse = 0;
+        this.attaque = 30;
+        this.hitbox.width = 80;
+        this.hitbox.height = 80;
+        this.lineOfSight.height = 80;
+        this.lineOfSight.width = Terrain.TAILLE_CASE_X* Terrain.CASES_X;
+        this.nbImagesParActions = new HashMap<>();
+        this.nbImagesParActions.put(Etats.DEPLACEMENT, 4);
+        this.nbImagesParActions.put(Etats.ATTENTELIGNEDEVUE, 11);
+        this.etat = Etats.ATTENTELIGNEDEVUE;
+        this.sprite = new RepresentationImage(new String[]{"plants", "pea-shooter", "normal"});
+        
     }
 
     @Override
@@ -50,7 +66,7 @@ public class Peashooter extends Combattant {
      */
     @Override
     public Combattant action() {
-
+        System.out.println("AAAAAAAAA");
         boolean tousMorts = true;
         for (Combattant combattant : cibles) {
             if (combattant.getVie() > 0) {

@@ -2,6 +2,8 @@ package ca.qc.bdeb.inf203.model;
 
 import ca.qc.bdeb.inf203.model.typescombatants.Peashooter;
 import java.awt.Point;
+import java.awt.Rectangle;
+import java.lang.reflect.InvocationTargetException;
 import java.util.ArrayList;
 
 /**
@@ -78,11 +80,21 @@ public class Joueur {
     }
 
     public Combattant useCurrentItem(Point position) {
-        Combattant combattant = new Combattant(getItem().getCombattant());
-        combattant.hitbox.setLocation(position);
-        getItem().setRecharge(0);
-        selection = null;
-        return combattant;
+        try {
+
+            Object combattant = getItem().getCombattant().getClass().getConstructor(new Class[]{Combattant.class}).newInstance(getItem().getCombattant());
+            Rectangle hitbox = (Rectangle) Combattant.class.getMethod("getHitbox", null).invoke(combattant);
+            Rectangle los = (Rectangle) Combattant.class.getMethod("getLineOfSight", null).invoke(combattant);
+            hitbox.setLocation(position);
+            los.setLocation(position);
+            getItem().setRecharge(0);
+            selection = null;
+            return (Combattant)combattant;
+        } catch (InvocationTargetException | InstantiationException | IllegalAccessException | NoSuchMethodException | SecurityException | IllegalArgumentException ex) {
+            //Ça devrait jamais arriver.
+            ex.printStackTrace();
+        }
+        return null;
     }
 
     /**

@@ -1,6 +1,7 @@
 package ca.qc.bdeb.inf203.model;
 
 import ca.qc.bdeb.inf203.model.typescombatants.Veggie;
+import java.lang.reflect.InvocationTargetException;
 import java.util.Random;
 
 /**
@@ -14,7 +15,7 @@ public class Vague {
     /**
      * Combatants à générer pour cette vague.
      */
-    private Combattant[] combattants;
+    private Combattant[] archetypes;
     /**
      * Nombre de combatants à générer par index de type.
      */
@@ -35,7 +36,7 @@ public class Vague {
     private long lastTimestamp;
 
     public Vague(Combattant[] archetypes, int[] nbParArchetype, int delaisMoyen) {
-        this.combattants = archetypes;
+        this.archetypes = archetypes;
         this.nbParArchetype = nbParArchetype;
         this.nbInitial = getRemainingVeggies();
         this.delaisMoyen = delaisMoyen;
@@ -72,11 +73,11 @@ public class Vague {
         if (this.getRemainingVeggies() == 0) {
             return null;
         }
-        int combatantIndex;
+        int combattantIndex;
         do {
-            combatantIndex = Vague.rdm.nextInt(this.combattants.length);
-        } while (this.nbParArchetype[combatantIndex] == 0);
-        this.nbParArchetype[combatantIndex]--;
+            combattantIndex = Vague.rdm.nextInt(this.archetypes.length);
+        } while (this.nbParArchetype[combattantIndex] == 0);
+        this.nbParArchetype[combattantIndex]--;
 
         if (getRemainingVeggies() < (this.nbInitial / 2)) {
             this.delaisMoyen = 400;
@@ -84,19 +85,18 @@ public class Vague {
 
         this.depuisDernierSpawn = 0;
         this.setDelais();
-        //Gardées pour la postérité, j'aimais vraiment ces lignes de code :(
+
         //Deep magic starts here.
-            /*try {
+        try {
 
+            return archetypes[combattantIndex].getClass().getConstructor(new Class[]{Combattant.class}).newInstance(archetypes[combattantIndex]);
 
-         return archetypes[quelCombatant].getClass().getConstructor(new Class[]{Combattant.class}).newInstance(archetypes[quelCombatant]);
+        } catch (InvocationTargetException | InstantiationException | IllegalAccessException | NoSuchMethodException | SecurityException | IllegalArgumentException ex) {
+            //Ça devrait jamais arriver.
+            ex.printStackTrace();
+        }
+        return null;
 
-         } catch (InvocationTargetException | InstantiationException | IllegalAccessException | NoSuchMethodException | SecurityException | IllegalArgumentException ex) {
-         //Ça devrait jamais arriver.
-         ex.printStackTrace();
-         }
-         return null;*/
-        return new Combattant(combattants[combatantIndex]);
     }
 
     /**

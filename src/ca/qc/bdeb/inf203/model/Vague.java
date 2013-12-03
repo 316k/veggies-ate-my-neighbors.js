@@ -4,7 +4,7 @@
  */
 package ca.qc.bdeb.inf203.model;
 
-import ca.qc.bdeb.inf203.model.typescombatants.Normaux;
+import ca.qc.bdeb.inf203.model.typescombatants.Veggie;
 import java.lang.reflect.InvocationTargetException;
 import java.util.Random;
 
@@ -110,7 +110,7 @@ public class Vague {
      * @return
      */
     public static Vague generateVague(int numeroDeVague) {
-        Combattant[] cbt = {new Normaux()};
+        Combattant[] cbt = {new Veggie()};
         int[] nbpa = {5};
         Vague retour = new Vague(cbt, nbpa, 5000);
         return retour;

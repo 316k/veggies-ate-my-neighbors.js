@@ -27,7 +27,7 @@ public class NewMain {
             }
 
             try {
-                Thread.sleep(10);
+                Thread.sleep(1000);
             } catch (InterruptedException ex) {
                 Logger.getLogger(NewMain.class.getName()).log(Level.SEVERE, null, ex);
             }

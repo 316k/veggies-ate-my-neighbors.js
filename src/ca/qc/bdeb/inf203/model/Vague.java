@@ -5,6 +5,7 @@
 package ca.qc.bdeb.inf203.model;
 
 import ca.qc.bdeb.inf203.model.typescombatants.Normaux;
+import java.lang.reflect.InvocationTargetException;
 import java.util.Random;
 
 /**
@@ -85,19 +86,18 @@ public class Vague {
         if (getRemainingVeggies() < (this.nbInitial / 2)) {
             this.delaisMoyen = 400;
         }
-        
+
         this.depuisDernierSpawn = 0;
         this.setDelais();
+        
+        //Deep magic starts here.
         try {
-            try {
-                //Deep magic starts here.
-                return archetypes[quelCombatant].getClass().getConstructor(new Class[]{Combattant.class}).newInstance(archetypes[quelCombatant]);
-            } catch (    NoSuchMethodException | SecurityException ex) {
-                //Franchement, ça va jamais arriver ... 
-                ex.printStackTrace();
-            }
-        } catch (InstantiationException | IllegalAccessException | IllegalArgumentException | InvocationTargetException ex) {
-            //Ça non plus d'ailleur.
+
+            
+            return archetypes[quelCombatant].getClass().getConstructor(new Class[]{Combattant.class}).newInstance(archetypes[quelCombatant]);
+
+        } catch (InvocationTargetException | InstantiationException | IllegalAccessException | NoSuchMethodException | SecurityException | IllegalArgumentException ex) {
+            //Ça devrait jamais arriver.
             ex.printStackTrace();
         }
         return null;

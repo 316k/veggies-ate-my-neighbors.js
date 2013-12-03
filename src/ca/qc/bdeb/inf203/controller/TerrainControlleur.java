@@ -7,6 +7,8 @@ import ca.qc.bdeb.inf203.model.Terrain;
 import ca.qc.bdeb.inf203.view.PositionnedSpriteContainer;
 import java.awt.Point;
 import java.util.ArrayList;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 
 /**
  *
@@ -15,7 +17,21 @@ import java.util.ArrayList;
 public class TerrainControlleur {
 
     private static Terrain terrain = new Terrain();
+    public static Thread t = new Thread(new Runnable(){
 
+        @Override
+        public void run() {
+            while(true){
+                terrain.tic();
+                try {
+                    Thread.sleep(1);
+                } catch (InterruptedException ex) {
+                    Logger.getLogger(TerrainControlleur.class.getName()).log(Level.SEVERE, null, ex);
+                }
+            }
+        }
+    
+    });
     /**
      * Donne un SpriteContainer contenant l'information relative aux images et
      * positions des combatants en jeu

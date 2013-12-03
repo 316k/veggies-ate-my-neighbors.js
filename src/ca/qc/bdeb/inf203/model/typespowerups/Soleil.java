@@ -17,7 +17,7 @@ public class Soleil extends PowerUp {
     private int hauteur = 30;
     private int largeur = 30;
     public Soleil(int valeur,int x, int y) {
-        super("soleil");
+        super("sun");
         this.valeur = valeur;
         this.hitbox = new Rectangle(x,y,largeur,hauteur);
         this.animation = 0;

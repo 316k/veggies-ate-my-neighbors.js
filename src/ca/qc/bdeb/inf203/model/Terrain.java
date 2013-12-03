@@ -41,7 +41,7 @@ public class Terrain {
     /**
      * Delais en milis.
      */
-    private long delaisSoleil = 2000;
+    private long delaisSoleil = 12000;
     private long dernierTimeStampSoleil;
     private long dernierTempsSoleil;
     private int vague = 1;
@@ -106,14 +106,19 @@ public class Terrain {
 
     private void ajouterSoleil() {
         long temps = System.currentTimeMillis();
-        this.dernierTempsSoleil += (temps - dernierTimestampSoleil);
+        this.dernierTempsSoleil += (temps - dernierTimeStampSoleil);
         if (dernierTempsSoleil >= delaisSoleil) {
             //Le 34 est arbitraire, comprendre la largeur du terrain.
             this.powerUps.add(new Soleil(25, rdm.nextInt(314), 0));
             System.out.println("PLUS DE SOLEIL");
             this.dernierTempsSoleil = 0;
         }
-        this.dernierTimestampSoleil = temps;
+        this.dernierTimeStampSoleil = temps;
+        for (PowerUp pu : powerUps) {
+            if(pu.hitbox.y < 400){
+                pu.hitbox.y++;
+            }
+        }
     }
 
     private ArrayList<Combattant> verifierCollision(Rectangle zone, Combattant combatant) {

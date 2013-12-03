@@ -19,8 +19,8 @@ public class Peashooter extends Combattant implements Cloneable{
         /**
          * @TODO Mettre les vrais width et height.
          */
-        this.hitbox.width = 15;
-        this.hitbox.height = 15;
+        this.hitbox.width = 80;
+        this.hitbox.height = 80;
         String[] path = {"plants","pea-shooter"};
         this.sprite = new RepresentationImage(path);
     }

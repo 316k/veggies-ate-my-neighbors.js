@@ -90,20 +90,23 @@ public class Terrain {
     }
 
     private void prochainVeggieLogique() {
-        if (vagueEnCours.isSpawnReady()) {
+        if (!vagueEnCours.isSpawnReady()) {
+            // On attend le que le prochain spawn soit prêt
+            return;
+        }
             //faut faire un traitement avec ça.
             Combattant combattant = vagueEnCours.spawn();
-            if (combattant == null) {
-
-                this.vagueEnCours = Vague.generateVague(0);
-
-            } else {
-                combattant.hitbox.x = CASES_X * TAILLE_CASE_X;
-                //Met au hasard dans une rangée.
-                combattant.hitbox.y = rdm.nextInt(CASES_Y) * TAILLE_CASE_Y;
-                this.entites.add(combattant);
+            
+            if(combattant == null) {
+                vagueEnCours = Vague.generateVague(++vague);
+                return;
             }
-        }
+
+            combattant.hitbox.x = CASES_X * TAILLE_CASE_X;
+            
+            //Met au hasard dans une rangée.
+            combattant.hitbox.y = (1 + rdm.nextInt(CASES_Y + 1)) * TAILLE_CASE_Y;
+            this.entites.add(combattant);
     }
 
     private void ajouterSoleil() {

@@ -17,6 +17,8 @@ public class Veggie extends Combattant {
 
     public Veggie() {
         this.sprite = new RepresentationImage(new String[]{"veggies", "normal"});
+        this.hitbox.height = 80;
+        this.hitbox.width = 60;
         this.nbImagesParActions = new HashMap<>();
         this.nbImagesParActions.put(Etats.DEPLACEMENT, 5);
         this.nbImagesParActions.put(Etats.ATTAQUE, 5);

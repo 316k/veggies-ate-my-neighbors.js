@@ -1,7 +1,6 @@
 package ca.qc.bdeb.inf203.model;
 
 import ca.qc.bdeb.inf203.model.typescombatants.Veggie;
-import java.lang.reflect.InvocationTargetException;
 import java.util.Random;
 
 /**
@@ -73,12 +72,16 @@ public class Vague {
         if (this.getRemainingVeggies() == 0) {
             return null;
         }
+
         int combattantIndex;
+
         do {
             combattantIndex = Vague.rdm.nextInt(this.archetypes.length);
         } while (this.nbParArchetype[combattantIndex] == 0);
+
         this.nbParArchetype[combattantIndex]--;
 
+        // Panique de fin de vague
         if (getRemainingVeggies() < (this.nbInitial / 2)) {
             this.delaisMoyen = 400;
         }
@@ -86,17 +89,7 @@ public class Vague {
         this.depuisDernierSpawn = 0;
         this.setDelais();
 
-        //Deep magic starts here.
-        try {
-
-            return archetypes[combattantIndex].getClass().getConstructor(new Class[]{Combattant.class}).newInstance(archetypes[combattantIndex]);
-
-        } catch (InvocationTargetException | InstantiationException | IllegalAccessException | NoSuchMethodException | SecurityException | IllegalArgumentException ex) {
-            //Ça devrait jamais arriver.
-            ex.printStackTrace();
-        }
-        return null;
-
+        return archetypes[combattantIndex].clone();
     }
 
     /**

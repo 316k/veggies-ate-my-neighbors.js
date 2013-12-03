@@ -1,8 +1,6 @@
 package ca.qc.bdeb.inf203.model;
 
-import ca.qc.bdeb.inf203.model.typespowerups.PlanteUnlock;
 import ca.qc.bdeb.inf203.model.typespowerups.Soleil;
-import java.awt.Point;
 import java.awt.Rectangle;
 import java.util.ArrayList;
 import java.util.Random;
@@ -41,11 +39,10 @@ public class Terrain {
     /**
      * Delais en milis.
      */
-    private long delaisSoleil = 12000;
+    private long delaisSoleil = 40000;
     private long dernierTimeStampSoleil;
     private long dernierTempsSoleil;
     private int vague = 1;
-
     private Random rdm = new Random();
 
     public Terrain() {
@@ -60,11 +57,11 @@ public class Terrain {
         prochainVeggieLogique();
         ajouterSoleil();
     }
-    
+
     public int getVague() {
         return vague;
     }
-    
+
     private void combattantsLogique() {
         ArrayList<Combattant> morts = new ArrayList<>();
         for (Combattant combattant : entites) {
@@ -99,6 +96,9 @@ public class Terrain {
                 this.vagueEnCours = Vague.generateVague(0);
 
             } else {
+                combattant.hitbox.x = CASES_X * TAILLE_CASE_X;
+                //Met au hasard dans une rangée.
+                combattant.hitbox.y = rdm.nextInt(CASES_Y) * TAILLE_CASE_Y;
                 this.entites.add(combattant);
             }
         }
@@ -109,25 +109,26 @@ public class Terrain {
         this.dernierTempsSoleil += (temps - dernierTimeStampSoleil);
         if (dernierTempsSoleil >= delaisSoleil) {
             //Le 34 est arbitraire, comprendre la largeur du terrain.
-            this.powerUps.add(new Soleil(25, rdm.nextInt(314), 0));
+            this.powerUps.add(new Soleil(25, rdm.nextInt(CASES_X * TAILLE_CASE_X), 0));
             System.out.println("PLUS DE SOLEIL");
             this.dernierTempsSoleil = 0;
         }
         this.dernierTimeStampSoleil = temps;
         for (PowerUp pu : powerUps) {
-            if(pu.hitbox.y < 400){
+            if (pu.hitbox.y < 400) {
                 pu.hitbox.y++;
             }
         }
     }
 
-    private ArrayList<Combattant> verifierCollision(Rectangle zone, Combattant combatant) {
+    private ArrayList<Combattant> verifierCollision(Rectangle zone, Combattant combattant) {
         ArrayList<Combattant> cibles = new ArrayList<>();
 
-        for (Combattant combattant : entites) {
-            if (!combattant.equals(combatant)) {
-                if (zone.intersects(combattant.getHitbox())) {
-                    cibles.add(combattant);
+        for (Combattant combattannt : entites) {
+            if (!combattannt.equals(combattannt)) {
+                if (zone.intersects(combattannt.getHitbox())) {
+
+                    cibles.add(combattannt);
                 }
             }
         }

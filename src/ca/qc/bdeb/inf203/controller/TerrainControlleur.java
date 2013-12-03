@@ -1,7 +1,6 @@
 package ca.qc.bdeb.inf203.controller;
 
 import ca.qc.bdeb.inf203.model.Combattant;
-import ca.qc.bdeb.inf203.model.Joueur;
 import ca.qc.bdeb.inf203.model.PowerUp;
 import ca.qc.bdeb.inf203.model.Terrain;
 import ca.qc.bdeb.inf203.view.PositionnedSpriteContainer;

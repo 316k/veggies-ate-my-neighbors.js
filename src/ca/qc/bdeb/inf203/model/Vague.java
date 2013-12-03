@@ -96,7 +96,7 @@ public class Vague {
          ex.printStackTrace();
          }
          return null;*/
-        return new Combattant(combattants[combatantIndex]);
+        return combattants[combatantIndex].clone();
     }
 
     /**

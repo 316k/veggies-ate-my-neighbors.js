@@ -78,7 +78,7 @@ public class Joueur {
     }
 
     public Combattant useCurrentItem(Point position) {
-        Combattant combattant = new Combattant(getItem().getCombattant());
+        Combattant combattant = getItem().getCombattant().clone();
         combattant.hitbox.setLocation(position);
         getItem().setRecharge(0);
         selection = null;

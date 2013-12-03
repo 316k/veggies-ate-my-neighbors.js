@@ -252,7 +252,9 @@ public abstract class Combattant implements Cloneable {
     @Override
     protected Combattant clone() {
         try {
-            return (Combattant) super.clone(); //To change body of generated methods, choose Tools | Templates.
+            Combattant clone = (Combattant) super.clone();
+            clone.initialise();
+            return clone;
         }
         catch (CloneNotSupportedException ex) {
             Logger.getLogger(Combattant.class.getName()).log(Level.SEVERE, null, ex);

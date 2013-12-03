@@ -5,7 +5,6 @@
 package ca.qc.bdeb.inf203.model;
 
 import ca.qc.bdeb.inf203.model.typescombatants.Veggie;
-import java.lang.reflect.InvocationTargetException;
 import java.util.Random;
 
 /**
@@ -101,7 +100,7 @@ public class Vague {
             ex.printStackTrace();
         }
         return null;*/
-        return archetypes[quelCombatant].clone();
+        return new Combattant(archetypes[quelCombatant]);
         
     }
 

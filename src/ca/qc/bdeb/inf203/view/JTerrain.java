@@ -27,7 +27,13 @@ import javax.swing.JPanel;
  */
 public class JTerrain extends JPanel {
 
+    /**
+     * Nombre de cases en X
+     */
     private final int CASES_X = Terrain.CASES_X + 1;
+    /**
+     * Nombre de cases en Y
+     */
     private final int CASES_Y = Terrain.CASES_Y + 1;
     private final int TAILLE_CASE_X = Terrain.TAILLE_CASE_X;
     private final int TAILLE_CASE_Y = Terrain.TAILLE_CASE_Y;
@@ -57,10 +63,6 @@ public class JTerrain extends JPanel {
         }
         catch (FontFormatException | IOException ex) {
             Logger.getLogger(JTerrain.class.getName()).log(Level.SEVERE, null, ex);
-            // Fallback
-            this.sunFont = new Font("Arial", Font.PLAIN, 18);
-            this.infosFont = new Font("Arial", Font.BOLD, 32);
-            this.scoreFont = new Font("Arial", Font.BOLD, 26);
         }
 
         this.setLayout(null);
@@ -82,7 +84,7 @@ public class JTerrain extends JPanel {
         this.addMouseListener(new MouseAdapter() {
             @Override
             public void mouseClicked(MouseEvent e) {
-                if (e.getY() > TAILLE_CASE_Y) {
+                if (e.getY() > TAILLE_CASE_Y && e.getX() < TAILLE_CASE_X * (CASES_X - 1)) {
                     // Le clic est dans le terrain
                     TerrainControlleur.clic(e.getPoint());
                     refreshCaseSelectionnee(e);

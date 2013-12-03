@@ -39,7 +39,7 @@ public class SpriteManager {
                 image = loadSprite(sprite);
             }
             catch (IOException e) {
-                System.out.println("Error 404 - Sprite not found : ");
+                System.out.println("Error 404 - Sprite not found : " + sprite.getPath());
                 return null;
             }
         }

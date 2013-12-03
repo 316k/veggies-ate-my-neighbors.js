@@ -1,7 +1,9 @@
 package ca.qc.bdeb.inf203.model.typescombatants;
 
 import ca.qc.bdeb.inf203.model.Combattant;
+import ca.qc.bdeb.inf203.model.Etats;
 import ca.qc.bdeb.inf203.model.RepresentationImage;
+import java.util.HashMap;
 
 /**
  *
@@ -15,6 +17,9 @@ public class Veggie extends Combattant {
 
     public Veggie() {
         this.sprite = new RepresentationImage(new String[]{"veggies", "normal"});
+        this.nbImagesParActions = new HashMap<>();
+        this.nbImagesParActions.put(Etats.DEPLACEMENT, 5);
+        this.nbImagesParActions.put(Etats.ATTAQUE, 5);
     }
 
     

@@ -1,5 +1,7 @@
 package ca.qc.bdeb.inf203.model;
 
+import ca.qc.bdeb.inf203.model.typescombatants.Peashooter;
+import java.awt.Point;
 import java.util.ArrayList;
 
 /**
@@ -29,13 +31,9 @@ public class Joueur {
     }
 
     private Joueur() {
-        items.add(new Item("pea-shooter", 10, 100));
-        items.add(new Item("sunflower", 10, 50));
-        items.add(new Item("unknown", 0, 250));
-        items.add(new Item("unknown", 0, 400));
-        items.add(new Item("unknown", 0, 600));
-        items.add(new Item("unknown", 0, 999));
-        nbrSoleils = 9999;
+        items.add(new Item("pea-shooter", 10, 100, new Peashooter()));
+        items.add(new Item("sunflower", 10, 50, new Peashooter()));
+        nbrSoleils = 0;
     }
 
     public int getSoleils() {
@@ -66,8 +64,25 @@ public class Joueur {
         return items.toArray(new Item[items.size()]);
     }
 
+    public Item getItem() {
+
+        if (selection == null) {
+            return null;
+        }
+
+        return items.get(selection);
+    }
+
     public void debloquerItem(Item item) {
         this.items.add(item);
+    }
+
+    public Combattant useCurrentItem(Point position) {
+        Combattant combattant = new Combattant(getItem().getCombattant());
+        combattant.hitbox.setLocation(position);
+        getItem().setRecharge(0);
+        selection = null;
+        return combattant;
     }
 
     /**

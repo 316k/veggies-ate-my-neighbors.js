@@ -72,14 +72,14 @@ public class Terrain {
             } else {
                 combattant.tic();
 
-                Rectangle aTester = null;
+                Rectangle zoneCollision = null;
                 if (combattant.getEtat() == Etats.DEPLACEMENT) {
-                    aTester = combattant.getHitbox();
+                    zoneCollision = combattant.getHitbox();
                 } else if (combattant.getEtat() == Etats.ATTENTELIGNEDEVUE) {
-                    aTester = combattant.getLineOfSight();
+                    zoneCollision = combattant.getLineOfSight();
                 }
-                if (aTester != null) {
-                    ArrayList<Combattant> cibles = verifierCollision(aTester, combattant);
+                if (zoneCollision != null) {
+                    ArrayList<Combattant> cibles = getCollisions(zoneCollision, combattant);
                     if (!cibles.isEmpty()) {
                         combattant.setEtat(Etats.ATTAQUE);
                     }
@@ -122,38 +122,48 @@ public class Terrain {
             }
         }
     }
-    
-    public void clic(Point point){
-        Rectangle clic = new Rectangle(point, new Dimension(1,1));
-        
-        
+
+    public void clic(Point point) {
+        Rectangle clic = new Rectangle(point, new Dimension(1, 1));
+        Rectangle caseClic = new Rectangle(point.x / TAILLE_CASE_X * TAILLE_CASE_X, point.y / TAILLE_CASE_Y * TAILLE_CASE_Y, TAILLE_CASE_X, TAILLE_CASE_Y);
+
+        // Test la collision avec les power-ups
         for (int i = 0; i < powerUps.size(); i++) {
-            if(clic.intersects(powerUps.get(i).hitbox)){
+            if (clic.intersects(powerUps.get(i).hitbox)) {
                 powerUps.get(i).action();
                 powerUps.remove(i);
+                // Stop au premier power-up trouvé
                 return;
             }
         }
-        
+
+        // Test la collision avec une case contenant un combatant
         for (Combattant combattant : entites) {
-            if(combattant.hitbox.intersects(clic)){
+            if (combattant.hitbox.intersects(caseClic)) {
                 return;
             }
         }
-        Combattant aAjouter = Joueur.instance().getItems()[Joueur.instance().getSelection()].getCombattant().clone();
-        aAjouter.hitbox.setLocation(clic.x, clic.y/* Logique chiante de mettre centrée dans les cases. Trop saoul.*/);
-        entites.add(aAjouter);
-        
+
+        if (Joueur.instance().getItem() != null && Joueur.instance().getItem().getRecharge() == 1) {
+            entites.add(Joueur.instance().useCurrentItem(caseClic.getLocation()));
+        }
     }
-    
-    private ArrayList<Combattant> verifierCollision(Rectangle zone, Combattant combattant) {
+
+    /**
+     * Donne un ArrayList de combattants en collision avec une zone définie (un
+     * combatant est exclus de la zone)
+     *
+     * @param zone Zone dans laquelle vérifier les collisions
+     * @param combattant Combatant à exclure
+     * @return Les combatants dans la zone
+     */
+    private ArrayList<Combattant> getCollisions(Rectangle zone, Combattant combattantExclus) {
         ArrayList<Combattant> cibles = new ArrayList<>();
 
-        for (Combattant combattannt : entites) {
-            if (!combattannt.equals(combattannt)) {
-                if (zone.intersects(combattannt.getHitbox())) {
-
-                    cibles.add(combattannt);
+        for (Combattant combattant : entites) {
+            if (!combattant.equals(combattantExclus)) {
+                if (zone.intersects(combattant.getHitbox())) {
+                    cibles.add(combattant);
                 }
             }
         }

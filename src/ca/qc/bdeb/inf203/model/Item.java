@@ -22,11 +22,12 @@ public class Item {
      */
     private int cout;
 
-    public Item(String nom, double vitesseRechargement, int cout) {
+    public Item(String nom, double vitesseRechargement, int cout, Combattant combattant) {
         this.nom = nom;
         this.vitesseRechargement = vitesseRechargement;
         this.cout = cout;
         this.recharge = 1;
+        this.combattant = combattant;
     }
 
     

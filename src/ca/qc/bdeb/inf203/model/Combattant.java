@@ -11,12 +11,12 @@ import java.util.logging.Logger;
  *
  * @author Nicolas Hurtubise, Guillaume Riou
  */
-public class Combattant implements Cloneable{
+public class Combattant implements Cloneable {
 
     protected Etats etat;
     protected int vie = 6;
     protected ArrayList<Combattant> cibles;
-    protected Equipement[] equipements;
+    protected Equipement[] equipement;
     protected Rectangle hitbox;
     protected int animationCompteur;
     protected Rectangle lineOfSight;
@@ -47,19 +47,23 @@ public class Combattant implements Cloneable{
         initialise();
     }
 
-    public Combattant(Combattant archetype){
-        this.hitbox = archetype.getHitbox();
-        this.sprite = archetype.getSprite();
-        this.attaque = archetype.getAttaque();
-        this.nbImagesParActions = archetype.nbImagesParActions;
-        this.vie = archetype.getVie();
-        this.equipements = archetype.getEquipements();
-        this.vitesse = archetype.getVitesse();
-        this.attaqueRate = archetype.getAttaqueRate();
+    /**
+     * Copy constructor
+     * @param combatant combatant à copier
+     */
+    public Combattant(Combattant combatant) {
+        this.hitbox = combatant.getHitbox();
+        this.sprite = combatant.getSprite();
+        this.attaque = combatant.getAttaque();
+        this.nbImagesParActions = combatant.nbImagesParActions;
+        this.vie = combatant.getVie();
+        this.equipement = combatant.getEquipement();
+        this.vitesse = combatant.getVitesse();
+        this.attaqueRate = combatant.getAttaqueRate();
         initialise();
     }
-    
-    public final void initialise(){
+
+    public final void initialise() {
         this.dernierTimestamp = System.currentTimeMillis();
         this.hitbox = new Rectangle();
         this.lineOfSight = new Rectangle();
@@ -72,9 +76,7 @@ public class Combattant implements Cloneable{
         }
         this.etat = Etats.DEPLACEMENT;
     }
-    
-    
-    
+
     public Rectangle getHitbox() {
         return hitbox;
     }
@@ -100,12 +102,12 @@ public class Combattant implements Cloneable{
         this.vie = vie;
     }
 
-    public Equipement[] getEquipements() {
-        return equipements;
+    public Equipement[] getEquipement() {
+        return equipement;
     }
 
-    public void setEquipements(Equipement[] equipements) {
-        this.equipements = equipements;
+    public void setEquipement(Equipement[] equipements) {
+        this.equipement = equipements;
     }
 
     public int getAttaque() {
@@ -125,7 +127,7 @@ public class Combattant implements Cloneable{
     }
 
     public int getAnimation() {
-        return animation%nbImagesParActions.get(etat);
+        return animation % nbImagesParActions.get(etat);
     }
 
     public void setAnimationCompteur(int animationCompteur) {
@@ -147,7 +149,7 @@ public class Combattant implements Cloneable{
     public RepresentationImage getSprite() {
         return sprite;
     }
-    
+
     public void setImgRep(RepresentationImage imgRep) {
         this.sprite = imgRep;
     }
@@ -168,6 +170,10 @@ public class Combattant implements Cloneable{
         this.lineOfSight = lineOfSight;
     }
 
+    /**
+     * @FIXME : La logique ne prends pas la vitesse du combatant en compte et
+     * semble louche
+     */
     public void deplacer() {
         long temps = System.currentTimeMillis();
         this.tempsImmobile += (temps - this.dernierTimestamp);
@@ -193,24 +199,26 @@ public class Combattant implements Cloneable{
         this.animationCompteur++;
         return retour;
     }
-    /** Si c'est le bon temps pour attaquer, enlever de la vie à toutes
-     *  les cibles et à leur équipement en fonction du l'attaque totale 
-     *  de l'entité et de la défense totale des cibles.
+
+    /**
+     * Si c'est le bon temps pour attaquer, enlever de la vie à toutes les
+     * cibles et à leur équipement en fonction du l'attaque totale de l'entité
+     * et de la défense totale des cibles.
      */
     protected void attaquer() {
-        
+
         if (attaqueRate % animation == 0) {
             float modificateur = 0;
             for (Combattant cible : cibles) {
-                for (int i = 0; i < this.equipements.length; i++) {
-                    modificateur += this.equipements[i].getAttaque();
+                for (int i = 0; i < this.equipement.length; i++) {
+                    modificateur += this.equipement[i].getAttaque();
                 }
-                for (int i = 0; i < cible.equipements.length; i++) {
-                    modificateur -= cible.equipements[i].getDefense();
+                for (int i = 0; i < cible.equipement.length; i++) {
+                    modificateur -= cible.equipement[i].getDefense();
                 }
                 int attaqueTotale = this.attaque - (int) (this.attaque * modificateur);
                 cible.incrementVie(attaqueTotale);
-                for (Equipement equipement : cible.equipements) {
+                for (Equipement equipement : cible.equipement) {
                     if (equipement.isEndommageable()) {
                         equipement.incrementVies(this.attaque);
                     }
@@ -237,21 +245,19 @@ public class Combattant implements Cloneable{
      *
      * @return
      */
-    public Combattant action(){
+    public Combattant action() {
         return null;
     }
 
     @Override
     protected Combattant clone() {
         try {
-            return (Combattant)super.clone(); //To change body of generated methods, choose Tools | Templates.
-        } catch (CloneNotSupportedException ex) {
+            return (Combattant) super.clone(); //To change body of generated methods, choose Tools | Templates.
+        }
+        catch (CloneNotSupportedException ex) {
             Logger.getLogger(Combattant.class.getName()).log(Level.SEVERE, null, ex);
         }
+
         return null;
     }
-
-    
-    
-    
 }

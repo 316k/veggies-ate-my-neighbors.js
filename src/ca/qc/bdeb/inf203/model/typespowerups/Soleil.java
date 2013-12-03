@@ -10,10 +10,10 @@ import java.awt.Rectangle;
  */
 public class Soleil extends PowerUp {
 
-    private int valeur;
     /**
-     * Faut synchroniser avec les sprites.
+     * Nombre de soleils conférés par le clic sur le power-up
      */
+    private int valeur;
     private int hauteur = 30;
     private int largeur = 30;
     public Soleil(int valeur,int x, int y) {

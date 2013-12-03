@@ -19,6 +19,14 @@ public class RepresentationImage {
      */
     private String[] path;
 
+    public void setColorisation(int[] colorisation) {
+        this.colorisation = colorisation;
+    }
+
+    public void setPath(String[] path) {
+        this.path = path;
+    }
+
     /**
      * Constructeur
      * @param colorisation

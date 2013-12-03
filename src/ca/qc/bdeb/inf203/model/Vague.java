@@ -1,7 +1,3 @@
-/*
- * To change this template, choose Tools | Templates
- * and open the template in the editor.
- */
 package ca.qc.bdeb.inf203.model;
 
 import ca.qc.bdeb.inf203.model.typescombatants.Veggie;
@@ -18,7 +14,7 @@ public class Vague {
     /**
      * Combatants à générer pour cette vague.
      */
-    private Combattant[] archetypes;
+    private Combattant[] combattants;
     /**
      * Nombre de combatants à générer par index de type.
      */
@@ -39,7 +35,7 @@ public class Vague {
     private long lastTimestamp;
 
     public Vague(Combattant[] archetypes, int[] nbParArchetype, int delaisMoyen) {
-        this.archetypes = archetypes;
+        this.combattants = archetypes;
         this.nbParArchetype = nbParArchetype;
         this.nbInitial = getRemainingVeggies();
         this.delaisMoyen = delaisMoyen;
@@ -49,7 +45,7 @@ public class Vague {
     }
 
     private void setDelais() {
-        int variation = (int) (this.delaisMoyen * 0.5f);
+        int variation = (int) (this.delaisMoyen * 0.5);
         this.delais = delaisMoyen + Vague.rdm.nextInt(variation) - variation;
     }
 
@@ -61,7 +57,7 @@ public class Vague {
         return totalRestant;
     }
 
-    public boolean spawnReady() {
+    public boolean isSpawnReady() {
         long temps = System.currentTimeMillis();
         this.depuisDernierSpawn += (temps - this.lastTimestamp);
         if (this.depuisDernierSpawn > this.delais) {
@@ -76,11 +72,11 @@ public class Vague {
         if (this.getRemainingVeggies() == 0) {
             return null;
         }
-        int quelCombatant;
+        int combatantIndex;
         do {
-            quelCombatant = Vague.rdm.nextInt(this.archetypes.length);
-        } while (this.nbParArchetype[quelCombatant] == 0);
-        this.nbParArchetype[quelCombatant]--;
+            combatantIndex = Vague.rdm.nextInt(this.combattants.length);
+        } while (this.nbParArchetype[combatantIndex] == 0);
+        this.nbParArchetype[combatantIndex]--;
 
         if (getRemainingVeggies() < (this.nbInitial / 2)) {
             this.delaisMoyen = 400;
@@ -88,32 +84,31 @@ public class Vague {
 
         this.depuisDernierSpawn = 0;
         this.setDelais();
-        //Gardée pour la postérités, j'aimais vraiment ces lignes de codes. :(
+        //Gardées pour la postérité, j'aimais vraiment ces lignes de code :(
         //Deep magic starts here.
-        /*try {
+            /*try {
 
-            
-            return archetypes[quelCombatant].getClass().getConstructor(new Class[]{Combattant.class}).newInstance(archetypes[quelCombatant]);
 
-        } catch (InvocationTargetException | InstantiationException | IllegalAccessException | NoSuchMethodException | SecurityException | IllegalArgumentException ex) {
-            //Ça devrait jamais arriver.
-            ex.printStackTrace();
-        }
-        return null;*/
-        return new Combattant(archetypes[quelCombatant]);
-        
+         return archetypes[quelCombatant].getClass().getConstructor(new Class[]{Combattant.class}).newInstance(archetypes[quelCombatant]);
+
+         } catch (InvocationTargetException | InstantiationException | IllegalAccessException | NoSuchMethodException | SecurityException | IllegalArgumentException ex) {
+         //Ça devrait jamais arriver.
+         ex.printStackTrace();
+         }
+         return null;*/
+        return new Combattant(combattants[combatantIndex]);
     }
 
     /**
      * Génère une vague dont la difficulté dépend du numéro de la vague.
      *
-     * @param numeroDeVague
+     * @param numeroDeVague numéro de la vague voulue
      * @return
      */
     public static Vague generateVague(int numeroDeVague) {
-        Combattant[] cbt = {new Veggie()};
-        int[] nbpa = {5};
-        Vague retour = new Vague(cbt, nbpa, 5000);
+        Combattant[] combattants = {new Veggie()};
+        int[] nbrCombattantsParType = {5};
+        Vague retour = new Vague(combattants, nbrCombattantsParType, 5000);
         return retour;
     }
 }

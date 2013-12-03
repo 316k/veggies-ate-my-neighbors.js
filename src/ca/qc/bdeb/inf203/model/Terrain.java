@@ -90,7 +90,7 @@ public class Terrain {
     }
 
     private void prochainVeggieLogique() {
-        if (vagueEnCours.spawnReady()) {
+        if (vagueEnCours.isSpawnReady()) {
             //faut faire un traitement avec ça.
             Combattant combattant = vagueEnCours.spawn();
             if (combattant == null) {

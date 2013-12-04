@@ -112,7 +112,7 @@ public class JTerrain extends JPanel {
 
     @Override
     protected void paintComponent(Graphics g) {
-        synchronized (VeggiesAteMyNeighbors.verrou) {
+        synchronized (VeggiesAteMyNeighbors.ticVerrou) {
 
             // Background
             for (PositionnedSpriteContainer[] spriteRow : background) {
@@ -154,16 +154,19 @@ public class JTerrain extends JPanel {
 
                 blitSpriteContainer(g, itemSprite);
 
+                // Blit la recharge de l'item
                 g.setColor(item.getRecharge() == 1 ? Color.green : Color.red);
                 g.fillRect((int) (position.x + 2 / 16.0 * TAILLE_CASE_X), (int) (11 / 16.0 * TAILLE_CASE_Y), (int) (item.getRecharge() * 19 / 32.0 * TAILLE_CASE_X) - 1, (int) (1 / 8.0 * TAILLE_CASE_Y));
 
                 g.setColor(Color.black);
                 g.drawRect((int) (position.x + 2 / 16.0 * TAILLE_CASE_X), (int) (11 / 16.0 * TAILLE_CASE_Y), (int) (19 / 32.0 * TAILLE_CASE_X) - 1, (int) (1 / 8.0 * TAILLE_CASE_Y));
 
-                g.setColor(item.getRecharge() == 1 ? Color.black : Color.gray);
+                // Blit le coût de l'item (en gris si l'item est non utilisable)
+                g.setColor(item.isUtilisable() ? Color.black : Color.gray);
                 g.setFont(sunFont);
                 g.drawString("" + item.getCout(), position.x + ITEM_WIDTH / 5, (int) (position.y * 6.2));
 
+                // Item sélectionné
                 if (selection != null && item.equals(items[selection])) {
                     g.setColor(new Color(255, 170, 0, 170));
                     g.fillRect(itemSprite.getCoordonnee().x, itemSprite.getCoordonnee().y, SpriteManager.getImage(sprite).getWidth(this), SpriteManager.getImage(sprite).getHeight(this));

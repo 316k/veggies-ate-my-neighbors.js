@@ -1,6 +1,6 @@
 package ca.qc.bdeb.inf203.model;
 
-import ca.qc.bdeb.inf203.model.typescombatants.Veggie;
+import ca.qc.bdeb.inf203.model.combatants.Veggie;
 import java.util.Random;
 
 /**

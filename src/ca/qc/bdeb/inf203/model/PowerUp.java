@@ -9,7 +9,9 @@ import java.awt.Rectangle;
  */
 public abstract class PowerUp extends Entite implements Cloneable {
 
-    protected int animation;
+    protected int animationFrameRate;
+    protected long derniereAnimationTimestamp;
+    protected int nbrImagesAnimation;
 
     public PowerUp(String path[]) {
         this.sprite = new RepresentationImage(path);
@@ -22,7 +24,16 @@ public abstract class PowerUp extends Entite implements Cloneable {
 
     public abstract void action();
 
-    public int getAnimation() {
-        return animation;
+    @Override
+    public int getAnimationCompteur() {
+        long ts = System.currentTimeMillis();
+
+        if (ts - this.derniereAnimationTimestamp >= (1000.0 / (float) animationFrameRate)) {
+            // On incrémente l'animation
+            animationCompteur++;
+            derniereAnimationTimestamp = ts;
+        }
+        
+        return animationCompteur % nbrImagesAnimation;
     }
 }

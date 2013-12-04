@@ -11,6 +11,7 @@ public abstract class Entite {
 
     protected RepresentationImage sprite;
     protected Rectangle hitbox;
+    protected int animationCompteur = 0;
 
     public RepresentationImage getSprite() {
         return sprite;
@@ -19,4 +20,6 @@ public abstract class Entite {
     public Rectangle getHitbox() {
         return hitbox;
     }
+
+    public abstract int getAnimationCompteur();
 }

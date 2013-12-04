@@ -1,4 +1,4 @@
-package ca.qc.bdeb.inf203.model.typescombatants;
+package ca.qc.bdeb.inf203.model.combatants;
 
 import ca.qc.bdeb.inf203.model.Combattant;
 import ca.qc.bdeb.inf203.model.Etats;
@@ -31,10 +31,10 @@ public class Pois extends Combattant implements Cloneable {
         this.hitbox.height = 12;
         String[] path = {"plants", "pea"};
         this.animationFrameRate = 5;
-        this.nbrImagesParActions = new HashMap<>();
-        this.nbrImagesParActions.put(Etats.ATTAQUE, 1);
-        this.nbrImagesParActions.put(Etats.ATTENTE, 1);
-        this.nbrImagesParActions.put(Etats.DEPLACEMENT, 9);
+        this.nbrImagesAnimation = new HashMap<>();
+        this.nbrImagesAnimation.put(Etats.ATTAQUE, 1);
+        this.nbrImagesAnimation.put(Etats.ATTENTE, 1);
+        this.nbrImagesAnimation.put(Etats.DEPLACEMENT, 9);
         this.etat = Etats.DEPLACEMENT;
         this.sprite = new RepresentationImage(path);
     }

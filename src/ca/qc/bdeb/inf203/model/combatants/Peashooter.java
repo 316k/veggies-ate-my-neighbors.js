@@ -1,4 +1,4 @@
-package ca.qc.bdeb.inf203.model.typescombatants;
+package ca.qc.bdeb.inf203.model.combatants;
 
 import ca.qc.bdeb.inf203.model.Combattant;
 import ca.qc.bdeb.inf203.model.Etats;
@@ -30,10 +30,10 @@ public class Peashooter extends Combattant {
         this.lineOfSight.height = 80;
         this.lineOfSight.width = Terrain.TAILLE_CASE_X * Terrain.CASES_X;
         this.animationFrameRate = 6;
-        this.nbrImagesParActions = new HashMap<>();
-        this.nbrImagesParActions.put(Etats.DEPLACEMENT, 0);
-        this.nbrImagesParActions.put(Etats.ATTENTE, 4);
-        this.nbrImagesParActions.put(Etats.ATTAQUE, 11);
+        this.nbrImagesAnimation = new HashMap<>();
+        this.nbrImagesAnimation.put(Etats.DEPLACEMENT, 0);
+        this.nbrImagesAnimation.put(Etats.ATTENTE, 4);
+        this.nbrImagesAnimation.put(Etats.ATTAQUE, 11);
         this.etat = Etats.ATTENTE;
         this.sprite = new RepresentationImage(new String[]{"plants", "pea-shooter", "normal"});
     }

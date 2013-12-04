@@ -1,4 +1,4 @@
-package ca.qc.bdeb.inf203.model.typespowerups;
+package ca.qc.bdeb.inf203.model.powerups;
 
 import ca.qc.bdeb.inf203.model.Item;
 import ca.qc.bdeb.inf203.model.Joueur;
@@ -20,7 +20,8 @@ public class PlanteUnlock extends PowerUp {
         super(item.getNom());
         this.item = item;
         this.hitbox = new Rectangle(position.x, position.y, largeur, hauteur);
-        this.animation = 0;
+        this.animationFrameRate = 1;
+        this.nbrImagesAnimation = 1;
     }
 
     @Override

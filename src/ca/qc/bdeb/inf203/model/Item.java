@@ -19,6 +19,10 @@ public class Item {
      */
     private double vitesseRechargement;
     /**
+     * Timestamp du dernier appel de la méthode tic
+     */
+    private long dernierTicTimestamp = System.currentTimeMillis();
+    /**
      * Nombre de soleils nécessaires à la création de l'item
      */
     private int cout;
@@ -53,5 +57,27 @@ public class Item {
 
     public double getVitesseRechargement() {
         return vitesseRechargement;
+    }
+
+    public boolean isUtilisable() {
+        return recharge == 1 && Joueur.instance().getSoleils() >= cout;
+    }
+
+    public void tic() {
+        long ts = System.currentTimeMillis();
+
+        if (recharge < 1) {
+
+            long deltaTemps = ts - dernierTicTimestamp;
+
+            // v = dRecharge/dT => dRecharge = v*dT
+            recharge += vitesseRechargement * deltaTemps;
+
+            if (recharge > 1) {
+                recharge = 1;
+            }
+        }
+
+        dernierTicTimestamp = ts;
     }
 }

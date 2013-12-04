@@ -1,4 +1,4 @@
-package ca.qc.bdeb.inf203.model.typespowerups;
+package ca.qc.bdeb.inf203.model.powerups;
 
 import ca.qc.bdeb.inf203.model.Joueur;
 import ca.qc.bdeb.inf203.model.PowerUp;
@@ -22,7 +22,8 @@ public class Soleil extends PowerUp {
         super("sun");
         this.valeur = valeur;
         this.hitbox = new Rectangle(x, y, largeur, hauteur);
-        this.animation = 0;
+        this.animationFrameRate = 12;
+        this.nbrImagesAnimation = 4;
     }
 
     @Override

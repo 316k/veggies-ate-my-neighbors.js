@@ -8,7 +8,7 @@ import ca.qc.bdeb.inf203.controller.FenetreControlleur;
  * @author Nicolas Hurtubise
  */
 public class VeggiesAteMyNeighbors {
-    public static final Object verrou = new Object();
+    public static final Object ticVerrou = new Object();
     /**
      * @param args the command line arguments
      */

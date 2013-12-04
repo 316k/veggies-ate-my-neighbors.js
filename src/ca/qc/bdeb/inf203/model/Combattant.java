@@ -41,7 +41,7 @@ public abstract class Combattant extends Entite implements Cloneable {
      * 
      */
     protected Rectangle lineOfSight;
-    protected HashMap<Etats, Integer> nbrImagesParActions;
+    protected HashMap<Etats, Integer> nbrImagesAnimation;
     /**
      * Quantité de vie enlevée par une attaque.
      */
@@ -126,6 +126,7 @@ public abstract class Combattant extends Entite implements Cloneable {
         this.vitesse = vitesse;
     }
 
+    @Override
     public int getAnimationCompteur() {
         long ts = System.currentTimeMillis();
 
@@ -135,11 +136,11 @@ public abstract class Combattant extends Entite implements Cloneable {
             derniereAnimationTimestamp = ts;
         }
 
-        return animationCompteur % nbrImagesParActions.get(etat);
+        return animationCompteur % nbrImagesAnimation.get(etat);
     }
 
-    public HashMap<Etats, Integer> getNbrImagesParActions() {
-        return nbrImagesParActions;
+    public HashMap<Etats, Integer> getNbrImagesAnimation() {
+        return nbrImagesAnimation;
     }
 
     public int getAttaqueRate() {

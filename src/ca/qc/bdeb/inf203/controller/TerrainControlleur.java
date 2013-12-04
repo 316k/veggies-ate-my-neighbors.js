@@ -1,6 +1,7 @@
 package ca.qc.bdeb.inf203.controller;
 
 import ca.qc.bdeb.inf203.model.Combattant;
+import ca.qc.bdeb.inf203.model.Joueur;
 import ca.qc.bdeb.inf203.model.PowerUp;
 import ca.qc.bdeb.inf203.model.Terrain;
 import ca.qc.bdeb.inf203.view.PositionnedSpriteContainer;
@@ -25,6 +26,7 @@ public class TerrainControlleur {
         public void run() {
             while (true) {
                 terrain.tic();
+                Joueur.instance().tic();
                 FenetreControlleur.refresh();
 
                 try {
@@ -56,7 +58,7 @@ public class TerrainControlleur {
             }
 
             for (PowerUp powerUp : powerups) {
-                images.add(new PositionnedSpriteContainer(powerUp.getHitbox().getLocation(), powerUp.getSprite(), powerUp.getAnimation()));
+                images.add(new PositionnedSpriteContainer(powerUp.getHitbox().getLocation(), powerUp.getSprite(), powerUp.getAnimationCompteur()));
             }
 
             return images.toArray(new PositionnedSpriteContainer[combatants.size() + powerups.size()]);

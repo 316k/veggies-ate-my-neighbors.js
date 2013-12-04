@@ -1,7 +1,7 @@
 package ca.qc.bdeb.inf203.model;
 
 import ca.qc.bdeb.inf203.VeggiesAteMyNeighbors;
-import ca.qc.bdeb.inf203.model.typespowerups.Soleil;
+import ca.qc.bdeb.inf203.model.powerups.Soleil;
 import java.awt.Dimension;
 import java.awt.Point;
 import java.awt.Rectangle;
@@ -57,7 +57,7 @@ public class Terrain {
 
     public void tic() {
         // faire la logique d'un tic de jeu ...
-        synchronized (VeggiesAteMyNeighbors.verrou) {
+        synchronized (VeggiesAteMyNeighbors.ticVerrou) {
             combattantsLogique();
             prochainVeggieLogique();
             ajouterSoleil();

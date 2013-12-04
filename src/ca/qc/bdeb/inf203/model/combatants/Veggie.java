@@ -1,4 +1,4 @@
-package ca.qc.bdeb.inf203.model.typescombatants;
+package ca.qc.bdeb.inf203.model.combatants;
 
 import ca.qc.bdeb.inf203.model.Combattant;
 import ca.qc.bdeb.inf203.model.Etats;
@@ -26,9 +26,9 @@ public class Veggie extends Combattant {
         this.hitbox.width = 60;
         this.vitesse = -16;
         this.animationFrameRate = 5;
-        this.nbrImagesParActions = new HashMap<>();
-        this.nbrImagesParActions.put(Etats.DEPLACEMENT, 5);
-        this.nbrImagesParActions.put(Etats.ATTAQUE, 1);
+        this.nbrImagesAnimation = new HashMap<>();
+        this.nbrImagesAnimation.put(Etats.DEPLACEMENT, 5);
+        this.nbrImagesAnimation.put(Etats.ATTAQUE, 1);
     }
     
     

@@ -86,7 +86,7 @@ public class Terrain {
                     Rectangle zoneCollision = null;
                     if (combattant.getEtat() == Etats.DEPLACEMENT) {
                         zoneCollision = combattant.getHitbox();
-                    } else if (combattant.getEtat() == Etats.ATTENTELIGNEDEVUE) {
+                    } else if (combattant.getEtat() == Etats.ATTENTE) {
                         zoneCollision = combattant.getLineOfSight();
                     }
                     if (zoneCollision != null) {

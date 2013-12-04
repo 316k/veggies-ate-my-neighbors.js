@@ -8,7 +8,7 @@ public enum Etats {
     
     ATTAQUE("attaque"),
     DEPLACEMENT("deplacement"),
-    ATTENTELIGNEDEVUE("jesaispasquoimettre");
+    ATTENTE("jesaispasquoimettre");
     
     
     public String nom;

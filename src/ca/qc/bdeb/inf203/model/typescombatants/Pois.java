@@ -20,19 +20,22 @@ public class Pois extends Combattant implements Cloneable {
     @Override
     protected final void initialise() {
         super.initialise(); //To change body of generated methods, choose Tools | Templates.
+        this.isGentil = true;
         this.attaqueRate = 0;
         this.vitesse = 70;
         this.attaque = 30;
         /**
          * @TODO Mettre les vrais width et height.
          */
-        this.hitbox.width = 15;
-        this.hitbox.height = 15;
+        this.hitbox.width = 12;
+        this.hitbox.height = 12;
         String[] path = {"plants", "pea"};
+        this.animationFrameRate = 5;
         this.nbrImagesParActions = new HashMap<>();
-        this.nbrImagesParActions.put(Etats.ATTAQUE, 5);
-        this.nbrImagesParActions.put(Etats.ATTENTELIGNEDEVUE, 5);
-        this.nbrImagesParActions.put(Etats.DEPLACEMENT, 5);
+        this.nbrImagesParActions.put(Etats.ATTAQUE, 1);
+        this.nbrImagesParActions.put(Etats.ATTENTE, 1);
+        this.nbrImagesParActions.put(Etats.DEPLACEMENT, 9);
+        this.etat = Etats.DEPLACEMENT;
         this.sprite = new RepresentationImage(path);
     }
 
@@ -45,5 +48,10 @@ public class Pois extends Combattant implements Cloneable {
     @Override
     public Combattant action() {
         return null;
+    }
+
+    @Override
+    public void deplacer() {
+        super.deplacer();
     }
 }

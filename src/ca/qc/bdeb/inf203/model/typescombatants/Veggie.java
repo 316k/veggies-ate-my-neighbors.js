@@ -20,12 +20,15 @@ public class Veggie extends Combattant {
     @Override
     protected final void initialise() {
         super.initialise();
+        this.isGentil = false;
         this.sprite = new RepresentationImage(new String[]{"veggies", "normal"});
         this.hitbox.height = 80;
         this.hitbox.width = 60;
+        this.vitesse = -16;
+        this.animationFrameRate = 5;
         this.nbrImagesParActions = new HashMap<>();
         this.nbrImagesParActions.put(Etats.DEPLACEMENT, 5);
-        this.nbrImagesParActions.put(Etats.ATTAQUE, 5);
+        this.nbrImagesParActions.put(Etats.ATTAQUE, 1);
     }
     
     

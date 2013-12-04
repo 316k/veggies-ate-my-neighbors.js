@@ -28,8 +28,18 @@ public abstract class Combattant extends Entite implements Cloneable {
     /**
      * L'équipement sur le combattant
      */
-    protected Equipement[] equipement;
+    protected Equipement[] equipement = new Equipement[0];
+    /**
+     * Compteur d'animation (resetté à chaque changement d'État)
+     */
     protected int animationCompteur;
+    /**
+     * Nombre de frames par seconde dans l'animation
+     */
+    protected int animationFrameRate = 1;
+    /**
+     * 
+     */
     protected Rectangle lineOfSight;
     protected HashMap<Etats, Integer> nbrImagesParActions;
     /**
@@ -41,15 +51,16 @@ public abstract class Combattant extends Entite implements Cloneable {
      */
     protected int attaqueRate;
     /**
-     * Nb de pix/sec 16 est la vitesse de base d'un veggie
+     * Vitesse en pixels/sec
      */
-    protected float vitesse = -16;
-    protected long tempsImmobile;
-    protected long tempsPourAvancer;
+    protected float vitesse;
     /**
      * Dernier timestamp calculé.
      */
-    protected long dernierTimestamp;
+    protected long dernierDeplacementTimestamp;
+    protected long derniereAnimationTimestamp;
+    protected float pendingDeplacement;
+    protected boolean isGentil;
 
     public Combattant() {
         super();
@@ -57,16 +68,16 @@ public abstract class Combattant extends Entite implements Cloneable {
     }
 
     protected void initialise() {
-        this.dernierTimestamp = System.currentTimeMillis();
+        this.dernierDeplacementTimestamp = System.currentTimeMillis();
+        this.derniereAnimationTimestamp = System.currentTimeMillis();
         this.hitbox = new Rectangle();
         this.lineOfSight = new Rectangle();
         this.cibles = new ArrayList();
-        this.tempsPourAvancer = Math.abs((long) (1 / vitesse * 1000));
         this.etat = Etats.DEPLACEMENT;
     }
-
-    public Rectangle getHitbox() {
-        return hitbox;
+    
+    protected boolean isEnnemi(Combattant combattant) {
+        return combattant.isGentil != this.isGentil;
     }
 
     public Etats getEtat() {
@@ -75,6 +86,7 @@ public abstract class Combattant extends Entite implements Cloneable {
 
     public void setEtat(Etats etat) {
         this.animationCompteur = 0;
+        this.derniereAnimationTimestamp = System.currentTimeMillis();
         this.etat = etat;
     }
 
@@ -115,15 +127,15 @@ public abstract class Combattant extends Entite implements Cloneable {
     }
 
     public int getAnimationCompteur() {
+        long ts = System.currentTimeMillis();
+
+        if (ts - this.derniereAnimationTimestamp >= (1000.0 / (float) animationFrameRate)) {
+            // On incrémente l'animation
+            animationCompteur++;
+            derniereAnimationTimestamp = ts;
+        }
+
         return animationCompteur % nbrImagesParActions.get(etat);
-    }
-
-    public void setAnimationCompteur(int animationCompteur) {
-        this.animationCompteur = animationCompteur;
-    }
-
-    public RepresentationImage getImg() {
-        return sprite;
     }
 
     public HashMap<Etats, Integer> getNbrImagesParActions() {
@@ -164,20 +176,25 @@ public abstract class Combattant extends Entite implements Cloneable {
      */
     public void deplacer() {
         long temps = System.currentTimeMillis();
-        this.tempsImmobile += (temps - this.dernierTimestamp);
-        int nbIncrementPos = (int) (this.tempsImmobile / this.tempsPourAvancer);
-        for (int i = 0; i < nbIncrementPos; i++) {
-            int sensDeplacement = (int) (vitesse / Math.abs(vitesse));
-            this.hitbox.x += sensDeplacement;
-            this.lineOfSight.x += sensDeplacement;
-            this.tempsImmobile -= this.tempsPourAvancer;
-        }
-        this.dernierTimestamp = temps;
+        long deltaTemps = temps - this.dernierDeplacementTimestamp;
+
+        // v = dx/dT => dx = v*dt
+        float deltaX = (vitesse * (deltaTemps / 1000.0f));
+
+        pendingDeplacement += deltaX;
+
+        int deplacement = (int) pendingDeplacement;
+
+        pendingDeplacement -= deplacement;
+
+        this.hitbox.x += deplacement;
+        this.lineOfSight.x += deplacement;
+
+        this.dernierDeplacementTimestamp = temps;
     }
 
     public Combattant tic() {
         // effectuer l'action par rapport à l'état.
-        Combattant retour = null;
         switch (etat) {
             case ATTAQUE:
                 attaquer();
@@ -186,8 +203,8 @@ public abstract class Combattant extends Entite implements Cloneable {
                 deplacer();
                 break;
         }
-        this.animationCompteur++;
-        return retour;
+
+        return null;
     }
 
     /**
@@ -216,16 +233,18 @@ public abstract class Combattant extends Entite implements Cloneable {
                 cible = null;
             }
         }
+
         boolean tousNull = true;
+
         for (Combattant cible : cibles) {
             if (cible != null) {
                 tousNull = false;
             }
         }
+
         if (tousNull) {
             this.etat = Etats.DEPLACEMENT;
         }
-
     }
 
     /**
@@ -233,9 +252,7 @@ public abstract class Combattant extends Entite implements Cloneable {
      *
      * @return
      */
-    public Combattant action() {
-        return null;
-    }
+    public abstract Entite action();
 
     @Override
     protected Combattant clone() {

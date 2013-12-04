@@ -17,15 +17,18 @@ import java.util.logging.Logger;
 public class TerrainControlleur {
 
     private static Terrain terrain = new Terrain();
+    /**
+     * Thread contrôllant les tics du terrain et les refresh de la vue.
+     */
     public static Thread t = new Thread(new Runnable() {
         @Override
         public void run() {
             while (true) {
                 terrain.tic();
                 FenetreControlleur.refresh();
-                
+
                 try {
-                    Thread.sleep(4);
+                    Thread.sleep(10);
                 }
                 catch (InterruptedException ex) {
                     Logger.getLogger(TerrainControlleur.class.getName()).log(Level.SEVERE, null, ex);
@@ -47,12 +50,13 @@ public class TerrainControlleur {
 
             ArrayList<PositionnedSpriteContainer> images = new ArrayList<>();
 
+            // TODO : Trier par valeur de x croissante pour faire un truc plus beau
             for (Combattant combatant : combatants) {
-                images.add(new PositionnedSpriteContainer(combatant.getHitbox().getLocation(), combatant.getImg(), combatant.getAnimationCompteur()));
+                images.add(new PositionnedSpriteContainer(combatant.getHitbox().getLocation(), combatant.getSprite(), combatant.getAnimationCompteur()));
             }
 
             for (PowerUp powerUp : powerups) {
-                images.add(new PositionnedSpriteContainer(powerUp.getHitbox().getLocation(), powerUp.getImg(), powerUp.getAnimation()));
+                images.add(new PositionnedSpriteContainer(powerUp.getHitbox().getLocation(), powerUp.getSprite(), powerUp.getAnimation()));
             }
 
             return images.toArray(new PositionnedSpriteContainer[combatants.size() + powerups.size()]);

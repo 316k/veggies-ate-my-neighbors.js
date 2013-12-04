@@ -21,6 +21,7 @@ public class Peashooter extends Combattant {
     @Override
     protected final void initialise() {
         super.initialise();
+        this.isGentil = true;
         this.attaqueRate = 1;
         this.vitesse = 0;
         this.attaque = 30;
@@ -28,11 +29,12 @@ public class Peashooter extends Combattant {
         this.hitbox.height = 80;
         this.lineOfSight.height = 80;
         this.lineOfSight.width = Terrain.TAILLE_CASE_X * Terrain.CASES_X;
+        this.animationFrameRate = 6;
         this.nbrImagesParActions = new HashMap<>();
-        this.nbrImagesParActions.put(Etats.DEPLACEMENT, 4);
-        this.nbrImagesParActions.put(Etats.ATTENTELIGNEDEVUE, 11);
-        this.nbrImagesParActions.put(Etats.ATTAQUE, 3);
-        this.etat = Etats.ATTENTELIGNEDEVUE;
+        this.nbrImagesParActions.put(Etats.DEPLACEMENT, 0);
+        this.nbrImagesParActions.put(Etats.ATTENTE, 4);
+        this.nbrImagesParActions.put(Etats.ATTAQUE, 11);
+        this.etat = Etats.ATTENTE;
         this.sprite = new RepresentationImage(new String[]{"plants", "pea-shooter", "normal"});
     }
 
@@ -65,7 +67,7 @@ public class Peashooter extends Combattant {
             }
         }
         if (tousMorts) {
-            this.etat = Etats.ATTENTELIGNEDEVUE;
+            this.etat = Etats.ATTENTE;
         }
         Combattant pois = new Pois();
         pois.getHitbox().setLocation(this.hitbox.x + 190, this.hitbox.y);

@@ -22,14 +22,6 @@ public abstract class PowerUp extends Entite implements Cloneable {
 
     public abstract void action();
 
-    public RepresentationImage getImg() {
-        return sprite;
-    }
-
-    public Rectangle getHitbox() {
-        return hitbox;
-    }
-
     public int getAnimation() {
         return animation;
     }

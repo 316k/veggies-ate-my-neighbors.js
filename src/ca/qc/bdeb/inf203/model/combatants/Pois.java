@@ -1,6 +1,7 @@
 package ca.qc.bdeb.inf203.model.combatants;
 
 import ca.qc.bdeb.inf203.model.Combattant;
+import ca.qc.bdeb.inf203.model.Entite;
 import ca.qc.bdeb.inf203.model.Etats;
 import ca.qc.bdeb.inf203.model.RepresentationImage;
 import java.util.HashMap;
@@ -46,7 +47,7 @@ public class Pois extends Combattant implements Cloneable {
     }
 
     @Override
-    public Combattant action() {
+    public Entite action() {
         return null;
     }
 

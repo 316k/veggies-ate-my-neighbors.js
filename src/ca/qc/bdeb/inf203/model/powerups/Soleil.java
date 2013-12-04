@@ -2,6 +2,8 @@ package ca.qc.bdeb.inf203.model.powerups;
 
 import ca.qc.bdeb.inf203.model.Joueur;
 import ca.qc.bdeb.inf203.model.PowerUp;
+import java.awt.Dimension;
+import java.awt.Point;
 import java.awt.Rectangle;
 
 /**
@@ -22,6 +24,20 @@ public class Soleil extends PowerUp {
         super("sun");
         this.valeur = valeur;
         this.hitbox = new Rectangle(x, y, largeur, hauteur);
+        this.animationFrameRate = 12;
+        this.nbrImagesAnimation = 4;
+        this.vitesse = 60;
+        this.destination = null;
+    }
+
+    public Soleil(int valeur, Point position, Point destination) {
+        super("sun");
+        this.valeur = valeur;
+        this.hitbox.setLocation(position);
+        this.hitbox.setSize(new Dimension(largeur, hauteur));
+        this.vitesse = 60;
+        this.destination = destination;
+
         this.animationFrameRate = 12;
         this.nbrImagesAnimation = 4;
     }

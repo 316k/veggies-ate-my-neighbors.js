@@ -171,10 +171,6 @@ public abstract class Combattant extends Entite implements Cloneable {
         this.lineOfSight = lineOfSight;
     }
 
-    /**
-     * @FIXME : La logique ne prends pas la vitesse du combatant en compte et
-     * semble louche
-     */
     public void deplacer() {
         long temps = System.currentTimeMillis();
         long deltaTemps = temps - this.dernierDeplacementTimestamp;
@@ -194,7 +190,7 @@ public abstract class Combattant extends Entite implements Cloneable {
         this.dernierDeplacementTimestamp = temps;
     }
 
-    public Combattant tic() {
+    public Entite tic() {
         // effectuer l'action par rapport à l'état.
         switch (etat) {
             case ATTAQUE:

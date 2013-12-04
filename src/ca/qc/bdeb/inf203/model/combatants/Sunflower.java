@@ -4,7 +4,8 @@ import ca.qc.bdeb.inf203.model.Combattant;
 import ca.qc.bdeb.inf203.model.Entite;
 import ca.qc.bdeb.inf203.model.Etats;
 import ca.qc.bdeb.inf203.model.RepresentationImage;
-import ca.qc.bdeb.inf203.model.Terrain;
+import ca.qc.bdeb.inf203.model.powerups.Soleil;
+import java.awt.Rectangle;
 import java.util.HashMap;
 
 /**
@@ -12,9 +13,15 @@ import java.util.HashMap;
  *
  * @author Guillaume Riou, Nicolas Hurtubise
  */
-public class Peashooter extends Combattant {
+public class Sunflower extends Combattant {
 
-    public Peashooter() {
+    long dernierSoleilTimestamp = System.currentTimeMillis();
+    /**
+     * Nombre de secondes minimal avant la génération d'un soleil
+     */
+    int tempsGenerationSoleil = 5;
+
+    public Sunflower() {
         super();
         initialise();
     }
@@ -25,34 +32,27 @@ public class Peashooter extends Combattant {
         this.isGentil = true;
         this.attaqueRate = 1;
         this.vitesse = 0;
-        this.attaque = 30;
+        this.attaque = 0;
         this.hitbox.width = 80;
         this.hitbox.height = 80;
-        this.lineOfSight.height = 80;
-        this.lineOfSight.width = Terrain.TAILLE_CASE_X * Terrain.CASES_X;
+        this.lineOfSight = new Rectangle();
         this.animationFrameRate = 6;
         this.nbrImagesAnimation = new HashMap<>();
-        this.nbrImagesAnimation.put(Etats.DEPLACEMENT, 0);
         this.nbrImagesAnimation.put(Etats.ATTENTE, 4);
-        this.nbrImagesAnimation.put(Etats.ATTAQUE, 11);
         this.etat = Etats.ATTENTE;
-        this.sprite = new RepresentationImage(new String[]{"plants", "pea-shooter", "normal"});
+        this.sprite = new RepresentationImage(new String[]{"plants", "sunflower"});
     }
 
     @Override
     public Entite tic() {
-        Entite pois = null;
+        Entite soleil = null;
         switch (etat) {
-            case ATTAQUE:
-                pois = action();
+            case ATTENTE:
+                soleil = action();
                 break;
-            case DEPLACEMENT:
-                deplacer();
-                break;
-
         }
-        
-        return pois;
+
+        return soleil;
     }
 
     /**
@@ -62,18 +62,14 @@ public class Peashooter extends Combattant {
      */
     @Override
     public Entite action() {
-        boolean tousMorts = true;
-        for (Combattant combattant : cibles) {
-            if (combattant.getVie() > 0) {
-                tousMorts = false;
-            }
-        }
-        if (tousMorts) {
-            this.etat = Etats.ATTENTE;
-        }
-        Pois pois = new Pois();
-        pois.getHitbox().setLocation(this.hitbox.x + 190, this.hitbox.y);
+        long ts = System.currentTimeMillis();
+        Soleil soleil = null;
 
-        return pois;
+        if (ts - dernierSoleilTimestamp >= tempsGenerationSoleil * 1000.0) {
+            soleil = new Soleil(25, hitbox.x, hitbox.y);
+            dernierSoleilTimestamp = ts;
+        }
+
+        return soleil;
     }
 }

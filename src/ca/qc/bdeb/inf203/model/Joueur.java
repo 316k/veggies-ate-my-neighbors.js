@@ -2,6 +2,7 @@ package ca.qc.bdeb.inf203.model;
 
 import ca.qc.bdeb.inf203.VeggiesAteMyNeighbors;
 import ca.qc.bdeb.inf203.model.combatants.Peashooter;
+import ca.qc.bdeb.inf203.model.combatants.Sunflower;
 import java.awt.Point;
 import java.util.ArrayList;
 
@@ -42,7 +43,7 @@ public class Joueur {
     
     private Joueur() {
         items.add(new Item("pea-shooter", 0.00008, 100, new Peashooter()));
-        items.add(new Item("sunflower", 0.0001, 50, new Peashooter()));
+        items.add(new Item("sunflower", 0.0001, 50, new Sunflower()));
         nbrSoleils = 250;
     }
     

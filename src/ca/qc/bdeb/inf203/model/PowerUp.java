@@ -1,5 +1,9 @@
 package ca.qc.bdeb.inf203.model;
 
+import static ca.qc.bdeb.inf203.model.Terrain.CASES_X;
+import static ca.qc.bdeb.inf203.model.Terrain.TAILLE_CASE_X;
+import ca.qc.bdeb.inf203.model.powerups.Soleil;
+import java.awt.Point;
 import java.awt.Rectangle;
 
 /**
@@ -12,6 +16,11 @@ public abstract class PowerUp extends Entite implements Cloneable {
     protected int animationFrameRate;
     protected long derniereAnimationTimestamp;
     protected int nbrImagesAnimation;
+    protected long dernierTicTimestamp = System.currentTimeMillis();
+    protected int vitesse;
+    protected float pendingDeplacementX;
+    protected float pendingDeplacementY;
+    protected Point destination = null;
 
     public PowerUp(String path[]) {
         this.sprite = new RepresentationImage(path);
@@ -20,6 +29,43 @@ public abstract class PowerUp extends Entite implements Cloneable {
     public PowerUp(String path) {
         this.hitbox = new Rectangle();
         this.sprite = new RepresentationImage(new String[]{"powerups", path});
+    }
+
+    public int getVitesse() {
+        return vitesse;
+    }
+
+    public Point getDestination() {
+        return destination;
+    }
+
+    public void tic() {
+        long temps = System.currentTimeMillis();
+
+        if (destination == null || hitbox.getLocation().equals(destination)) {
+            // Si le power-up est déjà arrivé à sa destination, rien à faire
+            return;
+        }
+
+        long deltaTemps = temps - this.dernierTicTimestamp;
+
+        // v = dx/dT => dx = v*dt
+        float deltaX = (Math.abs(vitesse) * Math.signum(destination.x - hitbox.getLocation().x) * (deltaTemps / 1000.0f));
+        float deltaY = (Math.abs(vitesse) * Math.signum(destination.y - hitbox.getLocation().y) * (deltaTemps / 1000.0f));
+
+        pendingDeplacementX += deltaX;
+        pendingDeplacementY += deltaY;
+
+        int deplacementX = (int) pendingDeplacementX;
+        int deplacementY = (int) pendingDeplacementY;
+
+        this.hitbox.x += deplacementX;
+        this.hitbox.y += deplacementY;
+        
+        pendingDeplacementX -= deplacementX;
+        pendingDeplacementY -= deplacementY;
+
+        this.dernierTicTimestamp = temps;
     }
 
     public abstract void action();
@@ -33,7 +79,15 @@ public abstract class PowerUp extends Entite implements Cloneable {
             animationCompteur++;
             derniereAnimationTimestamp = ts;
         }
-        
+
         return animationCompteur % nbrImagesAnimation;
+    }
+
+    @Override
+    protected PowerUp clone() throws CloneNotSupportedException {
+        PowerUp clone = (PowerUp) super.clone();
+        clone.destination = (Point) this.destination.clone();
+
+        return clone;
     }
 }

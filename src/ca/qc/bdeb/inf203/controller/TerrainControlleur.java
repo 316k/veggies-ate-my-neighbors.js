@@ -47,7 +47,7 @@ public class TerrainControlleur {
      */
     public static PositionnedSpriteContainer[] getImages() {
         try {
-            ArrayList<Combattant> combatants = terrain.getEntites();
+            ArrayList<Combattant> combatants = terrain.getCombattants();
             ArrayList<PowerUp> powerups = terrain.getPowerUps();
 
             ArrayList<PositionnedSpriteContainer> images = new ArrayList<>();

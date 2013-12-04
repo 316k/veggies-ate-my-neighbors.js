@@ -26,10 +26,10 @@ public class Terrain {
     /**
      * Représentation en objets cases de la totalité du terrain.
      */
-    private ArrayList<Combattant> entites;
+    private ArrayList<Combattant> combattants;
 
-    public ArrayList<Combattant> getEntites() {
-        return entites;
+    public ArrayList<Combattant> getCombattants() {
+        return combattants;
     }
 
     public ArrayList<PowerUp> getPowerUps() {
@@ -41,26 +41,30 @@ public class Terrain {
      */
     private Vague vagueEnCours;
     /**
-     * Delais en milis.
+     * Delais entre la création de soleils en secondes
      */
-    private long delaisSoleil = 40000;
+    private long delaisSoleil = 5;
     private long dernierTimeStampSoleil;
-    private long dernierTempsSoleil;
+    private long dernierTimestampSoleil;
     private int vague = 1;
     private Random rdm = new Random();
 
     public Terrain() {
-        entites = new ArrayList<>();
+        combattants = new ArrayList<>();
         powerUps = new ArrayList<>();
         this.vagueEnCours = Vague.generateVague(vague);
     }
 
     public void tic() {
-        // faire la logique d'un tic de jeu ...
         synchronized (VeggiesAteMyNeighbors.ticVerrou) {
             combattantsLogique();
             prochainVeggieLogique();
             ajouterSoleil();
+
+            // Tic des power-ups
+            for (PowerUp powerUp : powerUps) {
+                powerUp.tic();
+            }
         }
     }
 
@@ -70,18 +74,15 @@ public class Terrain {
 
     private void combattantsLogique() {
         try {
+            ArrayList<Entite> nouvellesEntites = new ArrayList<>();
             ArrayList<Combattant> morts = new ArrayList<>();
-            ArrayList<Combattant> nouveaux = new ArrayList<>();
-            for (Combattant combattant : entites) {
+            for (Combattant combattant : combattants) {
                 if (combattant.getVie() <= 0) {
                     morts.add(combattant);
                 } else {
                     // Certains combatants créent des nouveaux items lors des tic
-                    Combattant nouveauCombattant = combattant.tic();
-
-                    if (nouveauCombattant != null) {
-                        nouveaux.add(nouveauCombattant);
-                    }
+                    Entite nouvelleEntite = combattant.tic();
+                    nouvellesEntites.add(nouvelleEntite);
 
                     Rectangle zoneCollision = null;
                     if (combattant.getEtat() == Etats.DEPLACEMENT) {
@@ -98,10 +99,17 @@ public class Terrain {
                     }
                 }
             }
-            this.entites.removeAll(morts);
-            this.entites.addAll(nouveaux);
-        }
-        catch (ConcurrentModificationException e) {
+            this.combattants.removeAll(morts);
+            for (Entite entite : nouvellesEntites) {
+                if (entite != null) {
+                    if (entite instanceof Combattant) {
+                        combattants.add((Combattant) entite);
+                    } else if (entite instanceof PowerUp) {
+                        powerUps.add((PowerUp) entite);
+                    }
+                }
+            }
+        } catch (ConcurrentModificationException e) {
             System.out.println("ConcurrentModificationException dans Terrain");
         }
     }
@@ -123,23 +131,23 @@ public class Terrain {
 
         //Met au hasard dans une rangée.
         combattant.hitbox.y = (1 + rdm.nextInt(CASES_Y + 1)) * TAILLE_CASE_Y;
-        this.entites.add(combattant);
+        this.combattants.add(combattant);
     }
 
+    /**
+     * Génération de soleils à des endroits aléatoires
+     */
     private void ajouterSoleil() {
-        long temps = System.currentTimeMillis();
-        this.dernierTempsSoleil += (temps - dernierTimeStampSoleil);
-        if (dernierTempsSoleil >= delaisSoleil) {
-            //Le 34 est arbitraire, comprendre la largeur du terrain.
-            this.powerUps.add(new Soleil(25, rdm.nextInt(CASES_X * TAILLE_CASE_X), 0));
-            this.dernierTempsSoleil = 0;
+        long ts = System.currentTimeMillis();
+
+        if (ts - dernierTimestampSoleil >= delaisSoleil * 1000) {
+            int x = rdm.nextInt((CASES_X - 1) * TAILLE_CASE_X);
+            int y = rdm.nextInt((CASES_Y-2) * TAILLE_CASE_Y) + 1 * TAILLE_CASE_Y;
+            this.powerUps.add(new Soleil(25, new Point(x, -TAILLE_CASE_Y), new Point(x, y)));
+            dernierTimestampSoleil = ts;
         }
-        this.dernierTimeStampSoleil = temps;
-        for (PowerUp pu : powerUps) {
-            if (pu.hitbox.y < 400) {
-                pu.hitbox.y++;
-            }
-        }
+
+        this.dernierTimeStampSoleil = ts;
     }
 
     public void clic(Point point) {
@@ -157,7 +165,7 @@ public class Terrain {
         }
 
         // Test la collision avec une case contenant un combatant
-        for (Combattant combattant : entites) {
+        for (Combattant combattant : combattants) {
             if (combattant.hitbox.intersects(caseClic)) {
                 return;
             }
@@ -165,7 +173,7 @@ public class Terrain {
 
         // On assume que l'item est sélectionné <=> il est complètement rechargé
         if (Joueur.instance().getItem() != null) {
-            entites.add(Joueur.instance().useCurrentItem(caseClic.getLocation()));
+            combattants.add(Joueur.instance().useCurrentItem(caseClic.getLocation()));
         }
     }
 
@@ -180,7 +188,7 @@ public class Terrain {
     private ArrayList<Combattant> getCollisions(Rectangle zone, Combattant combattantExclus) {
         ArrayList<Combattant> cibles = new ArrayList<>();
 
-        for (Combattant combattant : entites) {
+        for (Combattant combattant : combattants) {
             if (!combattant.equals(combattantExclus)) {
                 if (zone.intersects(combattant.getHitbox())) {
                     cibles.add(combattant);

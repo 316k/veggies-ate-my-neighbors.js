@@ -18,8 +18,8 @@ public class NewMain {
         
         while(true){
             t.tic();
-            if(!t.getEntites().isEmpty()){
-                System.out.println(t.getEntites().get(0).hitbox.x);
+            if(!t.getCombattants().isEmpty()){
+                System.out.println(t.getCombattants().get(0).hitbox.x);
             }
 
             try {

@@ -15,11 +15,12 @@ import java.util.HashMap;
  */
 public class Sunflower extends Combattant {
 
-    long dernierSoleilTimestamp = System.currentTimeMillis();
+    private long dernierSoleilTimestamp = System.currentTimeMillis();
     /**
      * Nombre de secondes minimal avant la génération d'un soleil
      */
-    int tempsGenerationSoleil = 5;
+    private int tempsGenerationSoleil = 30; // 30
+    private Soleil soleil = null;
 
     public Sunflower() {
         super();
@@ -62,12 +63,16 @@ public class Sunflower extends Combattant {
      */
     @Override
     public Entite action() {
+
         long ts = System.currentTimeMillis();
         Soleil soleil = null;
 
-        if (ts - dernierSoleilTimestamp >= tempsGenerationSoleil * 1000.0) {
+        if (this.soleil != null && !this.soleil.isUsed()) {
+            dernierSoleilTimestamp = ts;
+        } else if (ts - dernierSoleilTimestamp >= tempsGenerationSoleil * 1000.0) {
             soleil = new Soleil(25, hitbox.x, hitbox.y);
             dernierSoleilTimestamp = ts;
+            this.soleil = soleil;
         }
 
         return soleil;

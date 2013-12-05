@@ -19,6 +19,7 @@ public class Soleil extends PowerUp {
     private int valeur;
     private int hauteur = 30;
     private int largeur = 30;
+    private boolean used = false;
 
     public Soleil(int valeur, int x, int y) {
         super("sun");
@@ -45,5 +46,11 @@ public class Soleil extends PowerUp {
     @Override
     public void action() {
         Joueur.instance().addSoleils(valeur);
+        this.used = true;
+        
+    }
+
+    public boolean isUsed() {
+        return used;
     }
 }

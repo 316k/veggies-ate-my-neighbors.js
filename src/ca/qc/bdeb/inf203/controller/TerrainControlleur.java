@@ -4,6 +4,8 @@ import ca.qc.bdeb.inf203.model.Combattant;
 import ca.qc.bdeb.inf203.model.Joueur;
 import ca.qc.bdeb.inf203.model.PowerUp;
 import ca.qc.bdeb.inf203.model.Terrain;
+import ca.qc.bdeb.inf203.model.TerrainEvent;
+import ca.qc.bdeb.inf203.model.Vague;
 import ca.qc.bdeb.inf203.view.PositionnedSpriteContainer;
 import java.awt.Point;
 import java.util.ArrayList;
@@ -18,26 +20,44 @@ import java.util.logging.Logger;
 public class TerrainControlleur {
 
     private static Terrain terrain = new Terrain();
+    private static boolean continuerThread;
     /**
-     * Thread contrôllant les tics du terrain et les refresh de la vue.
+     * Thread contrôllant les tics du terrain.
      */
-    public static Thread t = new Thread(new Runnable() {
+    private static Thread t = new Thread(new Runnable() {
         @Override
         public void run() {
-            while (true) {
-                terrain.tic();
+            while (continuerThread) {
+                TerrainEvent evenement = terrain.tic();
                 Joueur.instance().tic();
-                FenetreControlleur.refresh();
+
+                if (evenement == TerrainEvent.GAME_OVER) {
+                    FenetreControlleur.gameOver();
+                } else if (evenement == TerrainEvent.NOUVELLE_VAGUE) {
+                    FenetreControlleur.nouvelleVague(terrain.getVague());
+                } else if (evenement == TerrainEvent.MASSIVE_ATTACK) {
+                    FenetreControlleur.massiveAttack();
+                }
 
                 try {
                     Thread.sleep(10);
-                }
-                catch (InterruptedException ex) {
+                } catch (InterruptedException ex) {
                     Logger.getLogger(TerrainControlleur.class.getName()).log(Level.SEVERE, null, ex);
                 }
             }
         }
     });
+
+    public static void jouer() {
+        continuerThread = true;
+        if (!t.isAlive()) {
+            t.start();
+        }
+    }
+
+    public static void pause() {
+        continuerThread = false;
+    }
 
     /**
      * Donne un SpriteContainer contenant l'information relative aux images et
@@ -62,8 +82,7 @@ public class TerrainControlleur {
             }
 
             return images.toArray(new PositionnedSpriteContainer[combatants.size() + powerups.size()]);
-        }
-        catch (ConcurrentModificationException e) {
+        } catch (ConcurrentModificationException e) {
             System.out.println("ConcurrentModificationException dans TerrainControlleur.");
             // Autre tentative
             return new PositionnedSpriteContainer[0];
@@ -76,5 +95,9 @@ public class TerrainControlleur {
 
     public static int getVague() {
         return terrain.getVague();
+    }
+
+    public static void setPourcentageAugmentationVeggies(double pourcentageAugmentationVeggies) {
+        Vague.setPourcentageAugmentationVeggies(pourcentageAugmentationVeggies);
     }
 }

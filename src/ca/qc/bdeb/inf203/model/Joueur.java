@@ -24,6 +24,10 @@ public class Joueur {
         return kills;
     }
     
+    public void incrementKills() {
+        kills++;
+    }
+    
     public void setScore(int score) {
         this.kills = score;
     }

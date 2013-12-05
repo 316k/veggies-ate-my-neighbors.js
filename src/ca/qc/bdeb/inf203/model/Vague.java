@@ -10,7 +10,14 @@ import java.util.Random;
  */
 public class Vague {
 
+    /**
+     * Random
+     */
     private static Random rdm = new Random();
+    /**
+     * Pourcentage d'augmentation du nombre de veggies
+     */
+    private static double pourcentageAugmentationVeggies = 1.2;
     /**
      * Combatants à générer pour cette vague.
      */
@@ -24,6 +31,11 @@ public class Vague {
      * Delais moyen entre les spawns en milisecondes.
      */
     private long delaisMoyen;
+    private boolean massiveAttack = false;
+
+    public boolean isMassiveAttack() {
+        return massiveAttack;
+    }
     /**
      * Delais efficace, est changé après chaque spawn.
      */
@@ -42,6 +54,14 @@ public class Vague {
         this.delais = delaisMoyen;
         this.lastTimestamp = System.currentTimeMillis();
         setDelais();
+    }
+
+    public long getDasdelaisMoyen() {
+        return delaisMoyen;
+    }
+
+    public static void setPourcentageAugmentationVeggies(double pourcentageAugmentationVeggies) {
+        Vague.pourcentageAugmentationVeggies = pourcentageAugmentationVeggies;
     }
 
     private void setDelais() {
@@ -75,6 +95,7 @@ public class Vague {
 
         int combattantIndex;
 
+        // On choisit aléatoirement un type de combattant dans ceux qui restent
         do {
             combattantIndex = Vague.rdm.nextInt(this.archetypes.length);
         } while (this.nbParArchetype[combattantIndex] == 0);
@@ -84,6 +105,7 @@ public class Vague {
         // Panique de fin de vague
         if (getRemainingVeggies() < (this.nbInitial / 2)) {
             this.delaisMoyen = 400;
+            this.massiveAttack = true;
         }
 
         this.depuisDernierSpawn = 0;
@@ -93,15 +115,32 @@ public class Vague {
     }
 
     /**
+     * Le nombre de veggies dans une vague donnée
+     *
+     * @ViveLesMéthodesInutilementRécursives
+     *
+     * @param numeroVague Le numéro de vague à utiliser
+     * @return Le nombre de veggies dans une vague donnée
+     */
+    public static int getNombreVeggie(int numeroVague) {
+        if (numeroVague == 1) {
+            return 5;
+        }
+
+        return (int) (Vague.getNombreVeggie(numeroVague - 1) * pourcentageAugmentationVeggies);
+    }
+
+    /**
      * Génère une vague dont la difficulté dépend du numéro de la vague.
      *
-     * @param numeroDeVague numéro de la vague voulue
+     * @param numeroVague numéro de la vague voulue
      * @return
      */
-    public static Vague generateVague(int numeroDeVague) {
+    public static Vague generateVague(int numeroVague) {
         Combattant[] combattants = {new Veggie()};
-        int[] nbrCombattantsParType = {5};
-        Vague retour = new Vague(combattants, nbrCombattantsParType, 5000);
-        return retour;
+        int[] nbrCombattantsParType = {getNombreVeggie(numeroVague)};
+        Vague vague = new Vague(combattants, nbrCombattantsParType, 5000);
+
+        return vague;
     }
 }

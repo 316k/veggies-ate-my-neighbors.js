@@ -52,8 +52,12 @@ public class JTerrain extends JPanel {
     private Point caseSelectionnee = new Point(-1, -1);
     private Font sunFont;
     private Font infosFont;
+    private Font messageFont;
     private Font scoreFont;
     private boolean repainting = false;
+    private String message = null;
+    private Long messageTimeout = null;
+    private boolean messageBlink = false;
 
     public JTerrain() {
         try {
@@ -62,9 +66,9 @@ public class JTerrain extends JPanel {
                     .registerFont(Font.createFont(Font.TRUETYPE_FONT, new File("assets/fonts/PressStart2P.ttf")));
             this.sunFont = new Font("Press Start 2P", Font.PLAIN, 13);
             this.infosFont = new Font("Press Start 2P", Font.BOLD, 20);
+            this.messageFont = new Font("Press Start 2P", Font.BOLD, 32);
             this.scoreFont = new Font("Press Start 2P", Font.PLAIN, 16);
-        }
-        catch (FontFormatException | IOException ex) {
+        } catch (FontFormatException | IOException ex) {
             Logger.getLogger(JTerrain.class.getName()).log(Level.SEVERE, null, ex);
         }
 
@@ -187,6 +191,16 @@ public class JTerrain extends JPanel {
                 g.setColor(new Color(255, 170, 0));
                 g.drawRect(caseSelectionnee.x * TAILLE_CASE_X, caseSelectionnee.y * TAILLE_CASE_Y, TAILLE_CASE_X, TAILLE_CASE_Y);
             }
+
+            // Message
+            if (message != null && (messageTimeout == null || System.currentTimeMillis() < messageTimeout)) {
+                // Blink
+                if (!messageBlink || (messageBlink && System.currentTimeMillis() / 500 % 3 != 0)) {
+                    g.setFont(messageFont);
+                    g.setColor(Color.black);
+                    g.drawString(message, WIDTH / 2 - g.getFontMetrics().stringWidth(message) / 2, HEIGHT / 2);
+                }
+            }
         }
     }
 
@@ -219,5 +233,25 @@ public class JTerrain extends JPanel {
         } else {
             caseSelectionnee = null;
         }
+    }
+
+    /**
+     * Affiche un message arbitraire à l'écran
+     *
+     * @param message Message à afficher
+     * @param timeout Nombre de secondes après lequel le message doit
+     * disparaître (null pour laisser le message indéfiniment)
+     */
+    void setMessage(String message, Integer timeout) {
+        this.message = message;
+        if (timeout == null) {
+            this.messageTimeout = null;
+        } else {
+            this.messageTimeout = System.currentTimeMillis() + (long) timeout * 1000;
+        }
+    }
+    
+    void setMessageBlink(boolean blink) {
+        messageBlink = blink;
     }
 }

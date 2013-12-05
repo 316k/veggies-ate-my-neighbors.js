@@ -16,7 +16,7 @@ public abstract class Combattant extends Entite implements Cloneable {
     /**
      * État du combattant
      */
-    protected Etats etat;
+    protected Etat etat;
     /**
      * Points de vie
      */
@@ -29,36 +29,36 @@ public abstract class Combattant extends Entite implements Cloneable {
      * L'équipement sur le combattant
      */
     protected Equipement[] equipement = new Equipement[0];
-    /**
-     * Compteur d'animation (resetté à chaque changement d'État)
-     */
-    protected int animationCompteur;
+
     /**
      * Nombre de frames par seconde dans l'animation
      */
     protected int animationFrameRate = 1;
     /**
-     * 
+     *
      */
     protected Rectangle lineOfSight;
-    protected HashMap<Etats, Integer> nbrImagesAnimation;
+    protected HashMap<Etat, Integer> nbrImagesAnimation;
     /**
      * Quantité de vie enlevée par une attaque.
      */
     protected int attaque;
     /**
-     * Nombre de frames attendues pour attaquer une fois.
-     */
-    protected int attaqueRate;
-    /**
      * Vitesse en pixels/sec
      */
     protected float vitesse;
     /**
+     * Vitesse en action/sec
+     */
+    protected HashMap<Action, Float> vitesseAction;
+    protected HashMap<Action, Long> derniereActionTS;
+    protected HashMap<Action, Long> accumulateurAction;
+    /**
      * Dernier timestamp calculé.
      */
-    protected long dernierDeplacementTimestamp;
+    protected long derniereActionTimestamp;
     protected long derniereAnimationTimestamp;
+
     protected float pendingDeplacement;
     protected boolean isGentil;
 
@@ -68,25 +68,39 @@ public abstract class Combattant extends Entite implements Cloneable {
     }
 
     protected void initialise() {
-        this.dernierDeplacementTimestamp = System.currentTimeMillis();
+        this.derniereActionTimestamp = System.currentTimeMillis();
         this.derniereAnimationTimestamp = System.currentTimeMillis();
+        this.derniereActionTS = new HashMap<>();
+        this.vitesseAction = new HashMap<>();
+        this.accumulateurAction = new HashMap<>();
+
+        this.accumulateurAction.put(Action.ACTION, 0l);
+        this.accumulateurAction.put(Action.DEPLACEMENT, 0l);
+        this.accumulateurAction.put(Action.ATTAQUE, 0l);
+
+        this.derniereActionTS.put(Action.ACTION, System.currentTimeMillis());
+        this.derniereActionTS.put(Action.DEPLACEMENT, System.currentTimeMillis());
+        this.derniereActionTS.put(Action.ATTAQUE, System.currentTimeMillis());
+
         this.hitbox = new Rectangle();
         this.lineOfSight = new Rectangle();
         this.cibles = new ArrayList();
-        this.etat = Etats.DEPLACEMENT;
+        this.etat = Etat.DEPLACEMENT;
+
     }
-    
+
     protected boolean isEnnemi(Combattant combattant) {
         return combattant.isGentil != this.isGentil;
     }
 
-    public Etats getEtat() {
+    public Etat getEtat() {
         return etat;
     }
 
-    public void setEtat(Etats etat) {
+    public void setEtat(Etat etat) {
         this.animationCompteur = 0;
         this.derniereAnimationTimestamp = System.currentTimeMillis();
+        resetActions();
         this.etat = etat;
     }
 
@@ -139,12 +153,8 @@ public abstract class Combattant extends Entite implements Cloneable {
         return animationCompteur % nbrImagesAnimation.get(etat);
     }
 
-    public HashMap<Etats, Integer> getNbrImagesAnimation() {
+    public HashMap<Etat, Integer> getNbrImagesAnimation() {
         return nbrImagesAnimation;
-    }
-
-    public int getAttaqueRate() {
-        return attaqueRate;
     }
 
     public RepresentationImage getSprite() {
@@ -171,33 +181,43 @@ public abstract class Combattant extends Entite implements Cloneable {
         this.lineOfSight = lineOfSight;
     }
 
-    public void deplacer() {
+    //retourne combien de fois faire une action selon l'action et sa vitesse.
+    public int getNbActions(Action action) {
         long temps = System.currentTimeMillis();
-        long deltaTemps = temps - this.dernierDeplacementTimestamp;
+        long accumulateur = accumulateurAction.get(action);
+        accumulateur += temps - derniereActionTS.get(action);
+        long tempsPourAction = (long) (1000 / vitesseAction.get(action));
+        int nbFois = (int) (accumulateur / tempsPourAction);
+        accumulateur -= nbFois * tempsPourAction;
+        accumulateurAction.put(action, accumulateur);
+        derniereActionTS.put(action, temps);
+        return nbFois;
+    }
 
-        // v = dx/dT => dx = v*dt
-        float deltaX = (vitesse * (deltaTemps / 1000.0f));
+    public void resetActions() {
+        this.accumulateurAction.put(Action.ACTION, 0l);
+        this.accumulateurAction.put(Action.DEPLACEMENT, 0l);
+        this.accumulateurAction.put(Action.ATTAQUE, 0l);
 
-        pendingDeplacement += deltaX;
+        this.derniereActionTS.put(Action.ACTION, System.currentTimeMillis());
+        this.derniereActionTS.put(Action.DEPLACEMENT, System.currentTimeMillis());
+        this.derniereActionTS.put(Action.ATTAQUE, System.currentTimeMillis());
+    }
 
-        int deplacement = (int) pendingDeplacement;
+    public void deplacer(int deltaX) {
 
-        pendingDeplacement -= deplacement;
-
-        this.hitbox.x += deplacement;
-        this.lineOfSight.x += deplacement;
-
-        this.dernierDeplacementTimestamp = temps;
+        this.hitbox.x += deltaX;
+        this.lineOfSight.x += deltaX;
     }
 
     public Entite tic() {
         // effectuer l'action par rapport à l'état.
         switch (etat) {
             case ATTAQUE:
-                attaquer();
+                attaquer(getNbActions(Action.ATTAQUE));
                 break;
             case DEPLACEMENT:
-                deplacer();
+                deplacer(getNbActions(Action.DEPLACEMENT));
                 break;
         }
 
@@ -209,38 +229,37 @@ public abstract class Combattant extends Entite implements Cloneable {
      * cibles et à leur équipement en fonction du l'attaque totale de l'entité
      * et de la défense totale des cibles.
      */
-    protected void attaquer() {
+    protected void attaquer(int nbFois) {
 
-        float modificateur = 0;
-        for (Combattant cible : cibles) {
-            for (int i = 0; i < this.equipement.length; i++) {
-                modificateur += this.equipement[i].getAttaque();
-            }
-            for (int i = 0; i < cible.equipement.length; i++) {
-                modificateur -= cible.equipement[i].getDefense();
-            }
-            int attaqueTotale = this.attaque - (int) (this.attaque * modificateur);
-            cible.incrementVie(attaqueTotale);
-            for (Equipement equipement : cible.equipement) {
-                if (equipement.isEndommageable()) {
-                    equipement.incrementVies(this.attaque);
+        for (int j = 0; j < nbFois; j++) {
+
+            ArrayList<Entite> morts = new ArrayList<>();
+            float modificateur = 0;
+            for (Combattant cible : cibles) {
+
+                for (int i = 0; i < this.equipement.length; i++) {
+                    modificateur += this.equipement[i].getAttaque();
+                }
+                for (int i = 0; i < cible.equipement.length; i++) {
+                    modificateur -= cible.equipement[i].getDefense();
+                }
+
+                int attaqueTotale = this.attaque - (int) (this.attaque * modificateur);
+                cible.incrementVie(-attaqueTotale);
+                for (Equipement equipement : cible.equipement) {
+                    if (equipement.isEndommageable()) {
+                        equipement.incrementVies(-this.attaque);
+                    }
+                }
+                if (cible.getVie() <= 0) {
+                    morts.add(cible);
                 }
             }
-            if (cible.getVie() <= 0) {
-                cible = null;
-            }
+            this.cibles.removeAll(morts);
+
         }
-
-        boolean tousNull = true;
-
-        for (Combattant cible : cibles) {
-            if (cible != null) {
-                tousNull = false;
-            }
-        }
-
-        if (tousNull) {
-            this.etat = Etats.DEPLACEMENT;
+        if (this.cibles.isEmpty()) {
+            this.setEtat(Etat.DEPLACEMENT);
         }
     }
 
@@ -249,7 +268,7 @@ public abstract class Combattant extends Entite implements Cloneable {
      *
      * @return
      */
-    public abstract Entite action();
+    public abstract Entite action(int nbFois);
 
     @Override
     protected Combattant clone() {
@@ -259,8 +278,7 @@ public abstract class Combattant extends Entite implements Cloneable {
             clone.initialise();
 
             return clone;
-        }
-        catch (CloneNotSupportedException ex) {
+        } catch (CloneNotSupportedException ex) {
             Logger.getLogger(Combattant.class.getName()).log(Level.SEVERE, null, ex);
         }
 

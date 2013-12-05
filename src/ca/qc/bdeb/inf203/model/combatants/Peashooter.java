@@ -1,8 +1,9 @@
 package ca.qc.bdeb.inf203.model.combatants;
 
+import ca.qc.bdeb.inf203.model.Action;
 import ca.qc.bdeb.inf203.model.Combattant;
 import ca.qc.bdeb.inf203.model.Entite;
-import ca.qc.bdeb.inf203.model.Etats;
+import ca.qc.bdeb.inf203.model.Etat;
 import ca.qc.bdeb.inf203.model.RepresentationImage;
 import ca.qc.bdeb.inf203.model.Terrain;
 import java.util.HashMap;
@@ -23,19 +24,23 @@ public class Peashooter extends Combattant {
     protected final void initialise() {
         super.initialise();
         this.isGentil = true;
-        this.attaqueRate = 1;
         this.vitesse = 0;
-        this.attaque = 30;
+        this.attaque = 0;
         this.hitbox.width = 80;
         this.hitbox.height = 80;
         this.lineOfSight.height = 80;
         this.lineOfSight.width = Terrain.TAILLE_CASE_X * Terrain.CASES_X;
         this.animationFrameRate = 6;
         this.nbrImagesAnimation = new HashMap<>();
-        this.nbrImagesAnimation.put(Etats.DEPLACEMENT, 0);
-        this.nbrImagesAnimation.put(Etats.ATTENTE, 4);
-        this.nbrImagesAnimation.put(Etats.ATTAQUE, 11);
-        this.etat = Etats.ATTENTE;
+        this.nbrImagesAnimation.put(Etat.DEPLACEMENT, 0);
+        this.nbrImagesAnimation.put(Etat.ATTENTE, 4);
+        this.nbrImagesAnimation.put(Etat.ATTAQUE, 11);
+        this.etat = Etat.ATTENTE;
+
+        this.derniereActionTS.put(Action.ACTION, System.currentTimeMillis());
+
+        this.vitesseAction.put(Action.ACTION, 1 / 4f);
+
         this.sprite = new RepresentationImage(new String[]{"plants", "pea-shooter", "normal"});
     }
 
@@ -44,14 +49,10 @@ public class Peashooter extends Combattant {
         Entite pois = null;
         switch (etat) {
             case ATTAQUE:
-                pois = action();
+                pois = action(getNbActions(Action.ACTION));
                 break;
-            case DEPLACEMENT:
-                deplacer();
-                break;
-
         }
-        
+
         return pois;
     }
 
@@ -61,19 +62,22 @@ public class Peashooter extends Combattant {
      * @return
      */
     @Override
-    public Entite action() {
-        boolean tousMorts = true;
-        for (Combattant combattant : cibles) {
-            if (combattant.getVie() > 0) {
-                tousMorts = false;
+    public Entite action(int nbFois) {
+        for (int i = 0; i < nbFois; i++) {
+            boolean tousMorts = true;
+            for (Combattant combattant : cibles) {
+                if (combattant.getVie() > 0) {
+                    tousMorts = false;
+                }
             }
-        }
-        if (tousMorts) {
-            this.etat = Etats.ATTENTE;
-        }
-        Pois pois = new Pois();
-        pois.getHitbox().setLocation(this.hitbox.x + 190, this.hitbox.y);
+            if (tousMorts) {
+                this.etat = Etat.ATTENTE;
+            }
+            Pois pois = new Pois();
+            pois.getHitbox().setLocation(this.hitbox.x + 190, this.hitbox.y);
 
-        return pois;
+            return pois;
+        }
+        return null;
     }
 }

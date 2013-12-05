@@ -1,8 +1,9 @@
 package ca.qc.bdeb.inf203.model.combatants;
 
+import ca.qc.bdeb.inf203.model.Action;
 import ca.qc.bdeb.inf203.model.Combattant;
 import ca.qc.bdeb.inf203.model.Entite;
-import ca.qc.bdeb.inf203.model.Etats;
+import ca.qc.bdeb.inf203.model.Etat;
 import ca.qc.bdeb.inf203.model.RepresentationImage;
 import ca.qc.bdeb.inf203.model.powerups.Soleil;
 import java.awt.Rectangle;
@@ -23,7 +24,9 @@ public class Sunflower extends Combattant {
     private Soleil soleil = null;
 
     public Sunflower() {
+
         super();
+        this.vie = 34;
         initialise();
     }
 
@@ -31,7 +34,6 @@ public class Sunflower extends Combattant {
     protected final void initialise() {
         super.initialise();
         this.isGentil = true;
-        this.attaqueRate = 1;
         this.vitesse = 0;
         this.attaque = 0;
         this.hitbox.width = 80;
@@ -39,8 +41,14 @@ public class Sunflower extends Combattant {
         this.lineOfSight = new Rectangle();
         this.animationFrameRate = 6;
         this.nbrImagesAnimation = new HashMap<>();
-        this.nbrImagesAnimation.put(Etats.ATTENTE, 4);
-        this.etat = Etats.ATTENTE;
+        this.nbrImagesAnimation.put(Etat.ATTENTE, 4);
+        this.nbrImagesAnimation.put(Etat.DEPLACEMENT, 5);
+        this.nbrImagesAnimation.put(Etat.ATTAQUE, 1);
+
+        this.derniereActionTS.put(Action.ACTION, System.currentTimeMillis());
+
+        this.vitesseAction.put(Action.ACTION, 1 / 30f);
+        this.etat = Etat.ATTENTE;
         this.sprite = new RepresentationImage(new String[]{"plants", "sunflower"});
     }
 
@@ -49,7 +57,7 @@ public class Sunflower extends Combattant {
         Entite soleil = null;
         switch (etat) {
             case ATTENTE:
-                soleil = action();
+                soleil = action(getNbActions(Action.ACTION));
                 break;
         }
 
@@ -62,19 +70,25 @@ public class Sunflower extends Combattant {
      * @return
      */
     @Override
-    public Entite action() {
+    public Entite action(int nbFois) {
 
-        long ts = System.currentTimeMillis();
-        Soleil soleil = null;
-
-        if (this.soleil != null && !this.soleil.isUsed()) {
-            dernierSoleilTimestamp = ts;
-        } else if (ts - dernierSoleilTimestamp >= tempsGenerationSoleil * 1000.0) {
-            soleil = new Soleil(25, hitbox.x, hitbox.y);
-            dernierSoleilTimestamp = ts;
-            this.soleil = soleil;
+//        for (int i = 0; i < nbFois; i++) {
+//
+//            long ts = System.currentTimeMillis();
+//            Soleil soleil = null;
+//
+//            if (this.soleil != null && !this.soleil.isUsed()) {
+//                dernierSoleilTimestamp = ts;
+//            } else if (ts - dernierSoleilTimestamp >= tempsGenerationSoleil * 1000.0) {
+//                soleil = new Soleil(25, hitbox.x, hitbox.y);
+//                dernierSoleilTimestamp = ts;
+//                this.soleil = soleil;
+//            }
+//        }
+        if (nbFois > 0) {
+            return new Soleil(25, hitbox.x, hitbox.y);
+        } else {
+            return null;
         }
-
-        return soleil;
     }
 }

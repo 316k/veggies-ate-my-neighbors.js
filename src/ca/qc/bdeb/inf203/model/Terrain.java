@@ -92,17 +92,24 @@ public class Terrain {
                 // Certains combatants créent des nouveaux items lors des tic
                 Entite nouvelleEntite = combattant.tic();
                 nouvellesEntites.add(nouvelleEntite);
-
-                if (combattant.getEtat() == Etats.DEPLACEMENT) {
+                
+                Rectangle zoneCollision = null;
+                if (combattant.getEtat() == Etat.DEPLACEMENT) {
                     // Si le combattant entre en collision, il se met à attaquer ses adversaires
-                    ArrayList<Combattant> cibles = getCollisions(combattant.getHitbox(), combattant);
-
-                    if (!cibles.isEmpty()) {
-                        combattant.setEtat(Etats.ATTAQUE);
-                    }
-                } else if (combattant.getEtat() == Etats.ATTENTE) {
-                    Rectangle zoneCollision = null;
+                    
+                    zoneCollision = combattant.getHitbox();
+                    
+                } else if (combattant.getEtat() == Etat.ATTENTE) {
+                    
                     zoneCollision = combattant.getLineOfSight();
+                }
+                
+                if (zoneCollision != null){
+                    ArrayList<Combattant> cibles = getCollisions(zoneCollision, combattant);
+                    if (!cibles.isEmpty()) {
+                        combattant.setEtat(Etat.ATTAQUE);
+                        combattant.setCibles(cibles);
+                    }
                 }
             }
         }
@@ -110,7 +117,9 @@ public class Terrain {
         this.combattants.removeAll(morts);
 
         for (Entite entite : nouvellesEntites) {
+            
             if (entite != null) {
+                System.out.println("ADDD");
                 if (entite instanceof Combattant) {
                     combattants.add((Combattant) entite);
                 } else if (entite instanceof PowerUp) {

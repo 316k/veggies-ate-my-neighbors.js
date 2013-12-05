@@ -5,14 +5,14 @@ package ca.qc.bdeb.inf203.model;
  *
  * @author Guillaume Riou, Nicolas Hurtubise
  */
-public enum Etats {
+public enum Etat {
 
     ATTAQUE("attaque"),
     DEPLACEMENT("deplacement"),
     ATTENTE("jesaispasquoimettre");
     public String nom;
 
-    private Etats(String nom) {
+    private Etat(String nom) {
         this.nom = nom;
     }
 }

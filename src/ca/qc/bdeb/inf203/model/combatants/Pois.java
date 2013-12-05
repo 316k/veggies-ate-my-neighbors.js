@@ -1,8 +1,9 @@
 package ca.qc.bdeb.inf203.model.combatants;
 
+import ca.qc.bdeb.inf203.model.Action;
 import ca.qc.bdeb.inf203.model.Combattant;
 import ca.qc.bdeb.inf203.model.Entite;
-import ca.qc.bdeb.inf203.model.Etats;
+import ca.qc.bdeb.inf203.model.Etat;
 import ca.qc.bdeb.inf203.model.RepresentationImage;
 import java.util.HashMap;
 
@@ -20,11 +21,14 @@ public class Pois extends Combattant implements Cloneable {
 
     @Override
     protected final void initialise() {
-        super.initialise(); //To change body of generated methods, choose Tools | Templates.
+        super.initialise();
         this.isGentil = true;
-        this.attaqueRate = 0;
         this.vitesse = 70;
         this.attaque = 30;
+        this.vitesseAction.put(Action.DEPLACEMENT, 70f);
+        this.vitesseAction.put(Action.ATTAQUE, 70f);
+        this.derniereActionTS.put(Action.ATTAQUE, System.currentTimeMillis());
+        this.derniereActionTS.put(Action.DEPLACEMENT, System.currentTimeMillis());
         /**
          * @TODO Mettre les vrais width et height.
          */
@@ -33,26 +37,24 @@ public class Pois extends Combattant implements Cloneable {
         String[] path = {"plants", "pea"};
         this.animationFrameRate = 5;
         this.nbrImagesAnimation = new HashMap<>();
-        this.nbrImagesAnimation.put(Etats.ATTAQUE, 1);
-        this.nbrImagesAnimation.put(Etats.ATTENTE, 1);
-        this.nbrImagesAnimation.put(Etats.DEPLACEMENT, 9);
-        this.etat = Etats.DEPLACEMENT;
+        this.nbrImagesAnimation.put(Etat.ATTAQUE, 1);
+        this.nbrImagesAnimation.put(Etat.ATTENTE, 1);
+        this.nbrImagesAnimation.put(Etat.DEPLACEMENT, 9);
+
+        this.etat = Etat.DEPLACEMENT;
         this.sprite = new RepresentationImage(path);
     }
 
     @Override
-    protected void attaquer() {
-        super.attaquer();
-        this.setVie(0);
+    protected void attaquer(int nbFois) {
+        super.attaquer(nbFois);
+        if (nbFois > 0) {
+            this.setVie(0);
+        }
     }
 
     @Override
-    public Entite action() {
+    public Entite action(int nbFois) {
         return null;
-    }
-
-    @Override
-    public void deplacer() {
-        super.deplacer();
     }
 }

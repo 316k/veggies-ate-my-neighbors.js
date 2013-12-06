@@ -43,10 +43,7 @@ public abstract class Combattant extends Entite implements Cloneable {
      * Quantité de vie enlevée par une attaque.
      */
     protected int attaque;
-    /**
-     * Vitesse en pixels/sec
-     */
-    protected float vitesse;
+    
     /**
      * Vitesse en action/sec
      */
@@ -81,7 +78,9 @@ public abstract class Combattant extends Entite implements Cloneable {
         this.derniereActionTS.put(Action.ACTION, System.currentTimeMillis());
         this.derniereActionTS.put(Action.DEPLACEMENT, System.currentTimeMillis());
         this.derniereActionTS.put(Action.ATTAQUE, System.currentTimeMillis());
-
+        
+        
+        
         this.hitbox = new Rectangle();
         this.lineOfSight = new Rectangle();
         this.cibles = new ArrayList();
@@ -132,13 +131,6 @@ public abstract class Combattant extends Entite implements Cloneable {
         this.attaque = attaque;
     }
 
-    public float getVitesse() {
-        return vitesse;
-    }
-
-    public void setVitesse(int vitesse) {
-        this.vitesse = vitesse;
-    }
 
     @Override
     public int getAnimationCompteur() {
@@ -160,7 +152,15 @@ public abstract class Combattant extends Entite implements Cloneable {
     public RepresentationImage getSprite() {
         return sprite;
     }
-
+    
+    public void multiplyStats(float multiplicateur){
+        this.vie*=multiplicateur;
+        this.attaque*=multiplicateur;
+        for (Action action : vitesseAction.keySet()) {
+            vitesseAction.put(action ,vitesseAction.get(action)*multiplicateur);
+        }
+    }
+    
     public void setImgRep(RepresentationImage imgRep) {
         this.sprite = imgRep;
     }
@@ -225,32 +225,32 @@ public abstract class Combattant extends Entite implements Cloneable {
     }
 
     /**
-     * Si c'est le bon temps pour attaquer, enlever de la vie à toutes les
-     * cibles et à leur équipement en fonction du l'attaque totale de l'entité
-     * et de la défense totale des cibles.
+     * Logique d'attaque, les bouts commentés sont pour les équipements
+     * qui seront ajoutés dans la version 2.0.
      */
     protected void attaquer(int nbFois) {
 
         for (int j = 0; j < nbFois; j++) {
 
             ArrayList<Entite> morts = new ArrayList<>();
-            float modificateur = 0;
+            //float modificateur = 0;
             for (Combattant cible : cibles) {
 
-                for (int i = 0; i < this.equipement.length; i++) {
-                    modificateur += this.equipement[i].getAttaque();
-                }
-                for (int i = 0; i < cible.equipement.length; i++) {
-                    modificateur -= cible.equipement[i].getDefense();
-                }
+//                for (int i = 0; i < this.equipement.length; i++) {
+//                    modificateur += this.equipement[i].getAttaque();
+//                }
+//                for (int i = 0; i < cible.equipement.length; i++) {
+//                    modificateur -= cible.equipement[i].getDefense();
+//                }
 
-                int attaqueTotale = this.attaque - (int) (this.attaque * modificateur);
-                cible.incrementVie(-attaqueTotale);
-                for (Equipement equipement : cible.equipement) {
-                    if (equipement.isEndommageable()) {
-                        equipement.incrementVies(-this.attaque);
-                    }
-                }
+                //int attaqueTotale = this.attaque - (int) (this.attaque * modificateur);
+                
+                cible.incrementVie(-this.attaque);
+//                for (Equipement equipement : cible.equipement) {
+//                    if (equipement.isEndommageable()) {
+//                        equipement.incrementVies(-this.attaque);
+//                    }
+//                }
                 if (cible.getVie() <= 0) {
                     morts.add(cible);
                 }
@@ -274,7 +274,7 @@ public abstract class Combattant extends Entite implements Cloneable {
     protected Combattant clone() {
         try {
             Combattant clone = (Combattant) super.clone();
-
+            clone.sprite = new RepresentationImage(this.sprite);
             clone.initialise();
 
             return clone;

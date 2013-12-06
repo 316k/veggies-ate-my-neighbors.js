@@ -17,8 +17,8 @@ public class Soleil extends PowerUp {
      * Nombre de soleils conférés par le clic sur le power-up
      */
     private int valeur;
-    private int hauteur = 30;
-    private int largeur = 30;
+    private int hauteur = 70;
+    private int largeur = 70;
     private boolean used = false;
 
     public Soleil(int valeur, int x, int y) {

@@ -97,7 +97,9 @@ public class JTerrain extends JPanel {
                     refreshCaseSelectionnee(e);
                 } else {
                     // Le clic est dans le panel
-                    if ((e.getPoint().x - OFFSET_ITEMS) % (ITEM_WIDTH + MARGIN_ITEMS) < 66 && (e.getPoint().x - OFFSET_ITEMS) > 0 && (e.getPoint().x - OFFSET_ITEMS) < (ITEM_WIDTH + MARGIN_ITEMS) * JoueurControlleur.getItems().length) {
+                    if ((e.getPoint().x - OFFSET_ITEMS) % (ITEM_WIDTH + MARGIN_ITEMS) < 66 
+                            && (e.getPoint().x - OFFSET_ITEMS) > 0 
+                            && (e.getPoint().x - OFFSET_ITEMS) < (ITEM_WIDTH + MARGIN_ITEMS) * JoueurControlleur.getItems().length) {
                         JoueurControlleur.setSelection((e.getPoint().x - OFFSET_ITEMS) / (ITEM_WIDTH + MARGIN_ITEMS));
                     } else {
                         JoueurControlleur.setSelection(null);

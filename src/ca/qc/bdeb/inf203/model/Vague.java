@@ -1,6 +1,7 @@
 package ca.qc.bdeb.inf203.model;
 
 import ca.qc.bdeb.inf203.model.combatants.Veggie;
+import java.util.ArrayList;
 import java.util.Random;
 
 /**
@@ -10,6 +11,7 @@ import java.util.Random;
  */
 public class Vague {
 
+    private static Combattant[] archetypesPossibles = {new Veggie()};
     /**
      * Random
      */
@@ -56,7 +58,7 @@ public class Vague {
         setDelais();
     }
 
-    public long getDasdelaisMoyen() {
+    public long getDelaisMoyen() {
         return delaisMoyen;
     }
 
@@ -126,7 +128,6 @@ public class Vague {
         if (numeroVague == 1) {
             return 5;
         }
-
         return (int) (Vague.getNombreVeggie(numeroVague - 1) * pourcentageAugmentationVeggies);
     }
 
@@ -137,10 +138,22 @@ public class Vague {
      * @return
      */
     public static Vague generateVague(int numeroVague) {
-        Combattant[] combattants = {new Veggie()};
+        float multiplicateur = 1 + ((numeroVague / archetypesPossibles.length) - 1) * 0.2f;
+        ArrayList<Combattant> combattantsAL = new ArrayList<>();
+        for (int i = 0; i < (numeroVague % archetypesPossibles.length)+1; i++) {
+            Combattant ajout = archetypesPossibles[i].clone();
+            ajout.multiplyStats(multiplicateur);
+            if (numeroVague != 1) {
+                ajout.getSprite().setColorisation(
+                        new int[]{rdm.nextInt(255), rdm.nextInt(255), rdm.nextInt(255)}
+                );
+            }
+            combattantsAL.add(ajout);
+        }
+        Combattant[] combattants = combattantsAL.toArray(new Combattant[combattantsAL.size()]);
+        System.out.println(combattants.length + "lalalalala");
         int[] nbrCombattantsParType = {getNombreVeggie(numeroVague)};
-        Vague vague = new Vague(combattants, nbrCombattantsParType, 5000);
-
+        Vague vague = new Vague(combattants, nbrCombattantsParType, (int) (5000/multiplicateur));
         return vague;
     }
 }

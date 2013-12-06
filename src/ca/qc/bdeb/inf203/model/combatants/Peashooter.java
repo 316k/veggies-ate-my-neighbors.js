@@ -6,6 +6,7 @@ import ca.qc.bdeb.inf203.model.Entite;
 import ca.qc.bdeb.inf203.model.Etat;
 import ca.qc.bdeb.inf203.model.RepresentationImage;
 import ca.qc.bdeb.inf203.model.Terrain;
+import java.util.ArrayList;
 import java.util.HashMap;
 
 /**
@@ -24,8 +25,6 @@ public class Peashooter extends Combattant {
     protected final void initialise() {
         super.initialise();
         this.isGentil = true;
-        this.vitesse = 0;
-        this.attaque = 0;
         this.hitbox.width = 80;
         this.hitbox.height = 80;
         this.lineOfSight.height = 80;
@@ -37,7 +36,7 @@ public class Peashooter extends Combattant {
         this.nbrImagesAnimation.put(Etat.ATTAQUE, 11);
         this.etat = Etat.ATTENTE;
 
-        this.derniereActionTS.put(Action.ACTION, System.currentTimeMillis());
+        
 
         this.vitesseAction.put(Action.ACTION, 1 / 4f);
 
@@ -63,18 +62,22 @@ public class Peashooter extends Combattant {
      */
     @Override
     public Entite action(int nbFois) {
+        ArrayList<Combattant> morts = new ArrayList<>();
+        for (Combattant combattant : cibles) {
+            if(combattant.getVie() <= 0){
+                morts.add(combattant);
+            }
+        }
+        this.cibles.removeAll(morts);
+        if(this.cibles.isEmpty()){
+            this.setEtat(Etat.ATTENTE);
+            return null;
+            
+        }
         for (int i = 0; i < nbFois; i++) {
-            boolean tousMorts = true;
-            for (Combattant combattant : cibles) {
-                if (combattant.getVie() > 0) {
-                    tousMorts = false;
-                }
-            }
-            if (tousMorts) {
-                this.etat = Etat.ATTENTE;
-            }
+            
             Pois pois = new Pois();
-            pois.getHitbox().setLocation(this.hitbox.x + 190, this.hitbox.y);
+            pois.getHitbox().setLocation(this.hitbox.x + 30, this.hitbox.y + 30);
 
             return pois;
         }

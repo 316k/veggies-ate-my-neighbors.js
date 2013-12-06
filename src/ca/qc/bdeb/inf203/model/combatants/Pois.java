@@ -22,7 +22,7 @@ public class Pois extends Combattant implements Projectile, Cloneable {
     protected final void initialise() {
         super.initialise();
         this.gentil = true;
-        this.vitesseAction.put(Action.DEPLACEMENT, 70f);
+        this.vitesseAction.put(Action.DEPLACEMENT, 220f);
         this.vitesseAction.put(Action.ATTAQUE, 70f);
         this.hitbox.width = 12;
         this.hitbox.height = 12;

@@ -101,6 +101,7 @@ public class Vague {
         // On choisit aléatoirement un type de combattant dans ceux qui restent
         do {
             combattantIndex = Vague.rdm.nextInt(this.archetypes.length);
+            System.out.println("AAAA" + this.nbParArchetype[combattantIndex]);
         } while (this.nbParArchetype[combattantIndex] == 0);
 
         this.nbParArchetype[combattantIndex]--;
@@ -142,7 +143,9 @@ public class Vague {
     public static Vague generateVague(int numeroVague) {
         float multiplicateur = 1 + ((numeroVague / archetypesPossibles.length) - 1) * 0.2f;
         ArrayList<Combattant> combattantsAL = new ArrayList<>();
-        for (int i = 0; i < (numeroVague % archetypesPossibles.length) + 1; i++) {
+        System.out.println(numeroVague +" AAAA");
+        for (int i = 0; i <= ((numeroVague-1) % archetypesPossibles.length); i++) {
+            System.out.println(i);
             Combattant ajout = archetypesPossibles[i].clone();
             ajout.multiplyStats(multiplicateur);
             if (numeroVague != 1 || true) {
@@ -154,13 +157,17 @@ public class Vague {
                     ajout.getSprites().put(etat, rep);
                 }
             }
+            
             combattantsAL.add(ajout);
         }
         
         Combattant[] combattants = combattantsAL.toArray(new Combattant[combattantsAL.size()]);
-        
-        int[] nbrCombattantsParType = {getNombreVeggie(numeroVague), getNombreVeggie(numeroVague)};
-        Vague vague = new Vague(combattants, nbrCombattantsParType, (int) (5000 / multiplicateur));
+        int[] nbrCombattantsParType = new int[combattants.length];
+        for (int i = 0; i < combattants.length; i++) {
+            nbrCombattantsParType[i] = getNombreVeggie(numeroVague)/combattants.length;
+        }
+         
+        Vague vague = new Vague(combattants, nbrCombattantsParType, (int) (10000 / multiplicateur));
         return vague;
     }
 }

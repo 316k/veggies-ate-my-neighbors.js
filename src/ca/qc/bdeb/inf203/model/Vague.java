@@ -2,6 +2,8 @@ package ca.qc.bdeb.inf203.model;
 
 import ca.qc.bdeb.inf203.model.combatants.Veggie;
 import ca.qc.bdeb.inf203.model.combatants.VeggieHitler;
+import ca.qc.bdeb.inf203.model.combatants.VeggieKamikaz;
+import ca.qc.bdeb.inf203.model.combatants.Voirie;
 import java.util.ArrayList;
 import java.util.Random;
 
@@ -12,7 +14,7 @@ import java.util.Random;
  */
 public class Vague {
 
-    private static Combattant[] archetypesPossibles = {new Veggie(), new VeggieHitler()};
+    private static Combattant[] archetypesPossibles = {new Veggie(), new Voirie(), new VeggieKamikaz(), new VeggieHitler()};
     /**
      * Random
      */
@@ -159,7 +161,7 @@ public class Vague {
         
         Combattant[] combattants = combattantsAL.toArray(new Combattant[combattantsAL.size()]);
         
-        int[] nbrCombattantsParType = {getNombreVeggie(numeroVague), getNombreVeggie(numeroVague)};
+        int[] nbrCombattantsParType = {getNombreVeggie(numeroVague), getNombreVeggie(numeroVague), getNombreVeggie(numeroVague), getNombreVeggie(numeroVague)};
         Vague vague = new Vague(combattants, nbrCombattantsParType, (int) (5000 / multiplicateur));
         return vague;
     }

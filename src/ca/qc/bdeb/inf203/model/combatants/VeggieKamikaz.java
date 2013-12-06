@@ -11,9 +11,9 @@ import ca.qc.bdeb.inf203.model.RepresentationImage;
  *
  * @author Guillaume Riou, Nicolas Hurtubise
  */
-public class Veggie extends Combattant {
+public class VeggieKamikaz extends Combattant {
 
-    public Veggie() {
+    public VeggieKamikaz() {
         super();
         initialise();
     }
@@ -22,7 +22,7 @@ public class Veggie extends Combattant {
     protected void initialise() {
         super.initialise();
 
-        this.attaque = 1;
+        this.attaque = 100;
         this.gentil = false;
         this.hitbox.height = 80;
         this.hitbox.width = 60;
@@ -36,8 +36,16 @@ public class Veggie extends Combattant {
         this.vitesseAction.put(Action.DEPLACEMENT, -116f);
         this.vitesseAction.put(Action.ATTAQUE, 0.6f);
 
-        this.sprites.put(Etat.DEPLACEMENT, new RepresentationImage(new String[]{"veggies", "normal", "walking"}));
-        this.sprites.put(Etat.ATTAQUE, new RepresentationImage(new String[]{"veggies", "normal", "attack"}));
+        this.sprites.put(Etat.DEPLACEMENT, new RepresentationImage(new String[]{"veggies", "kamikaz", "walking"}));
+        this.sprites.put(Etat.ATTAQUE, new RepresentationImage(new String[]{"explosion"}));
+    }
+
+    @Override
+    protected void attaquer(int nbrFois) {
+        super.attaquer(nbrFois);
+        if (nbrFois > 0) {
+            this.setVie(0);
+        }
     }
 
     @Override

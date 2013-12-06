@@ -9,6 +9,7 @@ import ca.qc.bdeb.inf203.model.Vague;
 import ca.qc.bdeb.inf203.view.PositionnedSpriteContainer;
 import java.awt.Point;
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.ConcurrentModificationException;
 import java.util.logging.Level;
 import java.util.logging.Logger;
@@ -72,10 +73,22 @@ public class TerrainControlleur {
 
             ArrayList<PositionnedSpriteContainer> images = new ArrayList<>();
 
-            // TODO : Trier par valeur de x croissante pour faire un truc plus beau
+            // TODO : Trier par valeur de y croissante pour faire un truc plus beau
             for (Combattant combatant : combatants) {
                 images.add(new PositionnedSpriteContainer(combatant.getHitbox().getLocation(), combatant.getSprite(), combatant.getAnimationCompteur()));
             }
+
+            PositionnedSpriteContainer sortedImage[] = images.toArray(new PositionnedSpriteContainer[images.size()]);
+            for (int i = 0; i < images.size(); i++) {
+                for (int j = i; j > 1 && sortedImage[j].getCoordonnee().y < sortedImage[j - 1].getCoordonnee().y; j--) {
+                    PositionnedSpriteContainer tmp;
+                    tmp = sortedImage[j];
+                    sortedImage[j] = sortedImage[j - 1];
+                    sortedImage[j - 1] = tmp;
+                }
+            }
+
+            images = new ArrayList<PositionnedSpriteContainer>(Arrays.asList(sortedImage));
 
             for (PowerUp powerUp : powerups) {
                 images.add(new PositionnedSpriteContainer(powerUp.getHitbox().getLocation(), powerUp.getSprite(), powerUp.getAnimationCompteur()));

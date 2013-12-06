@@ -71,7 +71,7 @@ public class SpriteManager {
             g.fillRect(0, 0, image.getWidth(), image.getHeight());
 
             AlphaComposite ac;
-            ac = AlphaComposite.getInstance(AlphaComposite.SRC_ATOP, 0.5f);
+            ac = AlphaComposite.getInstance(AlphaComposite.SRC_OVER, 0.5f);
 
             // paint original with composite
             g.setComposite(ac);

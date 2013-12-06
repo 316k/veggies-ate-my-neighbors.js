@@ -2,7 +2,9 @@
 package ca.qc.bdeb.inf203.model;
 
 /**
- * Équipement sur un combatant
+ * À faire après la remise.
+ * 
+ * Équipement sur un combatant ...  Mais non.
  * @author Guillaume Riou
  */
 public class Equipement {

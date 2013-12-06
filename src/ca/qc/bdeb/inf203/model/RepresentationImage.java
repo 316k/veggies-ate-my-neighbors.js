@@ -32,6 +32,10 @@ public class RepresentationImage {
         this.colorisation = colorisation;
         this.path = path;
     }
+    public RepresentationImage(RepresentationImage rep){
+        this.colorisation = rep.colorisation;
+        this.path = rep.path;
+    }
     
     public RepresentationImage(String[] path) {
         this.path = path;

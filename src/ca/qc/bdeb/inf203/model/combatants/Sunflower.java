@@ -34,8 +34,6 @@ public class Sunflower extends Combattant {
     protected final void initialise() {
         super.initialise();
         this.isGentil = true;
-        this.vitesse = 0;
-        this.attaque = 0;
         this.hitbox.width = 80;
         this.hitbox.height = 80;
         this.lineOfSight = new Rectangle();
@@ -45,7 +43,6 @@ public class Sunflower extends Combattant {
         this.nbrImagesAnimation.put(Etat.DEPLACEMENT, 5);
         this.nbrImagesAnimation.put(Etat.ATTAQUE, 1);
 
-        this.derniereActionTS.put(Action.ACTION, System.currentTimeMillis());
 
         this.vitesseAction.put(Action.ACTION, 1 / 30f);
         this.etat = Etat.ATTENTE;

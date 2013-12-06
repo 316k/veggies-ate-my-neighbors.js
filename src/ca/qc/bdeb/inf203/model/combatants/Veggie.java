@@ -34,7 +34,7 @@ public class Veggie extends Combattant {
         this.nbrImagesAnimation.put(Etat.ATTAQUE, 7);
 
         this.vitesseAction.put(Action.DEPLACEMENT, -16f);
-        this.vitesseAction.put(Action.ATTAQUE, 0.6f);
+        this.vitesseAction.put(Action.ATTAQUE, 1f);
 
         this.sprites.put(Etat.DEPLACEMENT, new RepresentationImage(new String[]{"veggies", "normal", "walking"}));
         this.sprites.put(Etat.ATTAQUE, new RepresentationImage(new String[]{"veggies", "normal", "attack"}));

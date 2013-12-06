@@ -1,16 +1,10 @@
 package ca.qc.bdeb.inf203.model.combatants;
 
-import ca.qc.bdeb.inf203.model.Action;
-import ca.qc.bdeb.inf203.model.Combattant;
-import ca.qc.bdeb.inf203.model.Entite;
-import ca.qc.bdeb.inf203.model.Etat;
-import ca.qc.bdeb.inf203.model.RepresentationImage;
-import ca.qc.bdeb.inf203.model.Terrain;
-import java.util.ArrayList;
+import ca.qc.bdeb.inf203.model.*;
 import java.util.HashMap;
 
 /**
- * Plante Tire-pois.
+ * 
  *
  * @author Guillaume Riou, Nicolas Hurtubise
  */
@@ -60,11 +54,7 @@ public class AtomicRose extends Combattant {
         return entite;
     }
 
-    /**
-     * L'action à distance d'un peashooter est de retourner un pois
-     *
-     * @return
-     */
+
     @Override
     public Entite action(int nbFois) {
 

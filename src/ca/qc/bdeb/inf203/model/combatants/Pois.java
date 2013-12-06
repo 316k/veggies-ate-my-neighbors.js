@@ -31,7 +31,7 @@ public class Pois extends Combattant implements Projectile, Cloneable {
         this.nbrImagesAnimation.put(Etat.ATTENTE, 1);
         this.nbrImagesAnimation.put(Etat.DEPLACEMENT, 9);
         
-        this.attaque = 20;
+        this.attaque = 2;
         
         this.etat = Etat.DEPLACEMENT;
         this.sprites.put(Etat.DEPLACEMENT, new RepresentationImage(new String[]{"plants", "pea"}));

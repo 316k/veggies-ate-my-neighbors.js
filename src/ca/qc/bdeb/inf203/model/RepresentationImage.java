@@ -16,7 +16,7 @@ public class RepresentationImage implements Cloneable {
      * la hiérarchie de fichier.
      */
     private String[] path;
-
+    private boolean flipped = false;
     public void setColorisation(int[] colorisation) {
         this.colorisation = colorisation;
     }
@@ -53,6 +53,16 @@ public class RepresentationImage implements Cloneable {
     public String[] getPath() {
         return path;
     }
+
+    public boolean isFlipped() {
+        return flipped;
+    }
+
+    public void setFlipped(boolean flipped) {
+        this.flipped = flipped;
+    }
+    
+    
 
     @Override
     protected RepresentationImage clone() throws CloneNotSupportedException {

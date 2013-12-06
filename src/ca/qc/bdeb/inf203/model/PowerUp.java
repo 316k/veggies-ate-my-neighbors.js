@@ -9,14 +9,35 @@ import java.awt.Rectangle;
  * @author Nicolas Hurtubise, Guillaume Riou
  */
 public abstract class PowerUp extends Entite implements Cloneable {
-
+    /**
+     * Vitesse de l'animation
+     */
     protected int animationFrameRate;
+    /**
+     * dernier temps calculé pour l'animation.
+     */
     protected long derniereAnimationTimestamp;
+    /**
+     * Nombre d'images par animation (franchement, faut vraiment faire de la
+     * doc pour des trucs comme ça  ? ...)
+     */
     protected int nbrImagesAnimation;
+    /**
+     * Dernier temps calculé pour une action.
+     */
     protected long dernierTicTimestamp = System.currentTimeMillis();
+    /**
+     * Vitesse de déplacement.
+     */
     protected int vitesse;
+    /**
+     * déplacements fractionnaire en attente.
+     */
     protected float pendingDeplacementX;
     protected float pendingDeplacementY;
+    /**
+     * Point ou le powerUp arrête de tomber.
+     */
     protected Point destination = null;
 
     public PowerUp(String path[]) {

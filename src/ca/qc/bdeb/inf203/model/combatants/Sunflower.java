@@ -21,7 +21,7 @@ public class Sunflower extends Combattant {
 
     public Sunflower() {
         super();
-        this.vie = 34;
+        this.vie = 10;
         initialise();
     }
 
@@ -38,7 +38,7 @@ public class Sunflower extends Combattant {
         this.nbrImagesAnimation.put(Etat.DEPLACEMENT, 5);
         this.nbrImagesAnimation.put(Etat.ATTAQUE, 1);
 
-        this.vitesseAction.put(Action.ACTION, 1 / 13f);
+        this.vitesseAction.put(Action.ACTION, 1 / 30f);
 
         this.sprites.put(Etat.ATTENTE, new RepresentationImage(new String[]{"plants", "sunflower"}));
 

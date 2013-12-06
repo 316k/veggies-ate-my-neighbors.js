@@ -16,12 +16,13 @@ public class SpriteContainer {
     public SpriteContainer(RepresentationImage image, int animation) {
         this.image = image;
         this.animation = animation;
+        this.flip = image.isFlipped();
     }
 
     public SpriteContainer(RepresentationImage image, int animation, boolean flip) {
         this.image = image;
         this.animation = animation;
-        this.flip = flip;
+        this.flip = image.isFlipped();
     }
 
     public RepresentationImage getRepresentationImage() {

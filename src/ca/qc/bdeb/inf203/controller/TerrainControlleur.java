@@ -103,7 +103,7 @@ public class TerrainControlleur {
     }
 
     public static void clic(Point point) {
-        terrain.clic(point);
+        terrain.action(point);
     }
 
     public static int getVague() {

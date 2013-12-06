@@ -9,10 +9,21 @@ import java.util.HashMap;
  * @author Nicolas Hurtubise, Guillaume Riou
  */
 public abstract class Entite implements Cloneable {
-
+    /**
+     * Représentation des images selon les états d'une entité.
+     */
     protected HashMap<Etat, RepresentationImage> sprites = new HashMap<>();
+    /**
+     * État d'une entité.
+     */
     protected Etat etat;
+    /**
+     * Hitbox d'une entité. Utilisée pour les collisions.
+     */
     protected Rectangle hitbox;
+    /**
+     * Compteur servant à animer l'entité.
+     */
     protected int animationCompteur = 0;
 
     public RepresentationImage getSprite() {

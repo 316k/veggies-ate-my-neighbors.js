@@ -5,14 +5,13 @@ import ca.qc.bdeb.inf203.model.Combattant;
 import ca.qc.bdeb.inf203.model.Entite;
 import ca.qc.bdeb.inf203.model.Etat;
 import ca.qc.bdeb.inf203.model.RepresentationImage;
-import java.util.HashMap;
 
 /**
  * Pois (lancé par un tire-pois)
  *
  * @author Guillaume Riou, Nicolas Hurtubise
  */
-public class Pois extends Combattant implements Cloneable {
+public class Pois extends Combattant implements Projectile, Cloneable {
 
     public Pois() {
         super();

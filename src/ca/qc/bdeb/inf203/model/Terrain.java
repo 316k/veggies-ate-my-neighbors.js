@@ -2,6 +2,7 @@ package ca.qc.bdeb.inf203.model;
 
 import ca.qc.bdeb.inf203.VeggiesAteMyNeighbors;
 import ca.qc.bdeb.inf203.controller.FenetreControlleur;
+import ca.qc.bdeb.inf203.model.combatants.Projectile;
 import ca.qc.bdeb.inf203.model.powerups.Soleil;
 import java.awt.Dimension;
 import java.awt.Point;
@@ -186,7 +187,7 @@ public class Terrain {
 
             // Test la collision avec une case contenant un combatant
             for (Combattant combattant : combattants) {
-                if (combattant.hitbox.intersects(caseClic)) {
+                if (combattant.hitbox.intersects(caseClic) && !(combattant instanceof Projectile)) {
                     return;
                 }
             }

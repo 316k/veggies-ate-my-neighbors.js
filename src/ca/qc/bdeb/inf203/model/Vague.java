@@ -94,7 +94,7 @@ public class Vague {
 
     public Combattant spawn() {
 
-        if (this.getRemainingVeggies() == 0) {
+        if (this.getRemainingVeggies() == 0 || massiveAttack) {
             return null;
         }
 

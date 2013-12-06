@@ -18,6 +18,10 @@ public class Item {
      * Vitesse à laquelle la recharge se fait (en charge/seconde)
      */
     private double vitesseRechargement;
+
+    public void setVitesseRechargement(double vitesseRechargement) {
+        this.vitesseRechargement = vitesseRechargement;
+    }
     /**
      * Timestamp du dernier appel de la méthode tic
      */

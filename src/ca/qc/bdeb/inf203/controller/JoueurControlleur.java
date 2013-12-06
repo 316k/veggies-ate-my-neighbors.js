@@ -39,7 +39,7 @@ public class JoueurControlleur {
     static void easterEgg() {
         Item items[] = Joueur.instance().getItems();
         for (Item item : items) {
-            item.setRecharge(1);
+            item.setVitesseRechargement(100000);
         }
     }
 }

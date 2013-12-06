@@ -15,12 +15,9 @@ import java.awt.Rectangle;
  */
 public class Sunflower extends Combattant {
 
-    private long dernierSoleilTimestamp = System.currentTimeMillis();
     /**
      * Nombre de secondes minimal avant la génération d'un soleil
      */
-    private int tempsGenerationSoleil = 30; // 30
-    private Soleil soleil = null;
 
     public Sunflower() {
         super();
@@ -41,7 +38,7 @@ public class Sunflower extends Combattant {
         this.nbrImagesAnimation.put(Etat.DEPLACEMENT, 5);
         this.nbrImagesAnimation.put(Etat.ATTAQUE, 1);
 
-        this.vitesseAction.put(Action.ACTION, 1 / 30f);
+        this.vitesseAction.put(Action.ACTION, 1 / 13f);
 
         this.sprites.put(Etat.ATTENTE, new RepresentationImage(new String[]{"plants", "sunflower"}));
 

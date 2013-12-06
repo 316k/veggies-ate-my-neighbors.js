@@ -1,5 +1,6 @@
 package ca.qc.bdeb.inf203.controller;
 
+import java.awt.Toolkit;
 import java.awt.event.KeyEvent;
 
 /**
@@ -13,6 +14,7 @@ public class CheatCodeControlleur {
     private static final int maxChars = 12;
 
     public static void keyTyped(KeyEvent e) {
+
         cheatCode += e.getKeyChar();
         if (cheatCode.endsWith("galarneau")) {
             JoueurControlleur.addSoleils(100);

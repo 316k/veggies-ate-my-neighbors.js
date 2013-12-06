@@ -3,6 +3,9 @@ package ca.qc.bdeb.inf203.model;
 import ca.qc.bdeb.inf203.VeggiesAteMyNeighbors;
 import ca.qc.bdeb.inf203.controller.FenetreControlleur;
 import ca.qc.bdeb.inf203.model.combatants.Projectile;
+import ca.qc.bdeb.inf203.model.combatants.Swastika;
+import ca.qc.bdeb.inf203.model.combatants.Veggie;
+import ca.qc.bdeb.inf203.model.powerups.PlanteUnlock;
 import ca.qc.bdeb.inf203.model.powerups.Soleil;
 import java.awt.Dimension;
 import java.awt.Point;
@@ -46,6 +49,7 @@ public class Terrain {
      */
     private long delaisSoleil = 30; // 30
     private long dernierTimestampSoleil;
+    private PlanteUnlock[] unlocks = {new PlanteUnlock(new Item("body-snatcher", 0.0002, 200, new Swastika()), new Point()), new PlanteUnlock(new Item("atomic-rose", 0.00001, 500, new Veggie()), new Point())};
     private int vague = 1;
     private Random rdm = new Random();
 
@@ -89,7 +93,7 @@ public class Terrain {
             // On élimine les combattants morts et ceux qui sont trop loins du terrain (par exemple, les projectiles mal lancés)
             if (combattant.getVie() <= 0 || !combattant.getHitbox().intersects(new Rectangle(-TAILLE_CASE_X, -TAILLE_CASE_Y, (CASES_X + 2) * TAILLE_CASE_X, (CASES_Y + 2) * TAILLE_CASE_Y))) {
                 morts.add(combattant);
-                if (!combattant.isGentil()) {
+                if (!combattant.isGentil() && !(combattant instanceof Projectile)) {
                     Joueur.instance().incrementKills();
                 }
             } else {
@@ -123,7 +127,6 @@ public class Terrain {
         for (Entite entite : nouvellesEntites) {
 
             if (entite != null) {
-                System.out.println("ADDD");
                 if (entite instanceof Combattant) {
                     combattants.add((Combattant) entite);
                 } else if (entite instanceof PowerUp) {
@@ -154,6 +157,19 @@ public class Terrain {
             }
 
             vagueEnCours = Vague.generateVague(++vague);
+            // On débloque un item aux trois vagues, jusqu'à ce qu'il n'y ait plus d'items
+            if (vague / 3 == vague / 3.0 && vague / 3 > 0 && vague / 3 <= unlocks.length) {
+                int x = rdm.nextInt((CASES_X - 1) * TAILLE_CASE_X);
+                int y = rdm.nextInt((CASES_Y - 2) * TAILLE_CASE_Y) + 1 * TAILLE_CASE_Y;
+
+                PlanteUnlock unlocked = unlocks[vague / 3 - 1];
+
+                unlocked.getHitbox().x = x;
+                unlocked.getHitbox().y = y;
+
+                this.powerUps.add(unlocked);
+            }
+
             return TerrainEvent.NOUVELLE_VAGUE;
         }
 
@@ -240,7 +256,7 @@ public class Terrain {
         for (Combattant combattant : combattants) {
 
             // Test la fin du jeu
-            if (combattant.getHitbox().x <= 0 && !combattant.gentil) {
+            if (combattant.getHitbox().x <= 0 && !combattant.gentil && !(combattant instanceof Projectile)) {
                 return true;
             }
 

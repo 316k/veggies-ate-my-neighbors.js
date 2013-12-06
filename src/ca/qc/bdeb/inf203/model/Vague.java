@@ -1,8 +1,7 @@
 package ca.qc.bdeb.inf203.model;
 
 import ca.qc.bdeb.inf203.model.combatants.Veggie;
-import ca.qc.bdeb.inf203.model.powerups.PlanteUnlock;
-import java.awt.Point;
+import ca.qc.bdeb.inf203.model.combatants.VeggieHitler;
 import java.util.ArrayList;
 import java.util.Random;
 
@@ -13,8 +12,7 @@ import java.util.Random;
  */
 public class Vague {
 
-    private static Combattant[] archetypesPossibles = {new Veggie()};
-    private static PlanteUnlock[] unlocks = {new PlanteUnlock(new Item("body-snatcher", 10, 200, new Veggie()), new Point(150, 150))};
+    private static Combattant[] archetypesPossibles = {new Veggie(), new VeggieHitler()};
     /**
      * Random
      */
@@ -113,8 +111,6 @@ public class Vague {
             this.massiveAttack = true;
         }
         
-        System.out.println(archetypes[combattantIndex].clone().getSprite().getColorisation()[0]);
-        
         this.depuisDernierSpawn = 0;
         this.setDelais();
         
@@ -149,11 +145,8 @@ public class Vague {
         for (int i = 0; i < (numeroVague % archetypesPossibles.length) + 1; i++) {
             Combattant ajout = archetypesPossibles[i].clone();
             ajout.multiplyStats(multiplicateur);
-            System.out.println("NUMEROVAGUE " + numeroVague);
-            int[] color = {rdm.nextInt(255-56)+56, rdm.nextInt(255-56)+56, rdm.nextInt(255-56)+56};
             if (numeroVague != 1 || true) {
-                
-                System.out.println("JECOLORISE");
+                int[] color = {rdm.nextInt(255-56)+56, rdm.nextInt(255-56)+56, rdm.nextInt(255-56)+56};
                 ajout.getSprite().setColorisation(color);
                 for (Etat etat : ajout.getSprites().keySet()) {
                     RepresentationImage rep = ajout.getSprites().get(etat);
@@ -165,8 +158,8 @@ public class Vague {
         }
         
         Combattant[] combattants = combattantsAL.toArray(new Combattant[combattantsAL.size()]);
-                
-        int[] nbrCombattantsParType = {getNombreVeggie(numeroVague)};
+        
+        int[] nbrCombattantsParType = {getNombreVeggie(numeroVague), getNombreVeggie(numeroVague)};
         Vague vague = new Vague(combattants, nbrCombattantsParType, (int) (5000 / multiplicateur));
         return vague;
     }

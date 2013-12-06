@@ -66,6 +66,7 @@ public class Peashooter extends Combattant {
                 morts.add(combattant);
             }
         }
+        
         this.cibles.removeAll(morts);
         if (this.cibles.isEmpty()) {
             this.setEtat(Etat.ATTENTE);

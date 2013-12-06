@@ -11,10 +11,17 @@ public class SpriteContainer {
 
     protected RepresentationImage image;
     protected int animation;
+    protected boolean flip = false;
 
     public SpriteContainer(RepresentationImage image, int animation) {
         this.image = image;
         this.animation = animation;
+    }
+
+    public SpriteContainer(RepresentationImage image, int animation, boolean flip) {
+        this.image = image;
+        this.animation = animation;
+        this.flip = flip;
     }
 
     public RepresentationImage getRepresentationImage() {
@@ -23,6 +30,10 @@ public class SpriteContainer {
 
     public int getAnimation() {
         return animation;
+    }
+    
+    public boolean isFlipped() {
+        return flip;
     }
 
     public String getPath() {
@@ -42,6 +53,6 @@ public class SpriteContainer {
         if (image.getColorisation() != null) {
             color = image.getColorisation()[0] + ";" + image.getColorisation()[1] + ";" + image.getColorisation()[2];
         }
-        return "{animation:'" + this.animation + "',path:'" + this.getPath() + "',colorisation:'" + color + "'}";
+        return "{'animation':'" + this.animation + "','path':'" + this.getPath() + "','colorisation':'" + color + "','flip':'" + flip + "'}";
     }
 }

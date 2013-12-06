@@ -95,6 +95,7 @@ public class Vague {
     public Combattant spawn() {
 
         if (this.getRemainingVeggies() == 0 || massiveAttack) {
+            
             return null;
         }
 
@@ -112,10 +113,12 @@ public class Vague {
             this.delaisMoyen = 400;
             this.massiveAttack = true;
         }
-
+        
+        System.out.println(archetypes[combattantIndex].clone().getSprite().getColorisation()[0]);
+        
         this.depuisDernierSpawn = 0;
         this.setDelais();
-
+        
         return archetypes[combattantIndex].clone();
     }
 
@@ -147,14 +150,22 @@ public class Vague {
         for (int i = 0; i < (numeroVague % archetypesPossibles.length) + 1; i++) {
             Combattant ajout = archetypesPossibles[i].clone();
             ajout.multiplyStats(multiplicateur);
-            if (numeroVague != 1) {
-                ajout.getSprite().setColorisation(
-                        new int[]{rdm.nextInt(255), rdm.nextInt(255), rdm.nextInt(255)});
+            System.out.println("NUMEROVAGUE " + numeroVague);
+            if (numeroVague != 1 || true) {
+                int[] color = {rdm.nextInt(255-56)+56, rdm.nextInt(255-56)+56, rdm.nextInt(255-56)+56};
+                System.out.println("JECOLORISE");
+                ajout.getSprite().setColorisation(color);
+                for (Etat etat : ajout.getSprites().keySet()) {
+                    RepresentationImage rep = ajout.getSprites().get(etat);
+                    rep.setColorisation(color);
+                    ajout.getSprites().put(etat, rep);
+                }
             }
             combattantsAL.add(ajout);
         }
+        
         Combattant[] combattants = combattantsAL.toArray(new Combattant[combattantsAL.size()]);
-        System.out.println(combattants.length + "lalalalala");
+                
         int[] nbrCombattantsParType = {getNombreVeggie(numeroVague)};
         Vague vague = new Vague(combattants, nbrCombattantsParType, (int) (5000 / multiplicateur));
         return vague;

@@ -23,6 +23,10 @@ public abstract class Entite implements Cloneable {
         return hitbox;
     }
 
+    public HashMap<Etat, RepresentationImage> getSprites() {
+        return sprites;
+    }
+    
     public abstract int getAnimationCompteur();
     public abstract Etat getEtat();
 

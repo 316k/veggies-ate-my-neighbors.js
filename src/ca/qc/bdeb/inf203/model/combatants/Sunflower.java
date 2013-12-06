@@ -7,7 +7,6 @@ import ca.qc.bdeb.inf203.model.Etat;
 import ca.qc.bdeb.inf203.model.RepresentationImage;
 import ca.qc.bdeb.inf203.model.powerups.Soleil;
 import java.awt.Rectangle;
-import java.util.HashMap;
 
 /**
  * Plante Tire-pois.

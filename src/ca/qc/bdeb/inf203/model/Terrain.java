@@ -9,7 +9,6 @@ import java.awt.Point;
 import java.awt.Rectangle;
 import java.util.ArrayList;
 import java.util.Random;
-import javax.swing.text.StyledEditorKit;
 
 /**
  * Représentation du terrain de jeu.

@@ -56,6 +56,13 @@ public class RepresentationImage implements Cloneable {
 
     @Override
     protected RepresentationImage clone() throws CloneNotSupportedException {
-        return (RepresentationImage) super.clone();
+        RepresentationImage clone = (RepresentationImage) super.clone();
+
+        if (this.colorisation != null) {
+            int[] color = (int[]) this.colorisation.clone();
+            clone.colorisation = color;
+        }
+        
+        return clone;
     }
 }

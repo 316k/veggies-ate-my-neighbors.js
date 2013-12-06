@@ -159,7 +159,9 @@ public abstract class Combattant extends Entite implements Cloneable {
     public void setLineOfSight(Rectangle lineOfSight) {
         this.lineOfSight = lineOfSight;
     }
-
+    
+    
+    
     //retourne combien de fois faire une action selon l'action et sa vitesse.
     public int getNbrActions(Action action) {
         long temps = System.currentTimeMillis();
@@ -170,7 +172,6 @@ public abstract class Combattant extends Entite implements Cloneable {
         accumulateur -= nbrActions * tempsPourAction;
         accumulateurAction.put(action, accumulateur);
         derniereActionTimestamp.put(action, temps);
-        System.out.println(nbrActions);
         return nbrActions;
     }
 
@@ -253,13 +254,19 @@ public abstract class Combattant extends Entite implements Cloneable {
     protected Combattant clone() {
         try {
             Combattant clone = (Combattant) super.clone();
+            clone.initialise();
 
-            clone.sprites = (HashMap<Etat, RepresentationImage>) sprites.clone();
+            HashMap<Etat, RepresentationImage> sprites = new HashMap<>();
+            
+            for (Etat etat : this.sprites.keySet()) {
+                sprites.put(etat, this.sprites.get(etat).clone());
+            }
+            
+            clone.sprites = sprites;
+            
             clone.vitesseAction = (HashMap<Action, Float>) vitesseAction.clone();
             clone.derniereActionTimestamp = (HashMap<Action, Long>) derniereActionTimestamp.clone();
-            clone.accumulateurAction = (HashMap<Action, Long>) accumulateurAction.clone();
-
-            clone.initialise();
+            clone.accumulateurAction = (HashMap<Action, Long>) accumulateurAction.clone();            
 
             return clone;
         } catch (CloneNotSupportedException ex) {

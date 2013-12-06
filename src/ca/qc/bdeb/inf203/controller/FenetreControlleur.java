@@ -1,6 +1,7 @@
 package ca.qc.bdeb.inf203.controller;
 
 import ca.qc.bdeb.inf203.view.FenetrePrincipale;
+import ca.qc.bdeb.inf203.view.SpriteManager;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 
@@ -56,8 +57,20 @@ public class FenetreControlleur {
         TerrainControlleur.pause();
     }
 
+    /**
+     * Secret.
+     *
+     * @param egg secret
+     */
     public static void easterEgg(String egg) {
         fenetre.setMessage(egg);
+    }
+
+    /**
+     * Secret.
+     */
+    public static void easterEgg() {
+        SpriteManager.easterEgg();
     }
 
     public static void refresh() {

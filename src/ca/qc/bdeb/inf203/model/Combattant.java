@@ -14,10 +14,6 @@ import java.util.logging.Logger;
 public abstract class Combattant extends Entite implements Cloneable {
 
     /**
-     * État du combattant
-     */
-    protected Etat etat;
-    /**
      * Points de vie
      */
     protected int vie = 6;
@@ -27,9 +23,10 @@ public abstract class Combattant extends Entite implements Cloneable {
     protected ArrayList<Combattant> cibles;
     /**
      * L'équipement sur le combattant
+     *
+     * @TODO éventuellement...
      */
     protected Equipement[] equipement = new Equipement[0];
-
     /**
      * Nombre de frames par seconde dans l'animation
      */
@@ -38,25 +35,21 @@ public abstract class Combattant extends Entite implements Cloneable {
      *
      */
     protected Rectangle lineOfSight;
-    protected HashMap<Etat, Integer> nbrImagesAnimation;
+    protected HashMap<Etat, Integer> nbrImagesAnimation = new HashMap<>();
     /**
      * Quantité de vie enlevée par une attaque.
      */
     protected int attaque;
-    
     /**
      * Vitesse en action/sec
      */
-    protected HashMap<Action, Float> vitesseAction;
-    protected HashMap<Action, Long> derniereActionTS;
-    protected HashMap<Action, Long> accumulateurAction;
+    protected HashMap<Action, Float> vitesseAction = new HashMap<>();
+    protected HashMap<Action, Long> derniereActionTimestamp = new HashMap<>();
+    protected HashMap<Action, Long> accumulateurAction = new HashMap<>();
     /**
      * Dernier timestamp calculé.
      */
-    protected long derniereActionTimestamp;
     protected long derniereAnimationTimestamp;
-
-    protected float pendingDeplacement;
     protected boolean isGentil;
 
     public Combattant() {
@@ -65,22 +58,16 @@ public abstract class Combattant extends Entite implements Cloneable {
     }
 
     protected void initialise() {
-        this.derniereActionTimestamp = System.currentTimeMillis();
         this.derniereAnimationTimestamp = System.currentTimeMillis();
-        this.derniereActionTS = new HashMap<>();
-        this.vitesseAction = new HashMap<>();
-        this.accumulateurAction = new HashMap<>();
 
         this.accumulateurAction.put(Action.ACTION, 0l);
         this.accumulateurAction.put(Action.DEPLACEMENT, 0l);
         this.accumulateurAction.put(Action.ATTAQUE, 0l);
 
-        this.derniereActionTS.put(Action.ACTION, System.currentTimeMillis());
-        this.derniereActionTS.put(Action.DEPLACEMENT, System.currentTimeMillis());
-        this.derniereActionTS.put(Action.ATTAQUE, System.currentTimeMillis());
-        
-        
-        
+        this.derniereActionTimestamp.put(Action.ACTION, System.currentTimeMillis());
+        this.derniereActionTimestamp.put(Action.DEPLACEMENT, System.currentTimeMillis());
+        this.derniereActionTimestamp.put(Action.ATTAQUE, System.currentTimeMillis());
+
         this.hitbox = new Rectangle();
         this.lineOfSight = new Rectangle();
         this.cibles = new ArrayList();
@@ -92,6 +79,7 @@ public abstract class Combattant extends Entite implements Cloneable {
         return combattant.isGentil != this.isGentil;
     }
 
+    @Override
     public Etat getEtat() {
         return etat;
     }
@@ -131,7 +119,6 @@ public abstract class Combattant extends Entite implements Cloneable {
         this.attaque = attaque;
     }
 
-
     @Override
     public int getAnimationCompteur() {
         long ts = System.currentTimeMillis();
@@ -149,20 +136,12 @@ public abstract class Combattant extends Entite implements Cloneable {
         return nbrImagesAnimation;
     }
 
-    public RepresentationImage getSprite() {
-        return sprite;
-    }
-    
-    public void multiplyStats(float multiplicateur){
-        this.vie*=multiplicateur;
-        this.attaque*=multiplicateur;
+    public void multiplyStats(float multiplicateur) {
+        this.vie *= multiplicateur;
+        this.attaque *= multiplicateur;
         for (Action action : vitesseAction.keySet()) {
-            vitesseAction.put(action ,vitesseAction.get(action)*multiplicateur);
+            vitesseAction.put(action, vitesseAction.get(action) * multiplicateur);
         }
-    }
-    
-    public void setImgRep(RepresentationImage imgRep) {
-        this.sprite = imgRep;
     }
 
     public ArrayList<Combattant> getCibles() {
@@ -182,16 +161,17 @@ public abstract class Combattant extends Entite implements Cloneable {
     }
 
     //retourne combien de fois faire une action selon l'action et sa vitesse.
-    public int getNbActions(Action action) {
+    public int getNbrActions(Action action) {
         long temps = System.currentTimeMillis();
         long accumulateur = accumulateurAction.get(action);
-        accumulateur += temps - derniereActionTS.get(action);
+        accumulateur += temps - derniereActionTimestamp.get(action);
         long tempsPourAction = (long) (1000 / vitesseAction.get(action));
-        int nbFois = (int) (accumulateur / tempsPourAction);
-        accumulateur -= nbFois * tempsPourAction;
+        int nbrActions = (int) (accumulateur / tempsPourAction);
+        accumulateur -= nbrActions * tempsPourAction;
         accumulateurAction.put(action, accumulateur);
-        derniereActionTS.put(action, temps);
-        return nbFois;
+        derniereActionTimestamp.put(action, temps);
+        System.out.println(nbrActions);
+        return nbrActions;
     }
 
     public void resetActions() {
@@ -199,13 +179,12 @@ public abstract class Combattant extends Entite implements Cloneable {
         this.accumulateurAction.put(Action.DEPLACEMENT, 0l);
         this.accumulateurAction.put(Action.ATTAQUE, 0l);
 
-        this.derniereActionTS.put(Action.ACTION, System.currentTimeMillis());
-        this.derniereActionTS.put(Action.DEPLACEMENT, System.currentTimeMillis());
-        this.derniereActionTS.put(Action.ATTAQUE, System.currentTimeMillis());
+        this.derniereActionTimestamp.put(Action.ACTION, System.currentTimeMillis());
+        this.derniereActionTimestamp.put(Action.DEPLACEMENT, System.currentTimeMillis());
+        this.derniereActionTimestamp.put(Action.ATTAQUE, System.currentTimeMillis());
     }
 
     public void deplacer(int deltaX) {
-
         this.hitbox.x += deltaX;
         this.lineOfSight.x += deltaX;
     }
@@ -214,10 +193,10 @@ public abstract class Combattant extends Entite implements Cloneable {
         // effectuer l'action par rapport à l'état.
         switch (etat) {
             case ATTAQUE:
-                attaquer(getNbActions(Action.ATTAQUE));
+                attaquer(getNbrActions(Action.ATTAQUE));
                 break;
             case DEPLACEMENT:
-                deplacer(getNbActions(Action.DEPLACEMENT));
+                deplacer(getNbrActions(Action.DEPLACEMENT));
                 break;
         }
 
@@ -225,8 +204,8 @@ public abstract class Combattant extends Entite implements Cloneable {
     }
 
     /**
-     * Logique d'attaque, les bouts commentés sont pour les équipements
-     * qui seront ajoutés dans la version 2.0.
+     * Logique d'attaque, les bouts commentés sont pour les équipements qui
+     * seront ajoutés dans la version 2.0.
      */
     protected void attaquer(int nbFois) {
 
@@ -244,7 +223,7 @@ public abstract class Combattant extends Entite implements Cloneable {
 //                }
 
                 //int attaqueTotale = this.attaque - (int) (this.attaque * modificateur);
-                
+
                 cible.incrementVie(-this.attaque);
 //                for (Equipement equipement : cible.equipement) {
 //                    if (equipement.isEndommageable()) {
@@ -268,13 +247,18 @@ public abstract class Combattant extends Entite implements Cloneable {
      *
      * @return
      */
-    public abstract Entite action(int nbFois);
+    public abstract Entite action(int nbrFois);
 
     @Override
     protected Combattant clone() {
         try {
             Combattant clone = (Combattant) super.clone();
-            clone.sprite = new RepresentationImage(this.sprite);
+
+            clone.sprites = (HashMap<Etat, RepresentationImage>) sprites.clone();
+            clone.vitesseAction = (HashMap<Action, Float>) vitesseAction.clone();
+            clone.derniereActionTimestamp = (HashMap<Action, Long>) derniereActionTimestamp.clone();
+            clone.accumulateurAction = (HashMap<Action, Long>) accumulateurAction.clone();
+
             clone.initialise();
 
             return clone;

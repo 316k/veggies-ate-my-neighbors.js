@@ -31,16 +31,14 @@ public class Peashooter extends Combattant {
         this.lineOfSight.width = Terrain.TAILLE_CASE_X * Terrain.CASES_X;
         this.animationFrameRate = 6;
         this.nbrImagesAnimation = new HashMap<>();
-        this.nbrImagesAnimation.put(Etat.DEPLACEMENT, 0);
         this.nbrImagesAnimation.put(Etat.ATTENTE, 4);
         this.nbrImagesAnimation.put(Etat.ATTAQUE, 11);
         this.etat = Etat.ATTENTE;
 
-        
-
         this.vitesseAction.put(Action.ACTION, 1 / 4f);
 
-        this.sprite = new RepresentationImage(new String[]{"plants", "pea-shooter", "normal"});
+        this.sprites.put(Etat.ATTENTE, new RepresentationImage(new String[]{"plants", "pea-shooter", "waiting"}));
+        this.sprites.put(Etat.ATTAQUE, new RepresentationImage(new String[]{"plants", "pea-shooter", "shooting"}));
     }
 
     @Override
@@ -48,7 +46,7 @@ public class Peashooter extends Combattant {
         Entite pois = null;
         switch (etat) {
             case ATTAQUE:
-                pois = action(getNbActions(Action.ACTION));
+                pois = action(getNbrActions(Action.ACTION));
                 break;
         }
 
@@ -64,18 +62,18 @@ public class Peashooter extends Combattant {
     public Entite action(int nbFois) {
         ArrayList<Combattant> morts = new ArrayList<>();
         for (Combattant combattant : cibles) {
-            if(combattant.getVie() <= 0){
+            if (combattant.getVie() <= 0) {
                 morts.add(combattant);
             }
         }
         this.cibles.removeAll(morts);
-        if(this.cibles.isEmpty()){
+        if (this.cibles.isEmpty()) {
             this.setEtat(Etat.ATTENTE);
             return null;
-            
+
         }
         for (int i = 0; i < nbFois; i++) {
-            
+
             Pois pois = new Pois();
             pois.getHitbox().setLocation(this.hitbox.x + 30, this.hitbox.y + 30);
 

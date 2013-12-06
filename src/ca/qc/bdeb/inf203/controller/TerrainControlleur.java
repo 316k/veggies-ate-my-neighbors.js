@@ -88,7 +88,7 @@ public class TerrainControlleur {
                 }
             }
 
-            images = new ArrayList<PositionnedSpriteContainer>(Arrays.asList(sortedImage));
+            images = new ArrayList<>(Arrays.asList(sortedImage));
 
             for (PowerUp powerUp : powerups) {
                 images.add(new PositionnedSpriteContainer(powerUp.getHitbox().getLocation(), powerUp.getSprite(), powerUp.getAnimationCompteur()));

@@ -24,7 +24,6 @@ public class Sunflower extends Combattant {
     private Soleil soleil = null;
 
     public Sunflower() {
-
         super();
         this.vie = 34;
         initialise();
@@ -38,15 +37,16 @@ public class Sunflower extends Combattant {
         this.hitbox.height = 80;
         this.lineOfSight = new Rectangle();
         this.animationFrameRate = 6;
-        this.nbrImagesAnimation = new HashMap<>();
+
         this.nbrImagesAnimation.put(Etat.ATTENTE, 4);
         this.nbrImagesAnimation.put(Etat.DEPLACEMENT, 5);
         this.nbrImagesAnimation.put(Etat.ATTAQUE, 1);
 
-
         this.vitesseAction.put(Action.ACTION, 1 / 30f);
+
+        this.sprites.put(Etat.ATTENTE, new RepresentationImage(new String[]{"plants", "sunflower"}));
+
         this.etat = Etat.ATTENTE;
-        this.sprite = new RepresentationImage(new String[]{"plants", "sunflower"});
     }
 
     @Override
@@ -54,7 +54,7 @@ public class Sunflower extends Combattant {
         Entite soleil = null;
         switch (etat) {
             case ATTENTE:
-                soleil = action(getNbActions(Action.ACTION));
+                soleil = action(getNbrActions(Action.ACTION));
                 break;
         }
 

@@ -1,8 +1,5 @@
 package ca.qc.bdeb.inf203.model;
 
-import static ca.qc.bdeb.inf203.model.Terrain.CASES_X;
-import static ca.qc.bdeb.inf203.model.Terrain.TAILLE_CASE_X;
-import ca.qc.bdeb.inf203.model.powerups.Soleil;
 import java.awt.Point;
 import java.awt.Rectangle;
 
@@ -23,12 +20,19 @@ public abstract class PowerUp extends Entite implements Cloneable {
     protected Point destination = null;
 
     public PowerUp(String path[]) {
-        this.sprite = new RepresentationImage(path);
+        this.etat = Etat.ATTENTE;
+        this.sprites.put(Etat.ATTENTE, new RepresentationImage(path));
     }
 
     public PowerUp(String path) {
+        this.etat = Etat.ATTENTE;
         this.hitbox = new Rectangle();
-        this.sprite = new RepresentationImage(new String[]{"powerups", path});
+        this.sprites.put(Etat.ATTENTE, new RepresentationImage(new String[]{"powerups", path}));
+    }
+
+    @Override
+    public Etat getEtat() {
+        return Etat.ATTENTE;
     }
 
     public int getVitesse() {
@@ -61,7 +65,7 @@ public abstract class PowerUp extends Entite implements Cloneable {
 
         this.hitbox.x += deplacementX;
         this.hitbox.y += deplacementY;
-        
+
         pendingDeplacementX -= deplacementX;
         pendingDeplacementY -= deplacementY;
 

@@ -1,12 +1,14 @@
 package ca.qc.bdeb.inf203.model;
 
 import ca.qc.bdeb.inf203.VeggiesAteMyNeighbors;
+import ca.qc.bdeb.inf203.controller.FenetreControlleur;
 import ca.qc.bdeb.inf203.model.powerups.Soleil;
 import java.awt.Dimension;
 import java.awt.Point;
 import java.awt.Rectangle;
 import java.util.ArrayList;
 import java.util.Random;
+import javax.swing.text.StyledEditorKit;
 
 /**
  * Représentation du terrain de jeu.
@@ -26,7 +28,6 @@ public class Terrain {
      * Représentation en objets cases de la totalité du terrain.
      */
     private ArrayList<Combattant> combattants;
-    private String message = null;
 
     public ArrayList<Combattant> getCombattants() {
         return combattants;
@@ -44,7 +45,6 @@ public class Terrain {
      * Delais entre la création de soleils en secondes
      */
     private long delaisSoleil = 30; // 30
-    private long dernierTimeStampSoleil;
     private long dernierTimestampSoleil;
     private int vague = 1;
     private Random rdm = new Random();
@@ -53,6 +53,7 @@ public class Terrain {
         combattants = new ArrayList<>();
         powerUps = new ArrayList<>();
         this.vagueEnCours = Vague.generateVague(vague);
+        FenetreControlleur.nouvelleVague(1);
     }
 
     public TerrainEvent tic() {
@@ -92,19 +93,19 @@ public class Terrain {
                 // Certains combatants créent des nouveaux items lors des tic
                 Entite nouvelleEntite = combattant.tic();
                 nouvellesEntites.add(nouvelleEntite);
-                
+
                 Rectangle zoneCollision = null;
                 if (combattant.getEtat() == Etat.DEPLACEMENT) {
                     // Si le combattant entre en collision, il se met à attaquer ses adversaires
-                    
+
                     zoneCollision = combattant.getHitbox();
-                    
+
                 } else if (combattant.getEtat() == Etat.ATTENTE) {
-                    
+
                     zoneCollision = combattant.getLineOfSight();
                 }
-                
-                if (zoneCollision != null){
+
+                if (zoneCollision != null) {
                     ArrayList<Combattant> cibles = getCollisions(zoneCollision, combattant);
                     if (!cibles.isEmpty()) {
                         combattant.setEtat(Etat.ATTAQUE);
@@ -117,7 +118,7 @@ public class Terrain {
         this.combattants.removeAll(morts);
 
         for (Entite entite : nouvellesEntites) {
-            
+
             if (entite != null) {
                 System.out.println("ADDD");
                 if (entite instanceof Combattant) {
@@ -165,33 +166,35 @@ public class Terrain {
             dernierTimestampSoleil = ts;
         }
 
-        this.dernierTimeStampSoleil = ts;
+        this.dernierTimestampSoleil = ts;
     }
 
     public void clic(Point point) {
-        Rectangle clic = new Rectangle(point, new Dimension(1, 1));
-        Rectangle caseClic = new Rectangle(point.x / TAILLE_CASE_X * TAILLE_CASE_X, point.y / TAILLE_CASE_Y * TAILLE_CASE_Y, TAILLE_CASE_X, TAILLE_CASE_Y);
+        synchronized (VeggiesAteMyNeighbors.ticVerrou) {
+            Rectangle clic = new Rectangle(point, new Dimension(1, 1));
+            Rectangle caseClic = new Rectangle(point.x / TAILLE_CASE_X * TAILLE_CASE_X, point.y / TAILLE_CASE_Y * TAILLE_CASE_Y, TAILLE_CASE_X, TAILLE_CASE_Y);
 
-        // Test la collision avec les power-ups
-        for (int i = 0; i < powerUps.size(); i++) {
-            if (clic.intersects(powerUps.get(i).hitbox)) {
-                powerUps.get(i).action();
-                powerUps.remove(i);
-                // Stop au premier power-up trouvé
-                return;
+            // Test la collision avec les power-ups
+            for (int i = 0; i < powerUps.size(); i++) {
+                if (clic.intersects(powerUps.get(i).hitbox)) {
+                    powerUps.get(i).action();
+                    powerUps.remove(i);
+                    // Stop au premier power-up trouvé
+                    return;
+                }
             }
-        }
 
-        // Test la collision avec une case contenant un combatant
-        for (Combattant combattant : combattants) {
-            if (combattant.hitbox.intersects(caseClic)) {
-                return;
+            // Test la collision avec une case contenant un combatant
+            for (Combattant combattant : combattants) {
+                if (combattant.hitbox.intersects(caseClic)) {
+                    return;
+                }
             }
-        }
 
-        // On assume que l'item est sélectionné <=> il est complètement rechargé
-        if (Joueur.instance().getItem() != null) {
-            combattants.add(Joueur.instance().useCurrentItem(caseClic.getLocation()));
+            // On assume que l'item est sélectionné <=> il est complètement rechargé
+            if (Joueur.instance().getItem() != null) {
+                combattants.add(Joueur.instance().useCurrentItem(caseClic.getLocation()));
+            }
         }
     }
 
@@ -218,18 +221,18 @@ public class Terrain {
     }
 
     /**
-     * Détermine si la nation est perdue (si la partie est terminée).
+     * Indique si l'humanité est perdue (si la partie est terminée) ou non.
      */
     public boolean isGameOver() {
         for (Combattant combattant : combattants) {
 
             // Test la fin du jeu
             if (combattant.getHitbox().x <= 0 && !combattant.isGentil) {
-
                 return true;
             }
 
         }
+
         return false;
     }
 }

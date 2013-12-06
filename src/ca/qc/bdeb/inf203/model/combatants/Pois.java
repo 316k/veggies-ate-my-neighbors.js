@@ -25,20 +25,18 @@ public class Pois extends Combattant implements Cloneable {
         this.isGentil = true;
         this.vitesseAction.put(Action.DEPLACEMENT, 70f);
         this.vitesseAction.put(Action.ATTAQUE, 70f);
-        /**
-         * @TODO Mettre les vrais width et height.
-         */
         this.hitbox.width = 12;
         this.hitbox.height = 12;
-        String[] path = {"plants", "pea"};
         this.animationFrameRate = 5;
-        this.nbrImagesAnimation = new HashMap<>();
         this.nbrImagesAnimation.put(Etat.ATTAQUE, 1);
         this.nbrImagesAnimation.put(Etat.ATTENTE, 1);
         this.nbrImagesAnimation.put(Etat.DEPLACEMENT, 9);
+        
         this.attaque = 20;
+        
         this.etat = Etat.DEPLACEMENT;
-        this.sprite = new RepresentationImage(path);
+        this.sprites.put(Etat.DEPLACEMENT, new RepresentationImage(new String[]{"plants", "pea"}));
+        this.sprites.put(Etat.ATTAQUE, new RepresentationImage(new String[]{"plants", "pea"}));
     }
 
     @Override

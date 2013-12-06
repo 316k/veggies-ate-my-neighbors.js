@@ -22,19 +22,23 @@ public class Veggie extends Combattant {
     @Override
     protected final void initialise() {
         super.initialise();
+
         this.attaque = 1;
         this.isGentil = false;
-        this.sprite = new RepresentationImage(new int[]{34,34,34},new String[]{"veggies", "normal"} );
         this.hitbox.height = 80;
         this.hitbox.width = 60;
         this.animationFrameRate = 5;
-        this.nbrImagesAnimation = new HashMap<>();
-        
+
+        this.vie = 1;
+
         this.nbrImagesAnimation.put(Etat.DEPLACEMENT, 5);
-        this.nbrImagesAnimation.put(Etat.ATTAQUE, 1);
-        
+        this.nbrImagesAnimation.put(Etat.ATTAQUE, 7);
+
         this.vitesseAction.put(Action.DEPLACEMENT, -16f);
         this.vitesseAction.put(Action.ATTAQUE, 0.6f);
+
+        this.sprites.put(Etat.DEPLACEMENT, new RepresentationImage(new String[]{"veggies", "normal", "walking"}));
+        this.sprites.put(Etat.ATTAQUE, new RepresentationImage(new String[]{"veggies", "normal", "attack"}));
     }
 
     @Override

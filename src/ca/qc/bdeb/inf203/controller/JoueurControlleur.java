@@ -32,4 +32,14 @@ public class JoueurControlleur {
     public static Integer getSelection() {
         return Joueur.instance().getSelection();
     }
+
+    /**
+     * Secret.
+     */
+    static void easterEgg() {
+        Item items[] = Joueur.instance().getItems();
+        for (Item item : items) {
+            item.setRecharge(1);
+        }
+    }
 }

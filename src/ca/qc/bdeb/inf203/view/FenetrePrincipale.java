@@ -1,13 +1,10 @@
 package ca.qc.bdeb.inf203.view;
 
 import ca.qc.bdeb.inf203.controller.CheatCodeControlleur;
-import ca.qc.bdeb.inf203.controller.JoueurControlleur;
-import ca.qc.bdeb.inf203.controller.TerrainControlleur;
 import java.awt.Dimension;
 import java.awt.event.KeyAdapter;
 import java.awt.event.KeyEvent;
 import javax.swing.JFrame;
-import javax.swing.JLabel;
 
 /**
  * Fenêtre de jeu.
@@ -32,7 +29,6 @@ public class FenetrePrincipale extends JFrame {
         this.addKeyListener(new KeyAdapter() {
             @Override
             public void keyTyped(KeyEvent e) {
-
                 CheatCodeControlleur.keyTyped(e);
             }
         });

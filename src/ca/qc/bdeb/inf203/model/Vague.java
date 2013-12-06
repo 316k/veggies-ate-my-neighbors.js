@@ -1,6 +1,8 @@
 package ca.qc.bdeb.inf203.model;
 
 import ca.qc.bdeb.inf203.model.combatants.Veggie;
+import ca.qc.bdeb.inf203.model.powerups.PlanteUnlock;
+import java.awt.Point;
 import java.util.ArrayList;
 import java.util.Random;
 
@@ -12,6 +14,7 @@ import java.util.Random;
 public class Vague {
 
     private static Combattant[] archetypesPossibles = {new Veggie()};
+    private static PlanteUnlock[] unlocks = {new PlanteUnlock(new Item("body-snatcher", 10, 200, new Veggie()), new Point(150, 150))};
     /**
      * Random
      */
@@ -128,6 +131,7 @@ public class Vague {
         if (numeroVague == 1) {
             return 5;
         }
+
         return (int) (Vague.getNombreVeggie(numeroVague - 1) * pourcentageAugmentationVeggies);
     }
 
@@ -140,20 +144,19 @@ public class Vague {
     public static Vague generateVague(int numeroVague) {
         float multiplicateur = 1 + ((numeroVague / archetypesPossibles.length) - 1) * 0.2f;
         ArrayList<Combattant> combattantsAL = new ArrayList<>();
-        for (int i = 0; i < (numeroVague % archetypesPossibles.length)+1; i++) {
+        for (int i = 0; i < (numeroVague % archetypesPossibles.length) + 1; i++) {
             Combattant ajout = archetypesPossibles[i].clone();
             ajout.multiplyStats(multiplicateur);
             if (numeroVague != 1) {
                 ajout.getSprite().setColorisation(
-                        new int[]{rdm.nextInt(255), rdm.nextInt(255), rdm.nextInt(255)}
-                );
+                        new int[]{rdm.nextInt(255), rdm.nextInt(255), rdm.nextInt(255)});
             }
             combattantsAL.add(ajout);
         }
         Combattant[] combattants = combattantsAL.toArray(new Combattant[combattantsAL.size()]);
         System.out.println(combattants.length + "lalalalala");
         int[] nbrCombattantsParType = {getNombreVeggie(numeroVague)};
-        Vague vague = new Vague(combattants, nbrCombattantsParType, (int) (5000/multiplicateur));
+        Vague vague = new Vague(combattants, nbrCombattantsParType, (int) (5000 / multiplicateur));
         return vague;
     }
 }

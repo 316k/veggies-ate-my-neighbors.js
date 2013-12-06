@@ -11,24 +11,24 @@ import ca.qc.bdeb.inf203.model.RepresentationImage;
  *
  * @author Guillaume Riou, Nicolas Hurtubise
  */
-public class Veggie extends Combattant {
+public class Voirie extends Veggie {
 
-    public Veggie() {
+    public Voirie() {
         super();
         initialise();
     }
 
     @Override
-    protected void initialise() {
+    protected final void initialise() {
         super.initialise();
 
-        this.attaque = 1;
+        this.attaque = 4;
         this.gentil = false;
         this.hitbox.height = 80;
         this.hitbox.width = 60;
         this.animationFrameRate = 5;
 
-        this.vie = 20;
+        this.vie = 30;
 
         this.nbrImagesAnimation.put(Etat.DEPLACEMENT, 5);
         this.nbrImagesAnimation.put(Etat.ATTAQUE, 7);
@@ -36,8 +36,8 @@ public class Veggie extends Combattant {
         this.vitesseAction.put(Action.DEPLACEMENT, -116f);
         this.vitesseAction.put(Action.ATTAQUE, 0.6f);
 
-        this.sprites.put(Etat.DEPLACEMENT, new RepresentationImage(new String[]{"veggies", "normal", "walking"}));
-        this.sprites.put(Etat.ATTAQUE, new RepresentationImage(new String[]{"veggies", "normal", "attack"}));
+        this.sprites.put(Etat.DEPLACEMENT, new RepresentationImage(new String[]{"veggies", "voirie", "walking"}));
+        this.sprites.put(Etat.ATTAQUE, new RepresentationImage(new String[]{"veggies", "voirie", "attack"}));
     }
 
     @Override

@@ -2,6 +2,7 @@ package ca.qc.bdeb.inf203.model;
 
 import ca.qc.bdeb.inf203.VeggiesAteMyNeighbors;
 import ca.qc.bdeb.inf203.controller.FenetreControlleur;
+import ca.qc.bdeb.inf203.model.combatants.ExplosionNucleaire;
 import ca.qc.bdeb.inf203.model.combatants.Projectile;
 import ca.qc.bdeb.inf203.model.combatants.Swastika;
 import ca.qc.bdeb.inf203.model.combatants.Veggie;
@@ -100,6 +101,17 @@ public class Terrain {
                 // Certains combatants créent des nouveaux items lors des tic
                 Entite nouvelleEntite = combattant.tic();
                 nouvellesEntites.add(nouvelleEntite);
+
+                if (nouvelleEntite instanceof ExplosionNucleaire) {
+                    for (Combattant combattantMort : combattants) {
+                        if (!combattantMort.isGentil() && !(combattantMort instanceof Projectile)) {
+                            Joueur.instance().incrementKills();
+                        }
+                    }
+                    this.combattants.clear();
+                    return;
+                }
+
 
                 Rectangle zoneCollision = null;
                 if (combattant.getEtat() == Etat.DEPLACEMENT) {

@@ -50,7 +50,7 @@ public abstract class Combattant extends Entite implements Cloneable {
      * Dernier timestamp calculé.
      */
     protected long derniereAnimationTimestamp;
-    protected boolean isGentil;
+    protected boolean gentil;
 
     public Combattant() {
         super();
@@ -75,8 +75,12 @@ public abstract class Combattant extends Entite implements Cloneable {
 
     }
 
-    protected boolean isEnnemi(Combattant combattant) {
-        return combattant.isGentil != this.isGentil;
+    public boolean isEnnemi(Combattant combattant) {
+        return combattant.gentil != this.gentil;
+    }
+    
+    public boolean isGentil() {
+        return gentil;
     }
 
     @Override

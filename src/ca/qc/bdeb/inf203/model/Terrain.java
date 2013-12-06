@@ -90,6 +90,9 @@ public class Terrain {
             // On élimine les combattants morts et ceux qui sont trop loins du terrain (par exemple, les projectiles mal lancés)
             if (combattant.getVie() <= 0 || !combattant.getHitbox().intersects(new Rectangle(-TAILLE_CASE_X, -TAILLE_CASE_Y, (CASES_X + 2) * TAILLE_CASE_X, (CASES_Y + 2) * TAILLE_CASE_Y))) {
                 morts.add(combattant);
+                if (!combattant.isGentil()) {
+                    Joueur.instance().incrementKills();
+                }
             } else {
                 // Certains combatants créent des nouveaux items lors des tic
                 Entite nouvelleEntite = combattant.tic();
@@ -137,19 +140,29 @@ public class Terrain {
             return TerrainEvent.NULL;
         }
         //faut faire un traitement avec ça.
-        Combattant combattant = vagueEnCours.spawn();
+        Combattant nouveauCombattant = vagueEnCours.spawn();
 
-        // S'il n'y a plus de combattants, on incrémente la vague
-        if (combattant == null) {
+        /* S'il n'y a plus de combattants à ajouter, on attend que tous les 
+         * veggies de la vague en cours meurent pour lancer la prochaine vague
+         */
+        if (nouveauCombattant == null) {
+
+            // On ne fait rien s'il reste des méchants
+            for (Combattant combattant : combattants) {
+                if (!combattant.isGentil()) {
+                    return TerrainEvent.NULL;
+                }
+            }
+
             vagueEnCours = Vague.generateVague(++vague);
             return TerrainEvent.NOUVELLE_VAGUE;
         }
 
-        combattant.hitbox.x = CASES_X * TAILLE_CASE_X;
+        nouveauCombattant.hitbox.x = CASES_X * TAILLE_CASE_X;
 
         //Met au hasard dans une rangée.
-        combattant.hitbox.y = (1 + rdm.nextInt(CASES_Y + 1)) * TAILLE_CASE_Y;
-        this.combattants.add(combattant);
+        nouveauCombattant.hitbox.y = (1 + rdm.nextInt(CASES_Y + 1)) * TAILLE_CASE_Y;
+        this.combattants.add(nouveauCombattant);
 
         return vagueEnCours.isMassiveAttack() ? TerrainEvent.MASSIVE_ATTACK : TerrainEvent.NULL;
     }
@@ -228,7 +241,7 @@ public class Terrain {
         for (Combattant combattant : combattants) {
 
             // Test la fin du jeu
-            if (combattant.getHitbox().x <= 0 && !combattant.isGentil) {
+            if (combattant.getHitbox().x <= 0 && !combattant.gentil) {
                 return true;
             }
 

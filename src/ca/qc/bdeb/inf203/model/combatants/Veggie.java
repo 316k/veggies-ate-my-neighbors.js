@@ -24,7 +24,7 @@ public class Veggie extends Combattant {
         super.initialise();
 
         this.attaque = 1;
-        this.isGentil = false;
+        this.gentil = false;
         this.hitbox.height = 80;
         this.hitbox.width = 60;
         this.animationFrameRate = 5;

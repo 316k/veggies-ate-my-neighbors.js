@@ -31,7 +31,7 @@ public class Sunflower extends Combattant {
     @Override
     protected final void initialise() {
         super.initialise();
-        this.isGentil = true;
+        this.gentil = true;
         this.hitbox.width = 80;
         this.hitbox.height = 80;
         this.lineOfSight = new Rectangle();

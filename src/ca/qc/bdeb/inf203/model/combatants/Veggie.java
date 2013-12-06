@@ -5,7 +5,6 @@ import ca.qc.bdeb.inf203.model.Combattant;
 import ca.qc.bdeb.inf203.model.Entite;
 import ca.qc.bdeb.inf203.model.Etat;
 import ca.qc.bdeb.inf203.model.RepresentationImage;
-import java.util.HashMap;
 
 /**
  * Veggie
@@ -34,7 +33,7 @@ public class Veggie extends Combattant {
         this.nbrImagesAnimation.put(Etat.DEPLACEMENT, 5);
         this.nbrImagesAnimation.put(Etat.ATTAQUE, 7);
 
-        this.vitesseAction.put(Action.DEPLACEMENT, -16f);
+        this.vitesseAction.put(Action.DEPLACEMENT, -116f);
         this.vitesseAction.put(Action.ATTAQUE, 0.6f);
 
         this.sprites.put(Etat.DEPLACEMENT, new RepresentationImage(new String[]{"veggies", "normal", "walking"}));

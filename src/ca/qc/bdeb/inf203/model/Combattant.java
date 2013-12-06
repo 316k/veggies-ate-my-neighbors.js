@@ -1,5 +1,6 @@
 package ca.qc.bdeb.inf203.model;
 
+import ca.qc.bdeb.inf203.model.combatants.Projectile;
 import java.awt.Rectangle;
 import java.util.ArrayList;
 import java.util.HashMap;
@@ -44,6 +45,14 @@ public abstract class Combattant extends Entite implements Cloneable {
      * Vitesse en action/sec
      */
     protected HashMap<Action, Float> vitesseAction = new HashMap<>();
+
+    public HashMap<Action, Float> getVitesseAction() {
+        return vitesseAction;
+    }
+
+    public void setVitesseAction(HashMap<Action, Float> vitesseAction) {
+        this.vitesseAction = vitesseAction;
+    }
     protected HashMap<Action, Long> derniereActionTimestamp = new HashMap<>();
     protected HashMap<Action, Long> accumulateurAction = new HashMap<>();
     /**
@@ -78,9 +87,13 @@ public abstract class Combattant extends Entite implements Cloneable {
     public boolean isEnnemi(Combattant combattant) {
         return combattant.gentil != this.gentil;
     }
-    
+
     public boolean isGentil() {
         return gentil;
+    }
+
+    public void setGentil(boolean gentil) {
+        this.gentil = gentil;
     }
 
     @Override
@@ -163,9 +176,7 @@ public abstract class Combattant extends Entite implements Cloneable {
     public void setLineOfSight(Rectangle lineOfSight) {
         this.lineOfSight = lineOfSight;
     }
-    
-    
-    
+
     //retourne combien de fois faire une action selon l'action et sa vitesse.
     public int getNbrActions(Action action) {
         long temps = System.currentTimeMillis();
@@ -261,16 +272,16 @@ public abstract class Combattant extends Entite implements Cloneable {
             clone.initialise();
 
             HashMap<Etat, RepresentationImage> sprites = new HashMap<>();
-            
+
             for (Etat etat : this.sprites.keySet()) {
                 sprites.put(etat, this.sprites.get(etat).clone());
             }
-            
+
             clone.sprites = sprites;
-            
+
             clone.vitesseAction = (HashMap<Action, Float>) vitesseAction.clone();
             clone.derniereActionTimestamp = (HashMap<Action, Long>) derniereActionTimestamp.clone();
-            clone.accumulateurAction = (HashMap<Action, Long>) accumulateurAction.clone();            
+            clone.accumulateurAction = (HashMap<Action, Long>) accumulateurAction.clone();
 
             return clone;
         } catch (CloneNotSupportedException ex) {

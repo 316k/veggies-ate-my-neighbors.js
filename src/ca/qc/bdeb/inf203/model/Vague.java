@@ -150,8 +150,9 @@ public class Vague {
             Combattant ajout = archetypesPossibles[i].clone();
             ajout.multiplyStats(multiplicateur);
             System.out.println("NUMEROVAGUE " + numeroVague);
+            int[] color = {rdm.nextInt(255-56)+56, rdm.nextInt(255-56)+56, rdm.nextInt(255-56)+56};
             if (numeroVague != 1 || true) {
-                int[] color = {rdm.nextInt(255-56)+56, rdm.nextInt(255-56)+56, rdm.nextInt(255-56)+56};
+                
                 System.out.println("JECOLORISE");
                 ajout.getSprite().setColorisation(color);
                 for (Etat etat : ajout.getSprites().keySet()) {

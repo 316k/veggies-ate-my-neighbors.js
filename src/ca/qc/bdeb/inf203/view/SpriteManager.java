@@ -2,6 +2,7 @@ package ca.qc.bdeb.inf203.view;
 
 import java.awt.AlphaComposite;
 import java.awt.Color;
+import java.awt.Graphics;
 import java.awt.Graphics2D;
 import java.awt.Image;
 import java.awt.geom.AffineTransform;
@@ -28,7 +29,7 @@ public class SpriteManager {
      * Donne le sprite d'une image voulue
      *
      * @todo Implémenter la colorisation
-     * @param ri        Représentation de l'image
+     * @param ri Représentation de l'image
      * @param animation numéro d'animation
      * @return le sprite à blitter
      */
@@ -51,7 +52,7 @@ public class SpriteManager {
     /**
      * Charge en cache une image.
      *
-     * @param path      Chemin à utiliser pour le blit de l'image.
+     * @param path Chemin à utiliser pour le blit de l'image.
      * @param animation numéro d'animation à utiliser
      * @throws IOException En cas de fichier introuvable
      * @return Le sprite loadé
@@ -62,7 +63,6 @@ public class SpriteManager {
         fichier += "/" + sprite.getPath();
 
         BufferedImage image = ImageIO.read(new File(fichier));
-
 
         // Colorisation
         if (sprite.getRepresentationImage().getColorisation() != null) {
@@ -90,6 +90,41 @@ public class SpriteManager {
             g.drawImage(mask, null, null);
 
             image = img;
+//            BufferedImage imageColorisee = new BufferedImage(image.getWidth(), image.getHeight(), BufferedImage.TYPE_INT_ARGB);
+//            Graphics2D g = imageColorisee.createGraphics();
+//            g.drawImage(image, 0, 0, null);
+//            
+//            
+//            for (int i = 0; i < image.getWidth(); i++) {
+//                for (int j = 0; j < image.getHeight(); j++) {
+//                    int couleur = imageColorisee.getRGB(i, j);
+//                    
+//                    //les bitshifts et les And je les ai copiés sur stack
+//                    //overflow mais au moins je sais ce qu'ils font.
+//                    int[] couleurs = {(couleur >> 16) & 0x000000FF,
+//                        (couleur >> 8) & 0x000000FF, (couleur) & 0x000000FF, (couleur << 24) & 0x000000FF};
+//                    for (int k = 0; k < couleurs.length; k++) {
+//                        if (k < 3) {
+//                            couleurs[k] += sprite.getRepresentationImage().getColorisation()[k];
+//                            if(couleurs[k]>255){
+//                                couleurs[k] = 255;
+//                            }else if(couleurs[k] < 0){
+//                                couleurs[k] = 0;
+//                            }
+//                        }else{
+//                            couleurs[k] = 255;
+//                           
+//                        }
+//                    }
+//                    
+//                    Color c = new Color(couleurs[0],couleurs[1],couleurs[2],couleurs[3]);
+//                    
+//                    System.out.println(((c.getRGB()>>8) & 0x000000FF) +""+ "AAA");
+//                    imageColorisee.setRGB(i, j, c.getRGB());
+//                    
+//                }
+//            }
+//            image = imageColorisee;
         }
 
         // Flip

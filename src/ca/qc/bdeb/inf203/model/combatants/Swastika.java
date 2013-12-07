@@ -7,7 +7,7 @@ import ca.qc.bdeb.inf203.model.Etat;
 import ca.qc.bdeb.inf203.model.RepresentationImage;
 
 /**
- * Pois (lancé par un Hitler végétarien).
+ * Swastika (lancé par un Hitler végétarien).
  *
  * @author Guillaume Riou, Nicolas Hurtubise
  */

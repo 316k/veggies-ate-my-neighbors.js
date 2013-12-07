@@ -37,26 +37,49 @@ public class JTerrain extends JPanel {
      * Nombre de cases en Y
      */
     private final int CASES_Y = Terrain.CASES_Y + 1;
+    /**
+     * Tailles des cases.
+     */
     private final int TAILLE_CASE_X = Terrain.TAILLE_CASE_X;
     private final int TAILLE_CASE_Y = Terrain.TAILLE_CASE_Y;
+    /**
+     * Taille de la grille.
+     */
     private final int WIDTH = CASES_X * TAILLE_CASE_X;
     private final int HEIGHT = CASES_Y * TAILLE_CASE_Y;
     private final int ITEM_WIDTH = 65;
     private final int OFFSET_ITEMS = (int) (1.2 * TAILLE_CASE_X);
     private final int MARGIN_ITEMS = (int) (0.2 * ITEM_WIDTH);
+    /**
+     * Background à afficher.
+     */
     private PositionnedSpriteContainer[][] background;
+    /**
+     * Panneau de magasin à afficher.
+     */
     private PositionnedSpriteContainer panel;
     /**
      * Les coordonnées du point correspondent à un nombre de cases en x et y
      */
     private Point caseSelectionnee = new Point(-1, -1);
+    /**
+     * polices de caractères.
+     */
     private Font sunFont;
     private Font infosFont;
     private Font messageFont;
     private Font scoreFont;
-    private boolean repainting = false;
+    /**
+     * Message affiché.
+     */
     private String message = null;
+    /**
+     * Temps avant que le message arrête de s'afficher.
+     */
     private Long messageTimeout = null;
+    /**
+     * Si le message clignotte.
+     */
     private boolean messageBlink = false;
 
     public JTerrain() {
@@ -110,12 +133,19 @@ public class JTerrain extends JPanel {
 
         this.setVisible(true);
     }
-
+    /**
+     * Affiche les images des sprites containers.
+     * @param g
+     * @param sprite 
+     */
     protected void blitSpriteContainer(Graphics g, PositionnedSpriteContainer sprite) {
         g.drawImage(SpriteManager.getImage(sprite),
                 sprite.getCoordonnee().x, sprite.getCoordonnee().y, this);
     }
-
+    /**
+     * Affiche tous les trucs.
+     * @param g 
+     */
     @Override
     protected void paintComponent(Graphics g) {
         synchronized (VeggiesAteMyNeighbors.ticVerrou) {
@@ -205,7 +235,9 @@ public class JTerrain extends JPanel {
             }
         }
     }
-
+    /**
+     * Génère une séquence de gazon aléatoire.
+     */
     private void generateBackground() {
         Random rnd = new Random();
 

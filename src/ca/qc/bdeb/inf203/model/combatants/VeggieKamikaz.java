@@ -39,7 +39,10 @@ public class VeggieKamikaz extends Combattant {
         this.sprites.put(Etat.DEPLACEMENT, new RepresentationImage(new String[]{"veggies", "kamikaz", "walking"}));
         this.sprites.put(Etat.ATTAQUE, new RepresentationImage(new String[]{"explosion"}));
     }
-
+    /**
+     * Meurt après avoir attaqué.
+     * @param nbrFois 
+     */
     @Override
     protected void attaquer(int nbrFois) {
         super.attaquer(nbrFois);

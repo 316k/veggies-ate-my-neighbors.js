@@ -5,7 +5,7 @@ import ca.qc.bdeb.inf203.model.*;
 import java.util.HashMap;
 
 /**
- *
+ * Rend le veggie attaqué gentil.
  * @author Guillaume Riou
  */
 public class BodySnatcher extends Combattant{
@@ -49,9 +49,7 @@ public class BodySnatcher extends Combattant{
     }
 
     /**
-     * L'action à distance d'un peashooter est de retourner un pois
-     *
-     * @return
+     * Rend le veggie attaqué gentil si le paramètre nbFois est >0.
      */
     @Override
     public void attaquer(int nbFois) {

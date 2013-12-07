@@ -4,7 +4,7 @@ import ca.qc.bdeb.inf203.model.*;
 import java.util.HashMap;
 
 /**
- * 
+ * Rose nucléaire qui tue tout sur le terrain.
  *
  * @author Guillaume Riou, Nicolas Hurtubise
  */
@@ -54,7 +54,11 @@ public class AtomicRose extends Combattant {
         return entite;
     }
 
-
+    /**
+     * 
+     * @param nbFois si c'est 0, pas d'explosion, sinon, explose.
+     * @return une explosion.
+     */
     @Override
     public Entite action(int nbFois) {
 

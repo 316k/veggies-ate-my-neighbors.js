@@ -15,6 +15,9 @@ public class FenetrePrincipale extends JFrame {
 
     private final int WIDTH = 800;
     private final int HEIGHT = 503;
+    /**
+     * Composant d'affichage du terrain.
+     */
     private JTerrain board;
 
     public FenetrePrincipale() {
@@ -37,15 +40,27 @@ public class FenetrePrincipale extends JFrame {
 
         this.setVisible(true);
     }
-
+    /**
+     * Affiche le message passé en paramètre.
+     * @param message le message
+     */
     public void setMessage(String message) {
         board.setMessage(message, null);
     }
-
+    /**
+     * Affiche le message durant un temps défini par le 
+     * paramètre délais.
+     * @param message
+     * @param delais 
+     */
     public void setMessage(String message, Integer delais) {
         board.setMessage(message, delais);
     }
-
+    
+    /**
+     * Fais clignotter ou non le message en cours d'affichage.
+     * @param blink true : clignotte, false : ne clignotte pas.
+     */
     public void setMessageBlink(boolean blink) {
         board.setMessageBlink(blink);
     }

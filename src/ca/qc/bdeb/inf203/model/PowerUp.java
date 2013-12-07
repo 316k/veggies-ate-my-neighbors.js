@@ -63,7 +63,9 @@ public abstract class PowerUp extends Entite implements Cloneable {
     public Point getDestination() {
         return destination;
     }
-
+    /**
+     * Gère les actions des powerups.
+     */
     public void tic() {
         long temps = System.currentTimeMillis();
 

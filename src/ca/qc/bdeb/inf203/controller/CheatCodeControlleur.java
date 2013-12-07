@@ -9,8 +9,13 @@ import java.awt.event.KeyEvent;
  * @author Nicolas Hurtubise, Guillaume Riou
  */
 public class CheatCodeControlleur {
-
+    /**
+     * Code en cours d'écriture
+     */
     private static String cheatCode = "";
+    /**
+     * Nombre de char max par cheat.
+     */
     private static final int maxChars = 12;
 
     public static void keyTyped(KeyEvent e) {

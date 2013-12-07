@@ -8,7 +8,7 @@ package ca.qc.bdeb.inf203.model;
 public class RepresentationImage implements Cloneable {
 
     /**
-     * RGB
+     * Colorisation RGB à appliquer à l'image.
      */
     private int[] colorisation;
     /**
@@ -16,6 +16,9 @@ public class RepresentationImage implements Cloneable {
      * la hiérarchie de fichier.
      */
     private String[] path;
+    /**
+     * 
+     */
     private boolean flipped = false;
     public void setColorisation(int[] colorisation) {
         this.colorisation = colorisation;

@@ -15,7 +15,7 @@ public class PlanteUnlock extends PowerUp {
     private Item item;
     private int largeur = 65;
     private int hauteur = 62;
-
+   
     public PlanteUnlock(Item item, Point position) {
         super(item.getNom());
         this.item = item;

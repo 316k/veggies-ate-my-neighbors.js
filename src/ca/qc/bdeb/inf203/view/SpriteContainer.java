@@ -8,20 +8,29 @@ import ca.qc.bdeb.inf203.model.RepresentationImage;
  * @author Nicolas Hurtubise, Guillaume Riou
  */
 public class SpriteContainer {
-
+    /**
+     * représentation de l'image (chemin, flippé, colorisation)
+     */
     protected RepresentationImage image;
+    /**
+     * numéro du frame de l'animatio.
+     */
     protected int animation;
+    /**
+     * Si on doit flipper l'image.
+     */
     protected boolean flip = false;
 
     public SpriteContainer(RepresentationImage image, int animation) {
         this.image = image;
         this.animation = animation;
+        this.flip = image.isFlipped();
     }
 
     public SpriteContainer(RepresentationImage image, int animation, boolean flip) {
         this.image = image;
         this.animation = animation;
-        this.flip = flip;
+        this.flip = image.isFlipped();
     }
 
     public RepresentationImage getRepresentationImage() {
@@ -35,7 +44,10 @@ public class SpriteContainer {
     public boolean isFlipped() {
         return flip;
     }
-
+    /**
+     * Reconstruit la string de l'adresse de l'image.
+     * @return 
+     */
     public String getPath() {
         String path = "";
         for (int i = 0; i < image.getPath().length; i++) {

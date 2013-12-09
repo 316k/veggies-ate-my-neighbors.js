@@ -1,10 +1,8 @@
 package ca.qc.bdeb.inf203.model;
 
 import ca.qc.bdeb.inf203.VeggiesAteMyNeighbors;
-import ca.qc.bdeb.inf203.model.combatants.AtomicRose;
 import ca.qc.bdeb.inf203.model.combatants.Peashooter;
 import ca.qc.bdeb.inf203.model.combatants.Sunflower;
-import ca.qc.bdeb.inf203.model.combatants.VeggieHitler;
 import java.awt.Point;
 import java.util.ArrayList;
 
@@ -15,12 +13,32 @@ import java.util.ArrayList;
  * @author Nicolas Hurtubise, Guillaume Riou
  */
 public class Joueur {
-    
+    /**
+     * Instance du singleton.
+     */
     private static Joueur instance = new Joueur();
+    /**
+     * Nombre de soleils accumulés.
+     */
     private int nbrSoleils;
+    /**
+     * Plantes débloquées.
+     */
     private ArrayList<Item> items = new ArrayList<>();
+    /**
+     * Plante sélectionnée.
+     */
     private Integer selection = null;
+    /**
+     * Nombre de veggies tués.
+     */
     private int kills = 0;
+    
+     private Joueur() {
+        items.add(new Item("pea-shooter", 0.0015, 100, new Peashooter()));
+        items.add(new Item("sunflower", 0.001, 50, new Sunflower()));
+        nbrSoleils = 250;
+    }
     
     public int getKills() {
         return kills;
@@ -38,6 +56,9 @@ public class Joueur {
         return instance;
     }
     
+    /**
+     * Recharge tous les items.
+     */
     public void tic() {
         synchronized (VeggiesAteMyNeighbors.ticVerrou) {
             // Recharge des items
@@ -47,17 +68,13 @@ public class Joueur {
         }
     }
     
-    private Joueur() {
-        items.add(new Item("pea-shooter", 0.001, 100, new Peashooter()));
-        items.add(new Item("sunflower", 0.001, 50, new Sunflower()));
-        items.add(new Item("atomic-rose", 0.001, 50, new AtomicRose()));
-        nbrSoleils = 250;
-    }
-    
     public int getSoleils() {
         return nbrSoleils;
     }
-    
+    /**
+     * Met la sélection à un item si celui-ci est chargé.
+     * @param selection 
+     */
     public void setSelection(Integer selection) {
         if (selection != null && items.get(selection).getRecharge() == 1 && nbrSoleils >= items.get(selection).getCout()) {
             this.selection = selection;
@@ -94,7 +111,11 @@ public class Joueur {
     public void debloquerItem(Item item) {
         this.items.add(item);
     }
-    
+    /**
+     * Utilise l'item sélectionné
+     * @param position position ou mettre le combattant.
+     * @return Le combatant de L'item à la position sélectionnée.
+     */
     public Combattant useCurrentItem(Point position) {
         // Génère le combatant conféré par l'item
         Combattant combattant = getItem().getCombattant().clone();
@@ -109,15 +130,5 @@ public class Joueur {
         
     }
 
-    /**
-     * Load la dernière save
-     */
-    public void loadSave() {
-    }
-
-    /**
-     * Save dans le fichier de save (lol)
-     */
-    public void Save() {
-    }
+    
 }

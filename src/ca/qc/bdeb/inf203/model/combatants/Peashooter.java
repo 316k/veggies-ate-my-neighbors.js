@@ -24,7 +24,7 @@ public class Peashooter extends Combattant {
     @Override
     protected final void initialise() {
         super.initialise();
-        this.vie = 30;
+        this.vie = 10;
         this.gentil = true;
         this.hitbox.width = 80;
         this.hitbox.height = 80;
@@ -36,7 +36,7 @@ public class Peashooter extends Combattant {
         this.nbrImagesAnimation.put(Etat.ATTAQUE, 11);
         this.etat = Etat.ATTENTE;
 
-        this.vitesseAction.put(Action.ACTION, 1 / 4f);
+        this.vitesseAction.put(Action.ACTION, 1f);
 
         this.sprites.put(Etat.ATTENTE, new RepresentationImage(new String[]{"plants", "pea-shooter", "waiting"}));
         this.sprites.put(Etat.ATTAQUE, new RepresentationImage(new String[]{"plants", "pea-shooter", "shooting"}));

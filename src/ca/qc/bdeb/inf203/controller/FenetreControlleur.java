@@ -31,26 +31,41 @@ public class FenetreControlleur {
         }
     });
 
+    /**
+     * Initialisation de la fenêtre.
+     */
     public static void init() {
         fenetre = new FenetrePrincipale();
         TerrainControlleur.jouer();
         t.start();
     }
 
+    /**
+     * Fonction pas utilisée.
+     */
     public static void menuJeu() {
         TerrainControlleur.pause();
     }
 
+    /**
+     * Afficher un message d'attaque massive.
+     */
     public static void massiveAttack() {
         fenetre.setMessageBlink(true);
         fenetre.setMessage("Massive Attack !", 3);
     }
 
+    /**
+     * Afficher un message de nouvelle vague.
+     */
     public static void nouvelleVague(int vague) {
         fenetre.setMessageBlink(false);
         fenetre.setMessage("Vague " + vague + " !", 3);
     }
 
+    /**
+     * Afficher un message de fin de partie
+     */
     public static void gameOver() {
         fenetre.setMessageBlink(true);
         fenetre.setMessage("You lost THE GAME");

@@ -43,7 +43,9 @@ public class Soleil extends PowerUp {
         this.animationFrameRate = 12;
         this.nbrImagesAnimation = 4;
     }
-
+    /**
+     * ajoute des soleils au joueur.
+     */
     @Override
     public void action() {
         Joueur.instance().addSoleils(valeur);

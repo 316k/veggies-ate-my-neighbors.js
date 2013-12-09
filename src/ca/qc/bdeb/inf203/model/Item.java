@@ -66,7 +66,9 @@ public class Item {
     public boolean isUtilisable() {
         return recharge == 1 && Joueur.instance().getSoleils() >= cout;
     }
-
+    /**
+     * Incrémente le compteur de charge de l'objet.
+     */
     public void tic() {
         long ts = System.currentTimeMillis();
 

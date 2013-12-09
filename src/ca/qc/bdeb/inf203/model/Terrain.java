@@ -2,6 +2,8 @@ package ca.qc.bdeb.inf203.model;
 
 import ca.qc.bdeb.inf203.VeggiesAteMyNeighbors;
 import ca.qc.bdeb.inf203.controller.FenetreControlleur;
+import ca.qc.bdeb.inf203.model.combatants.AtomicRose;
+import ca.qc.bdeb.inf203.model.combatants.BodySnatcher;
 import ca.qc.bdeb.inf203.model.combatants.ExplosionNucleaire;
 import ca.qc.bdeb.inf203.model.combatants.Projectile;
 import ca.qc.bdeb.inf203.model.combatants.Swastika;
@@ -22,45 +24,54 @@ import java.util.Random;
 public class Terrain {
 
     /**
-     * Constantes de taille du terrain
+     * Constantes de taille du terrain.
      */
     public static final int CASES_X = 9;
     public static final int CASES_Y = 5;
     public static final int TAILLE_CASE_X = 80;
     public static final int TAILLE_CASE_Y = 80;
     /**
-     * Représentation en objets cases de la totalité du terrain.
+     * Liste de combattants présents dans le terrain.
      */
     private ArrayList<Combattant> combattants;
-
-    public ArrayList<Combattant> getCombattants() {
-        return combattants;
-    }
-
-    public ArrayList<PowerUp> getPowerUps() {
-        return powerUps;
-    }
+    /**
+     * Liste de powerups présents sur le terrain.
+     */
     private ArrayList<PowerUp> powerUps;
     /**
      * Niveau qui est en train de se dérouler.
      */
     private Vague vagueEnCours;
     /**
-     * Delais entre la création de soleils en secondes
+     * Delais entre la création de soleils en secondes.
      */
     private long delaisSoleil = 30; // 30
     private long dernierTimestampSoleil;
-    private PlanteUnlock[] unlocks = {new PlanteUnlock(new Item("body-snatcher", 0.0002, 200, new Swastika()), new Point()), new PlanteUnlock(new Item("atomic-rose", 0.00001, 500, new Veggie()), new Point())};
+    /**
+     * Liste de plantes à débloquer au fil des niveaux.
+     */
+    private PlanteUnlock[] unlocks = {new PlanteUnlock(new Item("body-snatcher", 0.0002, 200, new BodySnatcher()), new Point()), new PlanteUnlock(new Item("atomic-rose", 0.00001, 500, new AtomicRose()), new Point())};
+    /**
+     * Numéro de la vague en cours.
+     */
     private int vague = 1;
+    /**
+     * Random.
+     */
     private Random rdm = new Random();
-
+    /**
+     * Créé le terrain, fait une nouvelle vague.
+     */
     public Terrain() {
         combattants = new ArrayList<>();
         powerUps = new ArrayList<>();
         this.vagueEnCours = Vague.generateVague(vague);
         FenetreControlleur.nouvelleVague(1);
     }
-
+    /**
+     * Apelles toutes les méthodes nécessaires par tic.
+     * @return 
+     */
     public TerrainEvent tic() {
         synchronized (VeggiesAteMyNeighbors.ticVerrou) {
             TerrainEvent evenement = TerrainEvent.NULL;
@@ -83,10 +94,11 @@ public class Terrain {
         }
     }
 
-    public int getVague() {
-        return vague;
-    }
-
+    /**
+     * Gère les actions des combattants, s'occupe des collisions, de savoir si des combattants
+     * sont morts et d'ajouter les entités créés par les actions des combattants.
+     * 
+     */
     private void combattantsAction() {
         ArrayList<Entite> nouvellesEntites = new ArrayList<>();
         ArrayList<Combattant> morts = new ArrayList<>();
@@ -147,7 +159,13 @@ public class Terrain {
             }
         }
     }
-
+    /**
+     * Met les combattants dans le terrain grâce à la vague en cours.
+     * Gère la création de nouvelles vagues et le débloquage de nouveaux
+     * objets par le joueur.Lance aussi les événements du terrain.
+     * 
+     * @return L'événement en cours dans le terrain.
+     */
     private TerrainEvent ajouterVeggie() {
         if (!vagueEnCours.isSpawnReady()) {
             // On attend le que le prochain spawn soit prêt
@@ -209,8 +227,11 @@ public class Terrain {
 
         this.dernierTimestampSoleil = ts;
     }
-
-    public void clic(Point point) {
+    /**
+     * Gère une action de l'utilisateur selon l'endroit.
+     * @param point 
+     */
+    public void action(Point point) {
         synchronized (VeggiesAteMyNeighbors.ticVerrou) {
             Rectangle clic = new Rectangle(point, new Dimension(1, 1));
             Rectangle caseClic = new Rectangle(point.x / TAILLE_CASE_X * TAILLE_CASE_X, point.y / TAILLE_CASE_Y * TAILLE_CASE_Y, TAILLE_CASE_X, TAILLE_CASE_Y);
@@ -275,5 +296,19 @@ public class Terrain {
         }
 
         return false;
+    }
+    
+    
+    public ArrayList<Combattant> getCombattants() {
+        return combattants;
+    }
+
+    
+    public int getVague() {
+        return vague;
+    }
+    
+    public ArrayList<PowerUp> getPowerUps() {
+        return powerUps;
     }
 }

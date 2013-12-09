@@ -9,7 +9,7 @@ public enum Etat {
 
     ATTAQUE("attaque"),
     DEPLACEMENT("deplacement"),
-    ATTENTE("jesaispasquoimettre");
+    ATTENTE("attente");
     public String nom;
 
     private Etat(String nom) {

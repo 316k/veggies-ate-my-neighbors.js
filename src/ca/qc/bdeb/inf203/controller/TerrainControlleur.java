@@ -19,8 +19,13 @@ import java.util.logging.Logger;
  * @author Nicolas Hurtubise
  */
 public class TerrainControlleur {
-
+    /**
+     * Instance du modèle.
+     */
     private static Terrain terrain = new Terrain();
+    /**
+     * Permet de pause et de dépause.
+     */
     private static boolean continuerThread;
     /**
      * Thread contrôllant les tics du terrain.
@@ -48,14 +53,18 @@ public class TerrainControlleur {
             }
         }
     });
-
+    /**
+     * fais recommencer ou continuer le Thread.
+     */
     public static void jouer() {
         continuerThread = true;
         if (!t.isAlive()) {
             t.start();
         }
     }
-
+    /**
+     * Met le thread en pause.
+     */
     public static void pause() {
         continuerThread = false;
     }
@@ -101,15 +110,24 @@ public class TerrainControlleur {
             return new PositionnedSpriteContainer[0];
         }
     }
-
+    /**
+     * Donne une action au terrain
+     * @param point l'endroit ou l'action a été faite.
+     */
     public static void clic(Point point) {
-        terrain.clic(point);
+        terrain.action(point);
     }
-
+    /**
+     * 
+     * @return la vague en cours.
+     */
     public static int getVague() {
         return terrain.getVague();
     }
-
+    /**
+     * Augmente le pourcentage d'augmentation de zombies par vagues.
+     * @param pourcentageAugmentationVeggies 
+     */
     public static void setPourcentageAugmentationVeggies(double pourcentageAugmentationVeggies) {
         Vague.setPourcentageAugmentationVeggies(pourcentageAugmentationVeggies);
     }

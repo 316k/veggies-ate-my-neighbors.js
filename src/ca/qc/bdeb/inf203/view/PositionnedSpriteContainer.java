@@ -8,7 +8,9 @@ import java.awt.Point;
  * @author Nicolas Hurtubise, Guillaume Riou
  */
 public class PositionnedSpriteContainer extends SpriteContainer {
-
+    /**
+     * Position du spriteContainer.
+     */
     private Point position;
 
     public PositionnedSpriteContainer(Point position, RepresentationImage image, int animation) {

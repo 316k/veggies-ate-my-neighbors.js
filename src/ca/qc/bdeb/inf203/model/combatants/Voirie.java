@@ -22,19 +22,19 @@ public class Voirie extends Veggie {
     protected final void initialise() {
         super.initialise();
 
-        this.attaque = 4;
+        this.attaque = 1;
         this.gentil = false;
         this.hitbox.height = 80;
         this.hitbox.width = 60;
         this.animationFrameRate = 5;
 
-        this.vie = 30;
+        this.vie = 40;
 
         this.nbrImagesAnimation.put(Etat.DEPLACEMENT, 5);
         this.nbrImagesAnimation.put(Etat.ATTAQUE, 7);
 
-        this.vitesseAction.put(Action.DEPLACEMENT, -116f);
-        this.vitesseAction.put(Action.ATTAQUE, 0.6f);
+        this.vitesseAction.put(Action.DEPLACEMENT, -16f);
+        this.vitesseAction.put(Action.ATTAQUE, 1f);
 
         this.sprites.put(Etat.DEPLACEMENT, new RepresentationImage(new String[]{"veggies", "voirie", "walking"}));
         this.sprites.put(Etat.ATTAQUE, new RepresentationImage(new String[]{"veggies", "voirie", "attack"}));

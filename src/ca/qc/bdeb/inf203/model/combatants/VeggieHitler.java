@@ -65,9 +65,9 @@ public class VeggieHitler extends Combattant {
     }
 
     /**
-     * L'action à distance d'un peashooter est de retourner un pois
+     * 
      *
-     * @return
+     * @return une nouvelle Swastika.
      */
     @Override
     public Entite action(int nbrFois) {

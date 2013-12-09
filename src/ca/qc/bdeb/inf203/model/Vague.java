@@ -2,17 +2,26 @@ package ca.qc.bdeb.inf203.model;
 
 import ca.qc.bdeb.inf203.model.combatants.Veggie;
 import ca.qc.bdeb.inf203.model.combatants.VeggieHitler;
+import ca.qc.bdeb.inf203.model.combatants.VeggieKamikaz;
+import ca.qc.bdeb.inf203.model.combatants.Voirie;
 import java.util.ArrayList;
 import java.util.Random;
 
 /**
- * Vague en 2 phases, aléatoire, dispersée, ...
+ * Classe représentant une vague de veggies, gère les fins de vagues, les
+ * moments apropriés pour spawner les zombies et le nombre de zombies par types.
  *
  * @author Guillaume Riou, Nicolas Hurtubise
  */
 public class Vague {
-
-    private static Combattant[] archetypesPossibles = {new Veggie(), new VeggieHitler()};
+    /**
+     * Colorisation en cours. Constant durant plusieurs vagues.
+     */
+    private static int[] colorisationEnCours = null;
+    /**
+     * Archétypes possibles dans une vague.
+     */
+    private static Combattant[] archetypesPossibles = {new Veggie(), new Voirie(), new VeggieKamikaz(), new VeggieHitler()};
     /**
      * Random
      */
@@ -29,11 +38,17 @@ public class Vague {
      * Nombre de combatants à générer par index de type.
      */
     private int[] nbParArchetype;
+    /**
+     * Nombre initial de veggies dans la vague.
+     */
     private final int nbInitial;
     /**
      * Delais moyen entre les spawns en milisecondes.
      */
     private long delaisMoyen;
+    /**
+     * Boolean dénotant si la vague est à son dernier 50 %
+     */
     private boolean massiveAttack = false;
 
     public boolean isMassiveAttack() {
@@ -49,6 +64,15 @@ public class Vague {
     private long depuisDernierSpawn;
     private long lastTimestamp;
 
+    /**
+     * Créé une nouvelle vague
+     * @param archetypes
+     * Types de veggies présents dans la vague.
+     * @param nbParArchetype
+     * nombres de veggies par types.
+     * @param delaisMoyen 
+     * délais moyen entre deux spawns.
+     */
     public Vague(Combattant[] archetypes, int[] nbParArchetype, int delaisMoyen) {
         this.archetypes = archetypes;
         this.nbParArchetype = nbParArchetype;
@@ -66,12 +90,18 @@ public class Vague {
     public static void setPourcentageAugmentationVeggies(double pourcentageAugmentationVeggies) {
         Vague.pourcentageAugmentationVeggies = pourcentageAugmentationVeggies;
     }
-
+    /**
+     * Set le délais entre deux spawn à plus ou moins 50% du délais moyen de la 
+     * vague.
+     */
     private void setDelais() {
         int variation = (int) (this.delaisMoyen * 0.5);
         this.delais = delaisMoyen + Vague.rdm.nextInt(variation) - variation;
     }
-
+    /**
+     * 
+     * @return Le nombre de veggies restant dans la vague.
+     */
     public int getRemainingVeggies() {
         int totalRestant = 0;
         for (int i : nbParArchetype) {
@@ -79,7 +109,11 @@ public class Vague {
         }
         return totalRestant;
     }
-
+    /**
+     * Valide si le délais de spawn est écoulé.
+     * @return true si le temps nécessaire pour spawner est passé
+     * false sinon.
+     */
     public boolean isSpawnReady() {
         long temps = System.currentTimeMillis();
         this.depuisDernierSpawn += (temps - this.lastTimestamp);
@@ -89,7 +123,10 @@ public class Vague {
         this.lastTimestamp = temps;
         return false;
     }
-
+    /**
+     * Choisis aléatoirement un veggie à retourner et en enlève un des quantités.
+     * @return null si la vague est vide, la veggie sélectionné sinon 
+     */
     public Combattant spawn() {
 
         if (this.getRemainingVeggies() == 0) {
@@ -101,7 +138,7 @@ public class Vague {
         // On choisit aléatoirement un type de combattant dans ceux qui restent
         do {
             combattantIndex = Vague.rdm.nextInt(this.archetypes.length);
-            System.out.println("AAAA" + this.nbParArchetype[combattantIndex]);
+           
         } while (this.nbParArchetype[combattantIndex] == 0);
 
         this.nbParArchetype[combattantIndex]--;
@@ -111,10 +148,10 @@ public class Vague {
             this.delaisMoyen = 400;
             this.massiveAttack = true;
         }
-        
+
         this.depuisDernierSpawn = 0;
         this.setDelais();
-        
+
         return archetypes[combattantIndex].clone();
     }
 
@@ -138,36 +175,36 @@ public class Vague {
      * Génère une vague dont la difficulté dépend du numéro de la vague.
      *
      * @param numeroVague numéro de la vague voulue
-     * @return
+     * @return La vague générée
      */
     public static Vague generateVague(int numeroVague) {
         float multiplicateur = 1 + ((numeroVague / archetypesPossibles.length) - 1) * 0.2f;
+
         ArrayList<Combattant> combattantsAL = new ArrayList<>();
-        System.out.println(numeroVague +" AAAA");
-        for (int i = 0; i <= ((numeroVague-1) % archetypesPossibles.length); i++) {
+
+        for (int i = 0; i <= ((numeroVague - 1) % archetypesPossibles.length); i++) {
             System.out.println(i);
             Combattant ajout = archetypesPossibles[i].clone();
             ajout.multiplyStats(multiplicateur);
-            if (numeroVague != 1 || true) {
-                int[] color = {rdm.nextInt(255-56)+56, rdm.nextInt(255-56)+56, rdm.nextInt(255-56)+56};
-                ajout.getSprite().setColorisation(color);
-                for (Etat etat : ajout.getSprites().keySet()) {
-                    RepresentationImage rep = ajout.getSprites().get(etat);
-                    rep.setColorisation(color);
-                    ajout.getSprites().put(etat, rep);
-                }
+            //Changes la colorisation quand le cicle recommence
+            if (numeroVague != 1 && (numeroVague - 1) % archetypesPossibles.length == 0) {
+                colorisationEnCours = new int[]{rdm.nextInt(255 - 56) + 56, rdm.nextInt(255 - 56) + 56, rdm.nextInt(255 - 56) + 56};
             }
-            
+            for (Etat etat : ajout.getSprites().keySet()) {
+                RepresentationImage rep = ajout.getSprites().get(etat);
+                rep.setColorisation(colorisationEnCours);
+                ajout.getSprites().put(etat, rep);
+            }
             combattantsAL.add(ajout);
         }
-        
+
         Combattant[] combattants = combattantsAL.toArray(new Combattant[combattantsAL.size()]);
         int[] nbrCombattantsParType = new int[combattants.length];
         for (int i = 0; i < combattants.length; i++) {
-            nbrCombattantsParType[i] = getNombreVeggie(numeroVague)/combattants.length;
+            nbrCombattantsParType[i] = getNombreVeggie(numeroVague) / combattants.length;
         }
-         
-        Vague vague = new Vague(combattants, nbrCombattantsParType, (int) (10000 / multiplicateur));
+
+        Vague vague = new Vague(combattants, nbrCombattantsParType, (int) (15000 / multiplicateur));
         return vague;
     }
 }

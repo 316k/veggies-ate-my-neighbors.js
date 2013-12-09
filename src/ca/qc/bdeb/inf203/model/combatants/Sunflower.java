@@ -9,22 +9,16 @@ import ca.qc.bdeb.inf203.model.powerups.Soleil;
 import java.awt.Rectangle;
 
 /**
- * Plante Tire-pois.
+ * Plante qui produit du soleil.
  *
  * @author Guillaume Riou, Nicolas Hurtubise
  */
 public class Sunflower extends Combattant {
 
-    private long dernierSoleilTimestamp = System.currentTimeMillis();
-    /**
-     * Nombre de secondes minimal avant la génération d'un soleil
-     */
-    private int tempsGenerationSoleil = 30; // 30
-    private Soleil soleil = null;
 
     public Sunflower() {
         super();
-        this.vie = 34;
+        this.vie = 10;
         initialise();
     }
 
@@ -61,9 +55,9 @@ public class Sunflower extends Combattant {
     }
 
     /**
-     * L'action à distance d'un peashooter est de retourner un pois
+     * 
      *
-     * @return
+     * @return un soleil si nbFois >0
      */
     @Override
     public Entite action(int nbFois) {

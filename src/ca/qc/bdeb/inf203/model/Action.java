@@ -7,7 +7,7 @@
 package ca.qc.bdeb.inf203.model;
 
 /**
- *
+ * Énumérations d'action possibles pour un combatant
  * @author Nicolas Hurtubise, Guillaume Riou.
  */
 public enum Action {

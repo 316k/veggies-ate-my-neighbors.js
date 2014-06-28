@@ -32,7 +32,7 @@ function Vague(archetypes, nbParArchetype, delaisMoyen) {
     /**
      * temps en milis qui s'est passé depuis le dernier spawn.
      */
-    this.depuisDernierSpawn;
+    this.depuisDernierSpawn = 0;
     this.lastTimestamp = window.performance.now();
 
     this.setDelais();
@@ -70,10 +70,12 @@ Vague.prototype.getRemainingVeggies = function() {
  */
 Vague.prototype.isSpawnReady = function() {
     var temps = window.performance.now();
+
     this.depuisDernierSpawn += (temps - this.lastTimestamp);
     if (this.depuisDernierSpawn > this.delais) {
         return true;
     }
+
     this.lastTimestamp = temps;
     return false;
 };
@@ -88,11 +90,11 @@ Vague.prototype.spawn = function() {
         return null;
     }
 
-    var combattantIndex;
+    var combattantIndex = 0;
 
     // On choisit aléatoirement un type de combattant dans ceux qui restent
     do {
-        combattantIndex = rand(0, this.archetypes.length);
+        combattantIndex = Math.round(rand(0, this.archetypes.length));
     } while (this.nbParArchetype[combattantIndex] == 0);
 
     this.nbParArchetype[combattantIndex]--;
@@ -161,7 +163,7 @@ Vague.generateVague = function(numeroVague) {
 
     var nbrCombattantsParType = [];
     for (var index in combattants) {
-        nbrCombattantsParType[index] = Vague.getNombreVeggie(numeroVague) / combattants.length;
+        nbrCombattantsParType[index] = parseInt(Vague.getNombreVeggie(numeroVague) / combattants.length);
     }
 
     return new Vague(combattants, nbrCombattantsParType, parseInt(15000/multiplicateur));

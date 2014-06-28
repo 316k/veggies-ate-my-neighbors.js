@@ -16,6 +16,7 @@ VeggieKamikaz.prototype.initialise = function() {
     this.hitbox.height = 80;
     this.hitbox.width = 60;
     this.animationFrameRate = 5;
+    this.etat = navigator.Etat.DEPLACEMENT;
 
     this.vie = 20;
 
@@ -57,7 +58,7 @@ VeggieKamikaz.prototype.attaquer = function(nbrFois) {
         }
     }
 
-    this.cibles = this.cibles.remove_elements(aEnlever);
+    this.cibles = array_remove_elements(this.cibles, aEnlever);
 
     if (this.cibles.length == 0) {
         this.setEtat(navigator.Etat.DEPLACEMENT);

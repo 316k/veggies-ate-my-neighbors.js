@@ -16,6 +16,7 @@ Voirie.prototype.initialise = function() {
     this.hitbox.height = 80;
     this.hitbox.width = 60;
     this.animationFrameRate = 5;
+    this.etat = navigator.Etat.DEPLACEMENT;
 
     this.vie = 40;
 

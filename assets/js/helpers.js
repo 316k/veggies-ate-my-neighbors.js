@@ -4,6 +4,10 @@
 function clone_json(object) {
     var clone = {};
 
+    if(object === undefined) {
+        return undefined;
+    }
+
     // Clones functions
     if(object.__proto__ == clone_json.__proto__) {
         return object;
@@ -31,7 +35,7 @@ function assertEquals(name, expected, test) {
     if(result !== expected) {
         console.error('Unit test *' + name + '* failed :( ' + result + ' !== ' + expected);
     } else {
-        console.debug('Unit test ' + name + ' Passed ! :D');
+        // console.debug('Unit test ' + name + ' Passed ! :D');
     }
 }
 

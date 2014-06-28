@@ -128,7 +128,7 @@ Terrain.prototype.combattantsAction = function() {
     }
 
     if(this.combattants) {
-        this.combattants = this.combattants.remove_elements(morts);
+        this.combattants = array_remove_elements(this.combattants, morts);
     }
 
     for (var index in this.nouvellesEntites) {
@@ -157,7 +157,7 @@ Terrain.prototype.ajouterVeggie = function() {
         return navigator.TerrainEvent.NULL;
     }
 
-    //faut faire un traitement avec ça.
+    // faut faire un traitement avec ça.
     var nouveauCombattant = this.vagueEnCours.spawn();
 
     /* S'il n'y a plus de combattants à ajouter, on attend que tous les
@@ -173,18 +173,22 @@ Terrain.prototype.ajouterVeggie = function() {
             }
         }
 
-        this.vagueEnCours = navigator.Vague.generateVague(++this.vague);
+        this.vagueEnCours = Vague.generateVague(++this.vague);
 
         // On débloque un item aux trois vagues, jusqu'à ce qu'il n'y ait plus d'items
-        if (this.vague % 3 == 2 && this.vague/3 <= unlocks.length) {
+        if (this.vague % 3 == 0 && this.vague/3 <= this.unlocks.length) {
             var x = rand(0, (Terrain.CASES_X - 1) * Terrain.TAILLE_CASE_X);
             var y = rand(0, (Terrain.CASES_Y - 2) * Terrain.TAILLE_CASE_Y) + 1 * Terrain.TAILLE_CASE_Y;
 
             // PlanteUnlock
-            var unlocked = this.unlocks[parseInt(vague/3) - 1];
+            var unlocked = this.unlocks[Math.round(this.vague/3) - 1];
 
             unlocked.hitbox.x = x;
             unlocked.hitbox.y = y;
+
+            if(!this.powerUps) {
+                this.powerUps = [];
+            }
 
             this.powerUps.push(unlocked);
         }
@@ -192,13 +196,19 @@ Terrain.prototype.ajouterVeggie = function() {
         return navigator.TerrainEvent.NOUVELLE_VAGUE;
     }
 
-    nouveauCombattant.hitbox.x = Terrain.CASES_X * Terrain.TAILLE_CASE_X;
+    nouveauCombattant.hitbox = new Rectangle();
 
-    //Met au hasard dans une rangée.
+    nouveauCombattant.hitbox.x = parseInt(Terrain.CASES_X * Terrain.TAILLE_CASE_X);
+
+    console.log(nouveauCombattant.hitbox.x);
+
+    // Met au hasard dans une rangée.
     nouveauCombattant.hitbox.y = (1 + parseInt(rand(0, Terrain.CASES_Y + 1))) * Terrain.TAILLE_CASE_Y;
+
+    this.combattants = this.combattants || [];
     this.combattants.push(nouveauCombattant);
 
-    return this.vagueEnCours.isMassiveAttack() ? navigator.TerrainEvent.MASSIVE_ATTACK : navigator.TerrainEvent.NULL;
+    return this.vagueEnCours.massiveAttack ? navigator.TerrainEvent.MASSIVE_ATTACK : navigator.TerrainEvent.NULL;
 };
 
 /**
@@ -210,9 +220,8 @@ Terrain.prototype.ajouterSoleil = function() {
     if (ts - this.dernierTimestampSoleil >= this.delaisSoleil * 1000) {
         var x = parseInt(rand(0, (Terrain.CASES_X - 1) * Terrain.TAILLE_CASE_X));
         var y = parseInt(rand(0, (Terrain.CASES_Y - 2) * Terrain.TAILLE_CASE_Y) + 1 * Terrain.TAILLE_CASE_Y);
-        if(!this.powerUps) {
-            this.powerUps = [];
-        }
+
+        this.powerUps = this.powerUps || [];
         this.powerUps.push(new Soleil(25, new Point(x, -Terrain.TAILLE_CASE_Y), new Point(x, y)));
         this.dernierTimestampSoleil = ts;
     }
@@ -234,7 +243,6 @@ Terrain.prototype.action = function(point) {
     // Test la collision avec les power-ups
     if(this.powerUps) {
         for (var index in this.powerUps) {
-            console.log(JSON.stringify(this.powerUps[index].hitbox) + ' ' + JSON.stringify(clic));
             if (clic.intersects(this.powerUps[index].hitbox)) {
                 this.powerUps[index].action();
                 this.powerUps = array_remove_elements(this.powerUps, [this.powerUps[index]]);
@@ -246,7 +254,6 @@ Terrain.prototype.action = function(point) {
 
     // Test la collision avec une case contenant un combatant
     for (var index in this.combattants) {
-        console.log(this.combattants.length + ' : ' + JSON.stringify(this.combattants));
         var combattant = this.combattants[index];
 
         if (combattant.hitbox.intersects(caseClic) && !(combattant.isProjectile)) {
@@ -255,6 +262,7 @@ Terrain.prototype.action = function(point) {
     }
 
     if (navigator.Joueur.getItem() != null) {
+        this.combattants = this.combattants || [];
         this.combattants.push(navigator.Joueur.useCurrentItem(caseClic.getLocation()));
     }
 };

@@ -16,6 +16,7 @@ VeggieHitler.prototype.initialise = function() {
     this.hitbox.h = 80;
     this.hitbox.w = 60;
     this.animationFrameRate = 5;
+    this.etat = navigator.Etat.DEPLACEMENT;
 
     this.lineOfSight = new Rectangle();
     this.lineOfSight = new Rectangle();

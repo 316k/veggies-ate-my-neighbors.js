@@ -87,7 +87,7 @@ Combattant.prototype.isEnnemi = function(combattant) {
  * @return Etat
  */
 Combattant.prototype.getEtat = function() {
-    return etat;
+    return this.etat;
 };
 
 /**
@@ -110,7 +110,7 @@ Combattant.prototype.getAnimationCompteur = function() {
         this.derniereAnimationTimestamp = ts;
     }
 
-    return this.animationCompteur % this.nbrImagesAnimation[etat];
+    return this.animationCompteur % this.nbrImagesAnimation[this.etat];
 };
 
 /*
@@ -136,13 +136,15 @@ Combattant.prototype.multiplyStats = function(multiplicateur) {
  */
 Combattant.prototype.getNbrActions = function(action) {
     var temps = window.performance.now();
-    var accumulateur = this.accumulateurAction[action];
+    var accumulateur = this.accumulateurAction[action] || 0;
+
     accumulateur += temps - this.derniereActionTimestamp[action];
+
     var tempsPourAction = (1000 / this.vitesseAction[action]);
     var nbrActions = (accumulateur / tempsPourAction);
     accumulateur -= nbrActions * tempsPourAction;
     this.accumulateurAction[action] = accumulateur;
-    this.derniereActionTimestamp[action] =  temps;
+    this.derniereActionTimestamp[action] = temps;
     return nbrActions;
 };
 
@@ -164,8 +166,10 @@ Combattant.prototype.resetActions = function() {
  * @param int deltaX nb de pixels .
  */
 Combattant.prototype.deplacer = function(deltaX) {
-    this.hitbox.x += deltaX;
-    this.lineOfSight.x += deltaX;
+    if(deltaX && !isNaN(deltaX)) {
+        this.hitbox.x += deltaX;
+        this.lineOfSight.x += deltaX;
+    }
 };
 
 /**

@@ -39,7 +39,7 @@ SpriteManager.prototype.getImage = function(sprite) {
 SpriteManager.prototype.loadSprite = function(sprite) {
     var fichier = "assets/img/";
 
-    console.log("Loading " + sprite);
+//    console.log("Loading " + sprite);
 
     fichier += "/" + sprite.getPath();
 

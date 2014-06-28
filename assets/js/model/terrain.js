@@ -232,12 +232,15 @@ Terrain.prototype.action = function(point) {
     );
 
     // Test la collision avec les power-ups
-    for (var index in this.powerUps.length) {
-        if (clic.intersects(this.powerUps[index].hitbox)) {
-            this.powerUps[index].action();
-            this.powerUps.remove_elements(this.powerUps[index]);
-            // Stop au premier power-up trouvé
-            return;
+    if(this.powerUps) {
+        for (var index in this.powerUps) {
+            console.log(JSON.stringify(this.powerUps[index].hitbox) + ' ' + JSON.stringify(clic));
+            if (clic.intersects(this.powerUps[index].hitbox)) {
+                this.powerUps[index].action();
+                this.powerUps = array_remove_elements(this.powerUps, [this.powerUps[index]]);
+                // Stop au premier power-up trouvé
+                return;
+            }
         }
     }
 

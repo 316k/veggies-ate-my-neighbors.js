@@ -60,20 +60,20 @@ PowerUp.prototype.tic = function() {
     var deltaTemps = temps - this.dernierTicTimestamp;
 
     // v = dx/dT => dx = v*dt
-    var deltaX = (Math.abs(vitesse) * Math.sign(this.destination.x - this.hitbox.x) * (deltaTemps / 1000.0));
-    var deltaY = (Math.abs(vitesse) * Math.sign(this.destination.y - this.hitbox.y) * (deltaTemps / 1000.0));
+    var deltaX = (Math.abs(this.vitesse) * Math.sign(this.destination.x - this.hitbox.x) * (deltaTemps / 1000.0));
+    var deltaY = (Math.abs(this.vitesse) * Math.sign(this.destination.y - this.hitbox.y) * (deltaTemps / 1000.0));
 
     this.pendingDeplacementX += deltaX;
     this.pendingDeplacementY += deltaY;
 
-    var deplacementX = parseInt(pendingDeplacementX);
-    var deplacementY = parseInt(pendingDeplacementY);
+    var deplacementX = parseInt(this.pendingDeplacementX);
+    var deplacementY = parseInt(this.pendingDeplacementY);
 
     this.hitbox.x += deplacementX;
     this.hitbox.y += deplacementY;
 
-    pendingDeplacementX -= deplacementX;
-    pendingDeplacementY -= deplacementY;
+    this.pendingDeplacementX -= deplacementX;
+    this.pendingDeplacementY -= deplacementY;
 
     this.dernierTicTimestamp = temps;
 };

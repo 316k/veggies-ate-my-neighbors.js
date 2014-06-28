@@ -22,35 +22,8 @@ Item.prototype.setVitesseRechargement = function(vitesseRechargement) {
     this.vitesseRechargement = vitesseRechargement;
 };
 
-/**
- * Screw getters/setters
-    public int getCout() {
-        return cout;
-    }
-
-    public double getRecharge() {
-        return recharge;
-    }
-
-    public void setRecharge(double recharge) {
-        this.recharge = recharge;
-    }
-
-    public String getNom() {
-        return nom;
-    }
-
-    public Combattant getCombattant() {
-        return combattant;
-    }
-
-    public double getVitesseRechargement() {
-        return vitesseRechargement;
-    }
-*/
-
 Item.prototype.isUtilisable = function() {
-    return this.recharge == 1 && navigator.Joueur.soleils >= this.cout;
+    return this.recharge === 1 && navigator.Joueur.nbrSoleils >= this.cout;
 };
 
 /**

@@ -16,7 +16,7 @@ function Soleil(valeur, position, destination) {
     this.animationFrameRate = 12;
     this.nbrImagesAnimation = 4;
     this.vitesse = 60;
-    this.destination = null;
+    this.destination = destination;
 
     this.sprites[navigator.Etat.ATTENTE] = new RepresentationImage(["powerups", "sun"]);
 }
@@ -27,6 +27,6 @@ Soleil.prototype = new PowerUp();
  * ajoute des soleils au joueur.
  */
 Soleil.prototype.action = function() {
-    navigator.Joueur.soleils += valeur;
+    navigator.Joueur.nbrSoleils += this.valeur;
     this.used = true;
 };

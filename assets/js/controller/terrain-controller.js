@@ -1,3 +1,13 @@
+$(document).ready(function() {
+    $('#screen').click(function(event) {
+        navigator.TerrainController.clic(
+            new Point(
+                (event.pageX - $(this).offset().left) / $(this).width() * document.getElementById('screen').width,
+                (event.pageY - $(this).offset().top) / $(this).height() * document.getElementById('screen').height
+            ));
+    });
+});
+
 function TerrainController() {
     navigator.Vague = new Vague();
     this.terrain = new Terrain();

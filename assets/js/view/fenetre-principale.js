@@ -6,6 +6,8 @@
 function FenetrePrincipale() {
     this.WIDTH = (Terrain.CASES_X + 1) * Terrain.TAILLE_CASE_X;
     this.HEIGHT = (Terrain.CASES_Y + 1) * Terrain.TAILLE_CASE_Y;
+    this.OFFSET_ITEMS = parseInt(1.2 * Terrain.TAILLE_CASE_X);
+    this.ITEM_WIDTH = 75;
 
     this.canvas = document.getElementById('screen');
     this.canvas.width = this.WIDTH;
@@ -30,9 +32,13 @@ FenetrePrincipale.prototype.setMessage = function(message, delais) {
 FenetrePrincipale.prototype.repaint = function() {
     this.draw_background();
     this.draw_panel();
+    this.draw_suns();
+    this.draw_infos();
+    this.draw_entities();
 };
 
 FenetrePrincipale.prototype.draw_sprite = function(sprite) {
+    var image = navigator.SpriteManager.getImage(sprite);
     this.context.drawImage(navigator.SpriteManager.getImage(sprite), sprite.position.x, sprite.position.y);
 };
 
@@ -46,36 +52,73 @@ FenetrePrincipale.prototype.draw_background = function() {
 
 FenetrePrincipale.prototype.draw_panel = function() {
     this.draw_sprite(new PositionnedSpriteContainer(new Point(0, 0), new RepresentationImage(["panel"], null), 0));
-    /*
     // Game panel items
-    Item[] items = JoueurControlleur.getItems();
-    Point position = new Point(OFFSET_ITEMS, (int) (1 / 8.0 * TAILLE_CASE_Y));
-    Integer selection = JoueurControlleur.getSelection();
-    for (Item item : items) {
-        PositionnedSpriteContainer itemSprite = new PositionnedSpriteContainer(position, new RepresentationImage(new String[]{"panel", "box", item.getNom()}), 0);
+    var items = navigator.Joueur.items;
+    var position = new Point(this.OFFSET_ITEMS, parseInt(1/8 * Terrain.TAILLE_CASE_Y));
+    var selection = navigator.Joueur.selection;
 
-        blitSpriteContainer(g, itemSprite);
+    for (var index in items) {
+        var item = items[index];
 
-        // Blit la recharge de l'item
-        g.setColor(item.getRecharge() == 1 ? Color.green : Color.red);
-        g.fillRect((int) (position.x + 2 / 16.0 * TAILLE_CASE_X), (int) (11 / 16.0 * TAILLE_CASE_Y), (int) (item.getRecharge() * 19 / 32.0 * TAILLE_CASE_X) - 1, (int) (1 / 8.0 * TAILLE_CASE_Y));
+        var itemSprite = new PositionnedSpriteContainer(position, new RepresentationImage(["panel", "box", item.nom], null), 0);
 
-        g.setColor(Color.black);
-        g.drawRect((int) (position.x + 2 / 16.0 * TAILLE_CASE_X), (int) (11 / 16.0 * TAILLE_CASE_Y), (int) (19 / 32.0 * TAILLE_CASE_X) - 1, (int) (1 / 8.0 * TAILLE_CASE_Y));
+        this.draw_sprite(itemSprite);
 
-        // Blit le coût de l'item (en gris si l'item est non utilisable)
-        g.setColor(item.isUtilisable() ? Color.black : Color.gray);
-        g.setFont(sunFont);
-        g.drawString("" + item.getCout(), position.x + ITEM_WIDTH / 5, (int) (position.y * 6.2));
+        // Recharge
+        this.context.fillStyle = 'black';
+        this.context.fillRect(parseInt(position.x + 2/16*Terrain.TAILLE_CASE_X), parseInt(11 / 16.0 * Terrain.TAILLE_CASE_Y), parseInt(19/32*Terrain.TAILLE_CASE_X) - 1, parseInt(1/8*Terrain.TAILLE_CASE_Y));
+
+        this.context.fillStyle = item.recharge == 1 ? 'green' : 'red';
+        this.context.fillRect(parseInt(position.x + 2/16 * Terrain.TAILLE_CASE_X) + 2, parseInt(11/16 * Terrain.TAILLE_CASE_Y) + 2, parseInt(item.recharge*19/32*Terrain.TAILLE_CASE_X) - 5, parseInt(1/8*Terrain.TAILLE_CASE_Y) - 4);
+
+
+        // Item cost (in gray for unavailable items)
+        this.context.fillStyle = item.isUtilisable() ? 'black' : 'gray';
+        this.context.font = '12px press-start';
+        this.context.fillText(item.cout, position.x + this.ITEM_WIDTH / 5, parseInt(position.y * 5.5));
 
         // Item sélectionné
+        /*
         if (selection != null && item.equals(items[selection])) {
             g.setColor(new Color(255, 170, 0, 170));
             g.fillRect(itemSprite.getCoordonnee().x, itemSprite.getCoordonnee().y, SpriteManager.getImage(sprite).getWidth(this), SpriteManager.getImage(sprite).getHeight(this));
         }
+        */
 
-        position.move((int) (position.x + ITEM_WIDTH + MARGIN_ITEMS), position.y);
-    }*/
+        position.x += this.ITEM_WIDTH;
+    }
+};
+
+FenetrePrincipale.prototype.draw_suns = function() {
+    var path = ["panel", "box", "sun"];
+    var ri = new RepresentationImage(path);
+    var sprite = new PositionnedSpriteContainer(new Point(parseInt(0.1*Terrain.TAILLE_CASE_X), Terrain.TAILLE_CASE_Y/8), ri, 0);
+
+    this.draw_sprite(sprite);
+
+    // Number
+    this.context.fillStyle = 'black';
+    this.context.font = '10px press-start';
+    this.context.fillText(navigator.Joueur.nbrSoleils, (0.2 * Terrain.TAILLE_CASE_X), 13 * Terrain.TAILLE_CASE_Y / 16);
+};
+
+FenetrePrincipale.prototype.draw_infos = function() {
+    // Infos
+    this.context.fillStyle = 'white';
+    this.context.font = '22px press-start';
+    var positionInfosX = this.WIDTH - parseInt(2.8 * Terrain.TAILLE_CASE_X);
+    this.context.fillText("Wave : " + navigator.TerrainController.terrain.vague, positionInfosX, 4 * Terrain.TAILLE_CASE_Y / 8);
+    this.context.font = '16px press-start';
+    this.context.fillText("Kills : " + navigator.Joueur.kills, positionInfosX, 7 * Terrain.TAILLE_CASE_Y / 8);
+};
+
+FenetrePrincipale.prototype.draw_entities = function() {
+    var sprites = navigator.TerrainController.getImages();
+
+    for (var index in sprites) {
+        var sprite = sprites[index];
+        this.draw_sprite(sprite);
+    }
 };
 
 /**

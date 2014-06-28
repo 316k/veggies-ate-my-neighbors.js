@@ -94,7 +94,7 @@ Vague.prototype.spawn = function() {
 
     // On choisit aléatoirement un type de combattant dans ceux qui restent
     do {
-        combattantIndex = Math.round(rand(0, this.archetypes.length));
+        combattantIndex = Math.round(rand(0, this.archetypes.length - 1));
     } while (this.nbParArchetype[combattantIndex] == 0);
 
     this.nbParArchetype[combattantIndex]--;

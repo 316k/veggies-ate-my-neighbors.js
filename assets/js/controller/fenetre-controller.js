@@ -13,7 +13,7 @@ FenetreController.prototype.tic = function() {
 
     setTimeout(function() {
         self.tic();
-    }, 10);
+    }, navigator.refresh_rate);
 };
 
 
@@ -47,7 +47,7 @@ FenetreController.prototype.nouvelleVague = function(vague) {
  */
 FenetreController.prototype.gameOver = function() {
     this.fenetre.blink = true;
-    this.fenetre.setMessage("You lost THE GAME");
+    this.fenetre.setMessage("You lost THE GAME", null);
     navigator.TerrainController.pause();
 };
 

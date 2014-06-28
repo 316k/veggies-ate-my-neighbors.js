@@ -28,11 +28,12 @@ TerrainController.prototype.tic = function() {
         var evenement = this.terrain.tic();
         navigator.Joueur.tic();
 
-        if (evenement == TerrainEvent.GAME_OVER) {
+        if (evenement == navigator.TerrainEvent.GAME_OVER) {
+            console.log('GAME OVER');
             navigator.FenetreController.gameOver();
-        } else if (evenement == TerrainEvent.NOUVELLE_VAGUE) {
-            navigator.FenetreController.nouvelleVague(this.terrain.getVague());
-        } else if (evenement == TerrainEvent.MASSIVE_ATTACK) {
+        } else if (evenement == navigator.TerrainEvent.NOUVELLE_VAGUE) {
+            navigator.FenetreController.nouvelleVague(this.terrain.vague);
+        } else if (evenement == navigator.TerrainEvent.MASSIVE_ATTACK) {
             navigator.FenetreController.massiveAttack();
         }
     }
@@ -40,7 +41,7 @@ TerrainController.prototype.tic = function() {
     var self = this;
     setTimeout(function() {
         self.tic();
-    }, 10);
+    }, navigator.refresh_rate);
 };
 
 /**

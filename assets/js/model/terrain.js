@@ -200,8 +200,6 @@ Terrain.prototype.ajouterVeggie = function() {
 
     nouveauCombattant.hitbox.x = parseInt(Terrain.CASES_X * Terrain.TAILLE_CASE_X);
 
-    console.log(nouveauCombattant.hitbox.x);
-
     // Met au hasard dans une rangée.
     nouveauCombattant.hitbox.y = (1 + parseInt(rand(0, Terrain.CASES_Y + 1))) * Terrain.TAILLE_CASE_Y;
 

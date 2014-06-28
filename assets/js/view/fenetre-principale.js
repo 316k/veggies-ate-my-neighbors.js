@@ -26,7 +26,25 @@ function FenetrePrincipale() {
  * @param int delais 
  */
 FenetrePrincipale.prototype.setMessage = function(message, delais) {
-    $('#notifications').text(message).show().fadeOut(delais);
+    $('#notifications').text(message).show();
+
+    if(delais) {
+        $('#notifications').fadeOut(delais);
+    } else {
+        this.blink_notification();
+    }
+};
+
+FenetrePrincipale.prototype.blink_notification = function() {
+    if(this.blink) {
+        $('#notifications').toggle();
+
+        var self = this;
+        setTimeout(function() {
+            self.blink_notification();
+        }, 750);
+    }
+
 };
 
 FenetrePrincipale.prototype.repaint = function() {

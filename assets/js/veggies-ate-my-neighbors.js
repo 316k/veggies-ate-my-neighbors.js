@@ -1,4 +1,6 @@
 $(document).ready(function() {
+    navigator.refresh_rate = 24;
+
     navigator.SpriteManager = new SpriteManager();
     navigator.JoueurController = new JoueurController();
     navigator.CheatCodeController = new CheatCodeController();
@@ -25,7 +27,5 @@ $(document).ready(function() {
                 top: ($(window).height() - $('#screen').height())/2
             });
         }
-
-        $('#notifications').css('top', ($(window).height() - $('#notifications').height())/2);
     }).resize().resize(); // dumb bugfix
 });

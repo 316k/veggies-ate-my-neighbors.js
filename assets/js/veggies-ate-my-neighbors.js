@@ -1,8 +1,4 @@
 $(document).ready(function() {
-    play();
-});
-
-function play() {
     navigator.refresh_rate = 50;
 
     navigator.SpriteManager = new SpriteManager();
@@ -32,4 +28,4 @@ function play() {
             });
         }
     }).resize().resize(); // dumb bugfix
-}
+});

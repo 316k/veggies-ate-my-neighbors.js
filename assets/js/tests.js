@@ -56,6 +56,13 @@ assertEquals('Rectangle.intersects 4', true, function() {
     return a.intersects(b);
 });
 
+assertEquals('Rectangle.intersects 5', false, function() {
+    var a = new Rectangle(0, 0, 150, 150);
+    var b = new Rectangle(150, 0, 150, 150);
+
+    return a.intersects(b);
+});
+
 assertEquals('Rectangle.contains_point', true, function() {
     var a = new Rectangle(0, 0, 150, 150);
     var b = new Point(10, 50);

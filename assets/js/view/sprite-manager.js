@@ -30,6 +30,10 @@ SpriteManager.prototype.getImage = function(sprite) {
     return image;
 };
 
+SpriteManager.prototype.loaded = function(sprite) {
+    return (sprite.toString() in this.sprites);
+};
+
 /**
  * Charge en cache une image.
  *
@@ -37,14 +41,18 @@ SpriteManager.prototype.getImage = function(sprite) {
  * @return BufferedImage Le sprite loadé
  */
 SpriteManager.prototype.loadSprite = function(sprite) {
-    var fichier = "assets/img/";
-
-//    console.log("Loading " + sprite);
-
-    fichier += "/" + sprite.getPath();
+    var fichier = "/assets/img/" + sprite.getPath();
 
     var image = new Image();
     image.src = fichier;
+
+    image.onload = function() {
+        console.log(fichier + ' loaded');
+    }
+
+    image.onerror = function() {
+        console.log('Error while loading ' + fichier);
+    }
 
     /*
     // TODO : Colorisation

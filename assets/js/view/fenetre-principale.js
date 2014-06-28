@@ -69,8 +69,21 @@ FenetrePrincipale.prototype.repaint = function() {
 };
 
 FenetrePrincipale.prototype.draw_sprite = function(sprite) {
-    var image = navigator.SpriteManager.getImage(sprite);
-    this.context.drawImage(navigator.SpriteManager.getImage(sprite), sprite.position.x, sprite.position.y);
+    if(navigator.SpriteManager.loaded(sprite)) {
+        var image = navigator.SpriteManager.getImage(sprite);
+        try {
+            this.context.drawImage(image, sprite.position.x, sprite.position.y);
+        } catch(exception) {
+            // console.log(exception);
+        }
+    } else {
+        var image = navigator.SpriteManager.getImage(sprite);
+
+        var self = this;
+        image.onload = function() {
+            self.context.drawImage(image, sprite.position.x, sprite.position.y);
+        }
+    }
 };
 
 FenetrePrincipale.prototype.draw_background = function() {

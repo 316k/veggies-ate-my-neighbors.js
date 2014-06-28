@@ -88,12 +88,12 @@ Rectangle.prototype.contains_point = function(point) {
 Rectangle.prototype.intersects = function(rectangle) {
     var intersects = false;
 
-    // is this in rectangle
+    // Ignore 1px border to avoid false collisions
     var corners = [
-        new Point(this.x, this.y),
-        new Point(this.x + this.w, this.y),
-        new Point(this.x, this.y + this.h),
-        new Point(this.x + this.w, this.y + this.h)
+        new Point(this.x + 1, this.y + 1),
+        new Point(this.x + this.w - 1, this.y + 1),
+        new Point(this.x + 1, this.y + this.h -1),
+        new Point(this.x + this.w - 1, this.y + this.h - 1)
     ];
 
     for(var index in corners) {
@@ -102,10 +102,10 @@ Rectangle.prototype.intersects = function(rectangle) {
 
     // is rectangle in this
     corners = [
-        new Point(rectangle.x, rectangle.y),
-        new Point(rectangle.x + rectangle.w, rectangle.y),
-        new Point(rectangle.x, rectangle.y + rectangle.h),
-        new Point(rectangle.x + rectangle.w, rectangle.y + rectangle.h)
+        new Point(rectangle.x + 1, rectangle.y + 1),
+        new Point(rectangle.x + rectangle.w - 1, rectangle.y + 1),
+        new Point(rectangle.x + 1, rectangle.y + rectangle.h - 1),
+        new Point(rectangle.x + rectangle.w - 1, rectangle.y + rectangle.h - 1)
     ];
 
     for(var index in corners) {

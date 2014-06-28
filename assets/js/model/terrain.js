@@ -258,7 +258,6 @@ Terrain.prototype.action = function(point) {
         var combattant = this.combattants[index];
 
         if (combattant.hitbox.intersects(caseClic) && !combattant.isProjectile) {
-            console.log('Macro');
             return;
         }
     }

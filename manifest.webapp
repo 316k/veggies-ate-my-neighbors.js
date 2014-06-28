@@ -1,0 +1,15 @@
+{
+  "name": "Veggies Ate my Neighbors",
+  "description": "Fight mutant vegetarians with bad-ass attacking plants !",
+  "launch_path": "/index.html",
+  "icons": {
+    "32": "/icon-32.png",
+    "128": "/icon-128.png"
+  },
+  "developer": {
+    "name": "316k",
+    "url": "http://wasting-ti.me/"
+  },
+  "default_locale": "en",
+  "version": "0.1",
+}

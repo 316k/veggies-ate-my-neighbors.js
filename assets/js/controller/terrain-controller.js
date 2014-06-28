@@ -25,7 +25,7 @@ function TerrainController() {
  * Thread contrôllant les tics du terrain.
  */
 TerrainController.prototype.tic = function() {
-    if(this.continuerThread) {
+    if(this.continuerThread && 'FenetreController' in navigator) {
         var evenement = this.terrain.tic();
         navigator.Joueur.tic();
 

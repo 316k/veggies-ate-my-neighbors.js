@@ -9,6 +9,50 @@ body {
     overflow: hidden;
 }
 
+#start-menu {
+    color: lightgreen;
+    font-family: 'press-start';
+    background-image: url('../img/title-screen/back/0.png');
+    background-position: center center;
+    background-repeat: no-repeat;
+    height: 100%;
+    width: 100%;
+    position: absolute;
+    top: 0;
+    left: 0;
+    display: none;
+}
+
+#start-menu h1 {
+    padding-left: 4%;
+    padding-right: 4%;
+    text-align: center;
+    font-size: 150%;
+}
+
+#start-menu p {
+    padding-left: 7%;
+    padding-right: 7%;
+}
+
+#start-menu button {
+    color: lightgreen;
+    font-family: 'press-start';
+    position: absolute;
+    width: 30%;
+    left: 35%;
+    bottom: 5%;
+    text-align: center;
+    font-size: 100%;
+    border: none;
+    background-color: transparent;
+    background-image: none;
+}
+
+#start-menu button:hover {
+    color: #0F0;
+}
+
 #container {
     width: 100%;
 }

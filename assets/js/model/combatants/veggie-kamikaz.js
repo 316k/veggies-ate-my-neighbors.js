@@ -13,8 +13,8 @@ VeggieKamikaz.prototype = new Combattant();
 VeggieKamikaz.prototype.initialise = function() {
     this.attaque = 100;
     this.gentil = false;
-    this.hitbox.height = 80;
-    this.hitbox.width = 60;
+    this.hitbox.h = 80;
+    this.hitbox.w = 60;
     this.animationFrameRate = 5;
     this.etat = navigator.Etat.DEPLACEMENT;
 

@@ -1,5 +1,9 @@
 $(document).ready(function() {
-    navigator.refresh_rate = 24;
+    play();
+});
+
+function play() {
+    navigator.refresh_rate = 50;
 
     navigator.SpriteManager = new SpriteManager();
     navigator.JoueurController = new JoueurController();
@@ -28,4 +32,4 @@ $(document).ready(function() {
             });
         }
     }).resize().resize(); // dumb bugfix
-});
+}

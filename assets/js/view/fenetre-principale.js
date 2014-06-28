@@ -16,6 +16,20 @@ function FenetrePrincipale() {
     $('#notifications').hide();
 
     this.background = this.generate_background();
+
+    this.selected_square = null;
+
+    var self = this;
+    $('#screen').mousemove(function(event) {
+        self.set_selected_square(
+            new Point(
+                (event.pageX - $(this).offset().left) / $(this).width() * self.WIDTH,
+                (event.pageY - $(this).offset().top) / $(this).height() * self.HEIGHT
+            )
+        );
+    }).click(function() {
+        self.selected_square = null;
+    });
 }
 
 /**
@@ -51,6 +65,7 @@ FenetrePrincipale.prototype.repaint = function() {
     this.draw_suns();
     this.draw_infos();
     this.draw_entities();
+    this.draw_selected_square();
 };
 
 FenetrePrincipale.prototype.draw_sprite = function(sprite) {
@@ -94,12 +109,10 @@ FenetrePrincipale.prototype.draw_panel = function() {
         this.context.fillText(item.cout, position.x + Terrain.ITEM_WIDTH / 5, parseInt(position.y * 5.5));
 
         // Item sélectionné
-        /*
-        if (selection != null && item.equals(items[selection])) {
-            g.setColor(new Color(255, 170, 0, 170));
-            g.fillRect(itemSprite.getCoordonnee().x, itemSprite.getCoordonnee().y, SpriteManager.getImage(sprite).getWidth(this), SpriteManager.getImage(sprite).getHeight(this));
+        if (selection == index) {
+            this.context.fillStyle = 'rgba(255, 170, 0, 0.65)';
+            this.context.fillRect(itemSprite.position.x, itemSprite.position.y, navigator.SpriteManager.getImage(itemSprite).width, navigator.SpriteManager.getImage(itemSprite).height);
         }
-        */
 
         position.x += Terrain.ITEM_WIDTH;
     }
@@ -134,6 +147,22 @@ FenetrePrincipale.prototype.draw_entities = function() {
     for (var index in sprites) {
         var sprite = sprites[index];
         this.draw_sprite(sprite);
+    }
+};
+
+FenetrePrincipale.prototype.draw_selected_square = function() {
+    if(this.selected_square) {
+        this.context.fillStyle = 'rgba(255, 255, 0, 0.5)';
+        this.context.fillRect(this.selected_square.x * Terrain.TAILLE_CASE_X, this.selected_square.y * Terrain.TAILLE_CASE_Y, Terrain.TAILLE_CASE_X, Terrain.TAILLE_CASE_Y);
+    }
+};
+
+FenetrePrincipale.prototype.set_selected_square = function(mouse_position) {
+    // Si un item est sélectionné, on affiche la case sous la souris
+    if (navigator.Joueur.selection != null && mouse_position.x < Terrain.TAILLE_CASE_X * (Terrain.CASES_X) && mouse_position.y > Terrain.TAILLE_CASE_Y) {
+        this.selected_square = new Point(parseInt(mouse_position.x/Terrain.TAILLE_CASE_X), parseInt(mouse_position.y/Terrain.TAILLE_CASE_Y));
+    } else {
+        this.selected_square = null;
     }
 };
 

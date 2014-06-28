@@ -116,6 +116,7 @@ Terrain.prototype.combattantsAction = function() {
             if (combattant.getEtat() == navigator.Etat.DEPLACEMENT) {
                 // Si le combattant entre en collision, il se met à attaquer ses adversaires
                 zoneCollision = combattant.hitbox;
+                console.log(combattant.hitbox.w);
             } else if (combattant.getEtat() == navigator.Etat.ATTENTE) {
                 zoneCollision = combattant.lineOfSight;
             }
@@ -199,7 +200,6 @@ Terrain.prototype.ajouterVeggie = function() {
         return navigator.TerrainEvent.NOUVELLE_VAGUE;
     }
 
-    nouveauCombattant.hitbox = new Rectangle();
 
     nouveauCombattant.hitbox.x = parseInt(Terrain.CASES_X * Terrain.TAILLE_CASE_X);
 
@@ -257,7 +257,8 @@ Terrain.prototype.action = function(point) {
     for (var index in this.combattants) {
         var combattant = this.combattants[index];
 
-        if (combattant.hitbox.intersects(caseClic) && !(combattant.isProjectile)) {
+        if (combattant.hitbox.intersects(caseClic) && !combattant.isProjectile) {
+            console.log('Macro');
             return;
         }
     }

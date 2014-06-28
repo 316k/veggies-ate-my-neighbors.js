@@ -104,7 +104,7 @@ TerrainController.prototype.getImages = function() {
  * @param Point point l'endroit où l'action a été faite.
  */
 TerrainController.prototype.clic = function(point) {
-    if (point.y > Terrain.TAILLE_CASE_Y && point.x < Terrain.TAILLE_CASE_X * (Terrain.CASES_X - 1)) {
+    if (point.y > Terrain.TAILLE_CASE_Y && point.x < Terrain.TAILLE_CASE_X * Terrain.CASES_X) {
         this.terrain.action(point);
     } else {
         if ((point.x - Terrain.OFFSET_ITEMS) % (Terrain.ITEM_WIDTH + Terrain.MARGIN_ITEMS) < 66

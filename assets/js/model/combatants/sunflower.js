@@ -56,7 +56,7 @@ Sunflower.prototype.action = function(nbFois) {
 //            }
 //        }
     if (nbFois > 0) {
-        return new Soleil(25, hitbox.x, hitbox.y);
+        return new Soleil(25, this.hitbox.x, this.hitbox.y);
     } else {
         return null;
     }

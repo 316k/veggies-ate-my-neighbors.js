@@ -1,3 +1,6 @@
+/**
+ * @deprecated Use navigator.Joueur directly
+ */
 function JoueurController() {
     navigator.Joueur = new Joueur();
 }

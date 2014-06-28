@@ -6,8 +6,6 @@
 function FenetrePrincipale() {
     this.WIDTH = (Terrain.CASES_X + 1) * Terrain.TAILLE_CASE_X;
     this.HEIGHT = (Terrain.CASES_Y + 1) * Terrain.TAILLE_CASE_Y;
-    this.OFFSET_ITEMS = parseInt(1.2 * Terrain.TAILLE_CASE_X);
-    this.ITEM_WIDTH = 75;
 
     this.canvas = document.getElementById('screen');
     this.canvas.width = this.WIDTH;
@@ -30,7 +28,7 @@ FenetrePrincipale.prototype.setMessage = function(message, delais) {
 
     if(delais) {
         $('#notifications').fadeOut(delais);
-    } else {
+    } else if(this.blink) {
         this.blink_notification();
     }
 };
@@ -72,7 +70,7 @@ FenetrePrincipale.prototype.draw_panel = function() {
     this.draw_sprite(new PositionnedSpriteContainer(new Point(0, 0), new RepresentationImage(["panel"], null), 0));
     // Game panel items
     var items = navigator.Joueur.items;
-    var position = new Point(this.OFFSET_ITEMS, parseInt(1/8 * Terrain.TAILLE_CASE_Y));
+    var position = new Point(Terrain.OFFSET_ITEMS, parseInt(1/8 * Terrain.TAILLE_CASE_Y));
     var selection = navigator.Joueur.selection;
 
     for (var index in items) {
@@ -93,7 +91,7 @@ FenetrePrincipale.prototype.draw_panel = function() {
         // Item cost (in gray for unavailable items)
         this.context.fillStyle = item.isUtilisable() ? 'black' : 'gray';
         this.context.font = '12px press-start';
-        this.context.fillText(item.cout, position.x + this.ITEM_WIDTH / 5, parseInt(position.y * 5.5));
+        this.context.fillText(item.cout, position.x + Terrain.ITEM_WIDTH / 5, parseInt(position.y * 5.5));
 
         // Item sélectionné
         /*
@@ -103,7 +101,7 @@ FenetrePrincipale.prototype.draw_panel = function() {
         }
         */
 
-        position.x += this.ITEM_WIDTH;
+        position.x += Terrain.ITEM_WIDTH;
     }
 };
 

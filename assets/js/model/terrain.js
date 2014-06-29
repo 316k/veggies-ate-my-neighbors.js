@@ -181,7 +181,7 @@ Terrain.prototype.ajouterVeggie = function() {
         this.vagueEnCours = Vague.generateVague(++this.vague);
 
         // On débloque un item aux trois vagues, jusqu'à ce qu'il n'y ait plus d'items
-        if (this.vague % 3 == 0 && this.vague/3 <= this.unlocks.length) {
+        if (this.vague % 3 == 2 && this.vague/3 <= this.unlocks.length) {
             var x = rand(0, (Terrain.CASES_X - 1) * Terrain.TAILLE_CASE_X);
             var y = rand(0, (Terrain.CASES_Y - 2) * Terrain.TAILLE_CASE_Y) + 1 * Terrain.TAILLE_CASE_Y;
 
@@ -222,6 +222,7 @@ Terrain.prototype.ajouterSoleil = function() {
     if (ts - this.dernierTimestampSoleil >= this.delaisSoleil * 1000) {
         var x = parseInt(rand(0, (Terrain.CASES_X - 1) * Terrain.TAILLE_CASE_X));
         var y = parseInt(rand(0, (Terrain.CASES_Y - 2) * Terrain.TAILLE_CASE_Y) + 1 * Terrain.TAILLE_CASE_Y);
+
 
         this.powerUps = this.powerUps || [];
         this.powerUps.push(new Soleil(25, new Point(x, -Terrain.TAILLE_CASE_Y), new Point(x, y)));

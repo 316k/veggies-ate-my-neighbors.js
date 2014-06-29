@@ -9,16 +9,14 @@ function Soleil(valeur, position, destination) {
      * Nombre de soleils conférés par le clic sur le power-up
      */
     this.valeur = valeur;
-    this.hauteur = 70;
-    this.largeur = 70;
     this.used = false;
-    this.hitbox = new Rectangle(position.x, position.y, this.largeur, this.hauteur);
+    this.hitbox = new Rectangle(position.x, position.y, 40, 40);
     this.animationFrameRate = 12;
     this.nbrImagesAnimation = 4;
     this.vitesse = 60;
     this.destination = destination || position;
 
-    this.sprites[navigator.Etat.ATTENTE] = new RepresentationImage(["powerups", "sun"]);
+    this.sprites[navigator.Etat.ATTENTE] = new RepresentationImage(["powerups", "dark-sun"]);
 }
 
 Soleil.prototype = new PowerUp();

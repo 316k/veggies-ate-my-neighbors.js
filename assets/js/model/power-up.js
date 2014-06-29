@@ -52,7 +52,7 @@ PowerUp.prototype.getEtat = function() {
 PowerUp.prototype.tic = function() {
     var temps = window.performance.now();
 
-    if (this.destination == null || (this.hitbox.x == this.destination.x && this.hitbox.y == this.destination.y)) {
+    if (this.destination == null || (this.hitbox.x == this.destination.x && this.hitbox.y >= this.destination.y)) {
         // Si le power-up est déjà arrivé à sa destination, rien à faire
         return;
     }
@@ -60,8 +60,9 @@ PowerUp.prototype.tic = function() {
     var deltaTemps = temps - this.dernierTicTimestamp;
 
     // v = dx/dT => dx = v*dt
-    var deltaX = (Math.abs(this.vitesse) * Math.sign(this.destination.x - this.hitbox.x) * (deltaTemps / 1000.0));
-    var deltaY = (Math.abs(this.vitesse) * Math.sign(this.destination.y - this.hitbox.y) * (deltaTemps / 1000.0));
+    var deltaX = (Math.abs(this.vitesse) * Math.sign(this.destination.x - this.hitbox.x) * (deltaTemps / 1000.0)) || 0;
+    var deltaY = (Math.abs(this.vitesse) * Math.sign(this.destination.y - this.hitbox.y) * (deltaTemps / 1000.0)) || 0;
+
 
     this.pendingDeplacementX += deltaX;
     this.pendingDeplacementY += deltaY;

@@ -7,17 +7,24 @@
         <link href="assets/css/style.css" rel="stylesheet" type="text/css">
     </head>
     <body>
+        <!-- Game display -->
         <div id="container">
             <canvas id="screen">
             </canvas>
             <h1 id="notifications">Notifications</h1>
             <button class="restart">&gt;Try again&lt;</button>
         </div>
+
+        <!-- Start menu -->
         <div id="start-menu">
             <h1>Veggies Ate my Neighbors</h1>
             <p>Lorem ipsum dolores sit amet cosectuem priar lepsum.</p>
             <button>&gt;Play&lt;</button>
         </div>
+
+        <!-- Canvas used by the SpriteManager -->
+        <canvas id="SpriteManager"></canvas>
+        <!-- Load all the JavaScripts !! -->
         <script src="assets/js/jquery-1.11.1.min.js"></script>
         <script src="assets/js/helpers.js"></script>
         <script src="assets/js/enums.js"></script>

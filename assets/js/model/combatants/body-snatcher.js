@@ -50,7 +50,7 @@ BodySnatcher.prototype.attaquer = function(nbFois) {
 
         // Makes the opponent green (cause it's a plant now, get it ?)
         var colorisation = [123, 255, 123];
-        for(var etat in this.cibles[0].getSprites()) {
+        for(var etat in this.cibles[0].sprites) {
             this.cibles[0].sprites[etat].colorisation = colorisation;
             this.cibles[0].sprites[etat].flipped = true;
         }

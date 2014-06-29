@@ -14,18 +14,28 @@ function CheatCodeController() {
 }
 
 CheatCodeController.prototype.onkeytyped = function(character) {
+    if(!character.match("\\w")) {
+        return;
+    }
+
+
     this.cheat_code += character;
-    if (this.cheat_code.endsWith("galarneau")) {
-        navigator.JoueurController.addSoleils(100);
-    } else if (this.cheat_code.endsWith("Monsanté")) {
+    console.log(this.cheat_code);
+    if (this.cheat_code.toLowerCase().endsWith("helios")) {
+        navigator.Joueur.nbrSoleils += 100;
+    } else if (this.cheat_code.toLowerCase().endsWith("monsante")) {
         navigator.TerrainController.setPourcentageAugmentationVeggies(1.5);
-    } else if (this.cheat_code.match("^.*r[3|e][g|6][3|e]x+$")) {
-        navigator.FenetreController.easterEgg("/You know RegEx \\?!/");
-        navigator.JoueurController.addSoleils(9999999);
-    } else if (this.cheat_code.endsWith("esrever")) {
-        navigator.FenetreController.easterEgg();
-    } else if (this.cheat_code.endsWith("It's alive !")) {
-        navigator.JoueurController.easterEgg();
+    } else if (this.cheat_code.toLowerCase().match("^.*r[3|e][g|6][3|e]x+$")) {
+        navigator.FenetreController.fenetre.setMessage("/You know RegEx \\?!/", 5000);
+        navigator.Joueur.nbrSoleils += 9999999;
+    } else if (this.cheat_code.toLowerCase().endsWith("esrever")) {
+        navigator.SpriteManager.sprites = {};
+        navigator.SpriteManager.easter_egg = !navigator.SpriteManager.easter_egg;
+    } else if (this.cheat_code.toLowerCase().endsWith("alive")) {
+        var items = navigator.Joueur.items;
+        for (var item in items) {
+            items[item].vitesseRechargement = 100000;
+        }
     }
 
     // Store only a portion of the characters typed

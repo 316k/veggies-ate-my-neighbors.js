@@ -39,7 +39,7 @@ FenetreController.prototype.massiveAttack = function() {
  */
 FenetreController.prototype.nouvelleVague = function(vague) {
     this.fenetre.blink = false;
-    this.fenetre.setMessage("Vague " + vague + " !", 3000);
+    this.fenetre.setMessage("Wave #" + vague + " !", 3000);
 };
 
 /**
@@ -65,5 +65,5 @@ FenetreController.prototype.easterEgg = function(egg) {
  * Secret.
  */
 FenetreController.prototype.easterEgg = function() {
-    navigator.SpriteManager.easterEgg();
+    navigator.SpriteManager.easterEgg = true;
 };

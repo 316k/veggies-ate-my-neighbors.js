@@ -8,7 +8,7 @@ function SpriteManager() {
      * Hashmap : JSON du SpriteContainer, Sprite de l'animation.
      */
     this.sprites = {};
-    this.easterEgg = false;
+    this.easter_egg = false;
 }
 
 /**
@@ -58,21 +58,37 @@ SpriteManager.prototype.loadSprite = function(sprite) {
     // TODO : Colorisation
     if (sprite.representationImage.colorisation != null) {
     }
-
-    // TODO : Flip
-    if (sprite.isFlipped() || easterEgg) {
-    }
     */
 
-    this.sprites[sprite.toString()] = image;
+    // Flips sprites
+    if (sprite.flipped || this.easter_egg) {
+        var flipped_image = SpriteManager.flip(image);
+
+        var self = this;
+
+        flipped_image.onload = function() {
+            self.sprites[sprite.toString()] = this;
+            image = this;
+        }
+    } else {
+        this.sprites[sprite.toString()] = image;
+    }
 
     return image;
 };
 
-    /**
-     * Secret.
-     */
-SpriteManager.prototype.easterEgg = function() {
-    this.sprites = {};
-    easterEgg = !easterEgg;
+SpriteManager.flip = function(image) {
+    var canvas = document.getElementById('SpriteManager');
+    var context = canvas.getContext('2d');
+    canvas.width = image.width;
+    canvas.height = image.height;
+
+    context.translate(image.width, 0);
+    context.scale(-1, 1);
+    context.drawImage(image, 0, 0);
+
+    var new_image = new Image();
+    new_image.src = canvas.toDataURL()
+
+    return new_image;
 };

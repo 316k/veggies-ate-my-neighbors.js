@@ -113,12 +113,6 @@ Combattant.prototype.getAnimationCompteur = function() {
     return this.animationCompteur % this.nbrImagesAnimation[this.etat];
 };
 
-/*
-public HashMap<Etat, Integer> getNbrImagesAnimation() {
-    return nbrImagesAnimation;
-}
-*/
-
 /**
  * Multiplie les stats de gameplay et les vitesses d'action par une nombre en float.
  * @param float multiplicateur
@@ -145,6 +139,7 @@ Combattant.prototype.getNbrActions = function(action) {
     accumulateur -= nbrActions * tempsPourAction;
     this.accumulateurAction[action] = accumulateur;
     this.derniereActionTimestamp[action] = temps;
+
     return nbrActions;
 };
 

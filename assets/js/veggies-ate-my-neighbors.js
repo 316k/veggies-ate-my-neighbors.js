@@ -1,4 +1,12 @@
 $(document).ready(function() {
+    $('#start-menu button').click(function() {
+        $('#start-menu').hide();
+        $('#container').show();
+        play();
+    });
+});
+
+function play() {
     navigator.refresh_rate = 50;
 
     navigator.SpriteManager = new SpriteManager();
@@ -32,4 +40,4 @@ $(document).ready(function() {
             });
         }
     }).resize().resize(); // dumb bugfix
-});
+}

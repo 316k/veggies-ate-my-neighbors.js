@@ -49,6 +49,14 @@ function rand(min_rand, max_rand) {
     return min_rand + (Math.random()*1000000000 % (max_rand - min_rand));
 }
 
+Math.sign = function(number) {
+    return Math.abs(number)/number;
+};
+
+String.prototype.endsWith = function(string) {
+    return this.lastIndexOf(string) != -1 && this.lastIndexOf(string) === this.length - string.length;
+};
+
 /**
  * Micro-objects
  */

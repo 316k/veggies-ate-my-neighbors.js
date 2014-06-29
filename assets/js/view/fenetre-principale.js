@@ -19,6 +19,8 @@ function FenetrePrincipale() {
 
     this.selected_square = null;
 
+    $('.restart').hide();
+
     var self = this;
     $('#screen').mousemove(function(event) {
         self.set_selected_square(
@@ -200,4 +202,8 @@ FenetrePrincipale.prototype.generate_background = function() {
     background[Terrain.CASES_X][0] = new PositionnedSpriteContainer(new Point((Terrain.CASES_X) * Terrain.TAILLE_CASE_X, 0), route, 0);
 
     return background;
+};
+
+FenetrePrincipale.prototype.display_restart = function() {
+    $('.restart').show();
 };

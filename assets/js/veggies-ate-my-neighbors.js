@@ -8,6 +8,10 @@ $(document).ready(function() {
     navigator.FenetreController = new FenetreController();
     navigator.MusiqueController = new MusiqueController();
 
+    $('.restart').click(function() {
+        window.location.reload();
+    });
+
     // Best-fitting canvas size
     $(window).resize(function() {
         if($(window).width()/$(window).height() > $('#screen').width()/$('#screen').height()) {

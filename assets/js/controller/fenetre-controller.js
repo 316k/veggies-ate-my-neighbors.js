@@ -48,6 +48,7 @@ FenetreController.prototype.nouvelleVague = function(vague) {
 FenetreController.prototype.gameOver = function() {
     this.fenetre.blink = true;
     this.fenetre.setMessage("You lost THE GAME", null);
+    this.fenetre.display_restart();
     navigator.TerrainController.pause();
 };
 

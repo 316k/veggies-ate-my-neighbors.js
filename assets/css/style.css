@@ -35,7 +35,7 @@ body {
     padding-right: 7%;
 }
 
-#start-menu button {
+button {
     color: lightgreen;
     font-family: 'press-start';
     position: absolute;
@@ -49,7 +49,7 @@ body {
     background-image: none;
 }
 
-#start-menu button:hover {
+button:hover {
     color: #0F0;
 }
 

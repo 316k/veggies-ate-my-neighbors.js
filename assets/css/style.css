@@ -108,7 +108,7 @@ button:hover {
 
 #mute {
     position: absolute;
-    left: 0;
+    right: 2%;
     bottom: 0;
     color: white;
     width: 5%;

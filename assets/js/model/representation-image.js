@@ -20,4 +20,4 @@ function RepresentationImage(path, colorisation) {
 
 RepresentationImage.prototype.clone = function() {
     return clone_json(this);
-}
+};

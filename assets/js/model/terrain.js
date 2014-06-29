@@ -54,7 +54,6 @@ Terrain.MARGIN_ITEMS = parseInt(0.2 * Terrain.ITEM_WIDTH);
  */
 Terrain.prototype.tic = function() {
     var evenement = navigator.TerrainEvent.NULL;
-
     this.combattantsAction();
     evenement = this.ajouterVeggie();
     this.ajouterSoleil();
@@ -116,13 +115,13 @@ Terrain.prototype.combattantsAction = function() {
             if (combattant.getEtat() == navigator.Etat.DEPLACEMENT) {
                 // Si le combattant entre en collision, il se met à attaquer ses adversaires
                 zoneCollision = combattant.hitbox;
-                console.log(combattant.hitbox.w);
             } else if (combattant.getEtat() == navigator.Etat.ATTENTE) {
                 zoneCollision = combattant.lineOfSight;
             }
 
             if (zoneCollision) {
                 var cibles = this.getCollisions(zoneCollision, combattant);
+
                 if (cibles.length) {
                     combattant.setEtat(navigator.Etat.ATTAQUE);
                     combattant.cibles = cibles;
@@ -135,14 +134,16 @@ Terrain.prototype.combattantsAction = function() {
         this.combattants = array_remove_elements(this.combattants, morts);
     }
 
-    for (var index in this.nouvellesEntites) {
-        var entite = this.nouvellesEntites[index];
+    for (var index in nouvellesEntites) {
+        var entite = nouvellesEntites[index];
 
         if (entite != null) {
             if (entite instanceof Combattant) {
-                combattants.push(entite);
+                this.combattants = this.combattants || [];
+                this.combattants.push(entite);
             } else if (entite instanceof PowerUp) {
-                powerUps.push(entite);
+                this.powerUps = this.powerUps || []
+                this.powerUps.push(entite);
             }
         }
     }
@@ -282,7 +283,7 @@ Terrain.prototype.getCollisions = function(zone, combattantExclus) {
     for (var index in this.combattants) {
         var combattant = this.combattants[index];
 
-        if (!combattant == combattantExclus) {
+        if (combattant != combattantExclus) {
             // On ignore les collisions entre deux combattants alliés
             if (zone.intersects(combattant.hitbox) && combattant.isEnnemi(combattantExclus)) {
                 cibles.push(combattant);

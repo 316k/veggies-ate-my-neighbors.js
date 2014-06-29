@@ -55,7 +55,7 @@ Peashooter.prototype.action = function(nbFois) {
         }
     }
 
-    this.cibles.remove_elements(morts);
+    this.cibles = array_remove_elements(this.cibles, morts);
 
     if (!this.cibles.length) {
         this.setEtat(navigator.Etat.ATTENTE);

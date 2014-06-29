@@ -132,7 +132,7 @@ Combattant.prototype.multiplyStats = function(multiplicateur) {
 };
 
 /**
- * retourne combien de fois faire une action selon l'action et sa vitesse.
+ * @return int combien de fois faire une action selon l'action et sa vitesse.
  */
 Combattant.prototype.getNbrActions = function(action) {
     var temps = window.performance.now();
@@ -140,8 +140,8 @@ Combattant.prototype.getNbrActions = function(action) {
 
     accumulateur += temps - this.derniereActionTimestamp[action];
 
-    var tempsPourAction = (1000 / this.vitesseAction[action]);
-    var nbrActions = (accumulateur / tempsPourAction);
+    var tempsPourAction = 1000 / this.vitesseAction[action];
+    var nbrActions = parseInt(accumulateur / tempsPourAction);
     accumulateur -= nbrActions * tempsPourAction;
     this.accumulateurAction[action] = accumulateur;
     this.derniereActionTimestamp[action] = temps;
@@ -191,6 +191,11 @@ Combattant.prototype.tic = function() {
 };
 
 Combattant.prototype.attaquer = function(nbFois) {
+    if(this.isProjectile && nbFois > 0) {
+        this.vie = 0;
+        nbFois = 1;
+    }
+
     // Entite[]
     var aEnlever = [];
     for (var j = 0; j < nbFois; j++) {
@@ -219,10 +224,6 @@ Combattant.prototype.attaquer = function(nbFois) {
     if (this.cibles.length == 0) {
         this.setEtat(navigator.Etat.DEPLACEMENT);
     }
-
-    if(this.isProjectile && nbFois > 0) {
-        this.vie = 0;
-    }
 };
 
 /**
@@ -230,7 +231,9 @@ Combattant.prototype.attaquer = function(nbFois) {
  *
  * @return Entite
  */
-Combattant.prototype.action = function(nbrFois) {};
+Combattant.prototype.action = function(nbrFois) {
+    return null;
+};
 
 /**
  * Clone le combatant

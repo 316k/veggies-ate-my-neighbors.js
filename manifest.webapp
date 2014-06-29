@@ -3,7 +3,6 @@
   "description": "Fight mutant vegetarians with bad-ass attacking plants !",
   "launch_path": "/index.html",
   "icons": {
-    "32": "/icon-32.png",
     "128": "/icon-128.png"
   },
   "developer": {
@@ -12,4 +11,5 @@
   },
   "default_locale": "en",
   "version": "0.1",
+  "fullscreen": "1"
 }

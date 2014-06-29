@@ -41,7 +41,7 @@ SpriteManager.prototype.loaded = function(sprite) {
  * @return BufferedImage Le sprite loadé
  */
 SpriteManager.prototype.loadSprite = function(sprite) {
-    var fichier = "/assets/img/" + sprite.getPath();
+    var fichier = "assets/img/" + sprite.getPath();
 
     var image = new Image();
     image.src = fichier;

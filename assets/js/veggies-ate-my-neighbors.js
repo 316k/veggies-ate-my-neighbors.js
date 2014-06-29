@@ -2,8 +2,8 @@ $(document).ready(function() {
     navigator.refresh_rate = 50;
 
     navigator.SpriteManager = new SpriteManager();
-    navigator.JoueurController = new JoueurController();
     navigator.CheatCodeController = new CheatCodeController();
+    navigator.Joueur = new Joueur();
     navigator.TerrainController = new TerrainController();
     navigator.FenetreController = new FenetreController();
     navigator.MusiqueController = new MusiqueController();

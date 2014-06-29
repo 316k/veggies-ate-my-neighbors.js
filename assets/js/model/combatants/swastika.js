@@ -28,7 +28,3 @@ Swastika.prototype.initialise = function() {
     this.sprites[navigator.Etat.DEPLACEMENT] = new RepresentationImage(["swastika"]);
     this.sprites[navigator.Etat.ATTAQUE] = new RepresentationImage(["swastika"]);
 };
-
-Swastika.prototype.action = function(nbFois) {
-    return null;
-};

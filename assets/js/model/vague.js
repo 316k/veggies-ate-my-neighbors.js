@@ -141,7 +141,7 @@ Vague.generateVague = function(numeroVague) {
 
     for (var i = 0; i <= ((numeroVague - 1) % Vague.archetypesPossibles.length); i++) {
         // Combatant
-        var ajout = clone_json(Vague.archetypesPossibles[i]);
+        var ajout = Vague.archetypesPossibles[i].clone();
         ajout.multiplyStats(multiplicateur);
 
         // Change la colorisation quand le cycle recommence

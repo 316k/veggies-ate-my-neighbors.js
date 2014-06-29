@@ -28,7 +28,3 @@ Veggie.prototype.initialise = function() {
     this.sprites[navigator.Etat.DEPLACEMENT] = new RepresentationImage(["veggies", "normal", "walking"]);
     this.sprites[navigator.Etat.ATTAQUE] = new RepresentationImage(["veggies", "normal", "attack"]);
 };
-
-Veggie.prototype.action = function(nbFois) {
-    return null;
-};

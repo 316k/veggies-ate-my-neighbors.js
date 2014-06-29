@@ -16,7 +16,7 @@ function Soleil(valeur, position, destination) {
     this.animationFrameRate = 12;
     this.nbrImagesAnimation = 4;
     this.vitesse = 60;
-    this.destination = destination;
+    this.destination = destination || position;
 
     this.sprites[navigator.Etat.ATTENTE] = new RepresentationImage(["powerups", "sun"]);
 }

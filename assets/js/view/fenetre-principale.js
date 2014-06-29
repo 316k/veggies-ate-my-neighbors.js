@@ -74,7 +74,7 @@ FenetrePrincipale.prototype.draw_sprite = function(sprite) {
         try {
             this.context.drawImage(image, sprite.position.x, sprite.position.y);
         } catch(exception) {
-            // console.log(exception);
+            console.log(exception);
         }
     } else {
         var image = navigator.SpriteManager.getImage(sprite);

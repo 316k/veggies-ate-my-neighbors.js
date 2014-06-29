@@ -41,7 +41,7 @@ a zombie apocalypse. Looks like it's time to use it !
 ## Contributors
 
 * Nicolas Hurtubise - Main developer of the js version, main developer of the original java project and graphist
-* Guillaume Riou - Main developer developer of the original java project
+* Guillaume Riou - Main developer developer of the original java project and music composer
 
 This project is licensed under the GNU GPLv3. Thus, it is free *(as in freedom)*
 software, open source, whatever you like to call it. If you want to fork your

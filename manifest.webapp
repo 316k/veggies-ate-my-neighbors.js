@@ -3,6 +3,7 @@
   "description": "Fight mutant vegans with bad-ass flesh-eating plants !",
   "launch_path": "/index.html",
   "icons": {
+    "32": "/icon-32.png",
     "128": "/icon-128.png"
   },
   "developer": {
@@ -11,5 +12,6 @@
   },
   "default_locale": "en",
   "version": "0.7",
-  "fullscreen": "1"
+  "fullscreen": "1",
+  "orientation": "landscape"
 }

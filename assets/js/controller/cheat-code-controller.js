@@ -23,7 +23,7 @@ CheatCodeController.prototype.onkeytyped = function(character) {
     console.log(this.cheat_code);
     if (this.cheat_code.toLowerCase().endsWith("helios")) {
         navigator.Joueur.nbrSoleils += 100;
-    } else if (this.cheat_code.toLowerCase().endsWith("monsante")) {
+    } else if (this.cheat_code.toLowerCase().endsWith("monsinti")) {
         navigator.TerrainController.setPourcentageAugmentationVeggies(1.5);
     } else if (this.cheat_code.toLowerCase().match("^.*r[3|e][g|6][3|e]x+$")) {
         navigator.FenetreController.fenetre.setMessage("/You know RegEx \\?!/", 5000);

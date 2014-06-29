@@ -211,6 +211,9 @@ Combattant.prototype.attaquer = function(nbFois) {
         var cible = this.cibles[index];
         if (cible.vie <= 0) {
             aEnlever.push(cible);
+            if(!cible.isProjectile) {
+                navigator.vibrate(90);
+            }
         }
     }
 

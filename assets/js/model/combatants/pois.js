@@ -22,7 +22,7 @@ Pois.prototype.initialise = function() {
     this.nbrImagesAnimation[navigator.Etat.ATTENTE] = 1;
     this.nbrImagesAnimation[navigator.Etat.DEPLACEMENT] = 9;
 
-    this.attaque = 3;
+    this.attaque = 1;
 
     this.etat = navigator.Etat.DEPLACEMENT;
 

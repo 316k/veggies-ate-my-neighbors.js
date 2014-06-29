@@ -1,5 +1,16 @@
 $(document).ready(function() {
-    $('#start-menu button').click(function() {
+
+    navigator.MusiqueController = new MusiqueController();
+
+    $('#start-menu button.up').click(function() {
+        $('.history')[0].scrollTop -= 30;
+    });
+
+    $('#start-menu button.down').click(function() {
+        $('.history')[0].scrollTop += 30;
+    });
+
+    $('#start-menu button.play').click(function() {
         $('#start-menu').hide();
         $('#container').show();
         play();
@@ -14,7 +25,6 @@ function play() {
     navigator.Joueur = new Joueur();
     navigator.TerrainController = new TerrainController();
     navigator.FenetreController = new FenetreController();
-    navigator.MusiqueController = new MusiqueController();
 
     $('.restart').click(function() {
         window.location.reload();

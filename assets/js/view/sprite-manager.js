@@ -15,8 +15,7 @@ function SpriteManager() {
  * Donne le sprite d'une image voulue
  * @todo Implémenter la colorisation
  *
- * @param ri Représentation de l'image
- * @param animation numéro d'animation
+ * @param sprite Représentation de l'image
  * @return Image le sprite à blitter
  */
 SpriteManager.prototype.getImage = function(sprite) {
@@ -61,7 +60,7 @@ SpriteManager.prototype.loadSprite = function(sprite) {
     */
 
     // Flips sprites
-    if (sprite.flipped || this.easter_egg) {
+    if (sprite.image.flipped || this.easter_egg) {
         var flipped_image = SpriteManager.flip(image);
 
         var self = this;

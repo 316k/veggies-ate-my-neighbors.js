@@ -18,10 +18,37 @@
         <!-- Start menu -->
         <div id="start-menu">
             <h1>Veggies Ate my Neighbors</h1>
-            <p>Lorem ipsum dolores sit amet cosectuem priar lepsum.</p>
-            <button>&gt;Play&lt;</button>
+            <button class="up">&lt;</button>
+            <div class="history">
+                <p>
+                    April 2017 : The evil agriculture corporation Monsinti runs
+                    an experimental program to crossbreed vegetables and nuclear weapons in
+                    order to generate more powerful plant seeds...
+                </p>
+                <p>
+                    May 2017 : Monsinti's Scientists prematurely declares the experiment as
+                    a success and the resulting seeds are patented and sold to third-world
+                    farmers for a very cheap price.
+                </p>
+                <p>
+                    January 2018 : Plants grown from Monsinti's patented seeds are used in the
+                    kitchen of a high-class vegan restaurant, and some customers mutate into
+                    crul and merciless chlorophyll-eating monsters.
+                </p>
+                <p>
+                    By chance, you happend to have your own personnal reserve of meat-eating
+                    mutant plants that you bought in order to defend yourself in case of
+                    zombie apocalypse. Looks like it's time to use it !
+                </p>
+            </div>
+            <button class="down">&gt;</button>
+            <button class="play">&gt;Play&lt;</button>
         </div>
-
+        <p id="mute">
+            <img src="assets/img/sound/min.png" class="min" />
+            <img src="assets/img/sound/max.png" class="max" />
+        </p>
+        <audio id="music" src="assets/music/caverne.ogg"></audio>
         <!-- Canvas used by the SpriteManager -->
         <canvas id="SpriteManager"></canvas>
         <!-- Load all the JavaScripts !! -->

@@ -16,7 +16,7 @@ function Soleil(valeur, position, destination) {
     this.vitesse = 60;
     this.destination = destination || position;
 
-    this.sprites[navigator.Etat.ATTENTE] = new RepresentationImage(["powerups", "dark-sun"]);
+    this.sprites[navigator.Etat.ATTENTE] = new RepresentationImage(["powerups", "sun"]);
 }
 
 Soleil.prototype = new PowerUp();

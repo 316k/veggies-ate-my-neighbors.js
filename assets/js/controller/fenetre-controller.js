@@ -50,6 +50,7 @@ FenetreController.prototype.gameOver = function() {
     this.fenetre.setMessage("You lost THE GAME", null);
     this.fenetre.display_restart();
     navigator.TerrainController.pause();
+    navigator.vibrate([150, 50, 150, 50, 150]);
 };
 
 /**
@@ -59,11 +60,4 @@ FenetreController.prototype.gameOver = function() {
  */
 FenetreController.prototype.easterEgg = function(egg) {
     this.fenetre.setMessage(egg);
-};
-
-/**
- * Secret.
- */
-FenetreController.prototype.easterEgg = function() {
-    navigator.SpriteManager.easterEgg = true;
 };

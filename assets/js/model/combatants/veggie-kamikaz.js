@@ -5,12 +5,13 @@
  */
 function VeggieKamikaz() {
     Combattant.apply(this);
-    this.initialise();
+    this.combattant_init();
+    this.init();
 }
 
 VeggieKamikaz.prototype = new Combattant();
 
-VeggieKamikaz.prototype.initialise = function() {
+VeggieKamikaz.prototype.init = function() {
     this.attaque = 100;
     this.gentil = false;
     this.hitbox.h = 80;

@@ -5,12 +5,13 @@
  */
 function VeggieHitler() {
     Combattant.apply(this);
-    this.initialise();
+    this.combattant_init();
+    this.init();
 }
 
 VeggieHitler.prototype = new Combattant();
 
-VeggieHitler.prototype.initialise = function() {
+VeggieHitler.prototype.init = function() {
     this.attaque = 1;
     this.gentil = false;
     this.hitbox.h = 80;

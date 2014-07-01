@@ -5,12 +5,13 @@
  */
 function Peashooter() {
     Combattant.apply(this);
-    this.initialise();
+    this.combattant_init();
+    this.init();
 }
 
 Peashooter.prototype = new Combattant();
 
-Peashooter.prototype.initialise = function() {
+Peashooter.prototype.init = function() {
     this.vie = 10;
     this.gentil = true;
     this.hitbox.w = 80;
@@ -27,6 +28,8 @@ Peashooter.prototype.initialise = function() {
 
     this.sprites[navigator.Etat.ATTENTE] = new RepresentationImage(["plants", "pea-shooter", "waiting"]);
     this.sprites[navigator.Etat.ATTAQUE] = new RepresentationImage(["plants", "pea-shooter", "shooting"]);
+
+    this.pea_recharge = 0;
 };
 
 Peashooter.prototype.tic = function() {
@@ -45,29 +48,23 @@ Peashooter.prototype.tic = function() {
  *
  * @return Entite
  */
-Peashooter.prototype.action = function(nbFois) {
-    var morts = [];
-
-    for (var index in this.cibles) {
-        var combattant = this.cibles[index];
-        if (combattant.vie <= 0) {
-            morts.push(combattant);
-        }
-    }
-
-    this.cibles = array_remove_elements(this.cibles, morts);
+Peashooter.prototype.action = function(times) {
+    this.remove_dead_ennemies();
 
     if (!this.cibles.length) {
         this.setEtat(navigator.Etat.ATTENTE);
         return null;
     }
 
-    for (var i = 0; i < nbFois; i++) {
-        var pois = new Pois();
-        pois.hitbox.x = this.hitbox.x + 30;
-        pois.hitbox.y = this.hitbox.y + 30;
+    this.pea_recharge += times;
 
-        return pois;
+    if (this.pea_recharge > 1) {
+        this.pea_recharge = 0;
+
+        var pea = new Pois();
+        pea.hitbox.x = this.hitbox.x + 30;
+        pea.hitbox.y = this.hitbox.y + 30;
+        return pea;
     }
 
     return null;

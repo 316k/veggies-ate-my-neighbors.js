@@ -5,11 +5,12 @@
  */
 function AtomicRose() {
     Combattant.apply(this);
-    this.initialise();
+    this.combattant_init();
+    this.init();
 }
 AtomicRose.prototype = new Combattant();
 
-AtomicRose.prototype.initialise = function() {
+AtomicRose.prototype.init = function() {
     this.vie = 30;
     this.gentil = true;
     this.hitbox.w = 80;

@@ -6,7 +6,6 @@
 function Combattant() {
     Entite.apply(this);
 
-    console.log('init combattant');
     this.vie = 6;
     // Array of Combattants
     this.cibles = [];
@@ -50,7 +49,7 @@ function Combattant() {
      */
     this.projectile = false;
 
-    this.initialise();
+    this.combattant_init();
 }
 
 Combattant.prototype = new Entite();
@@ -59,7 +58,7 @@ Combattant.prototype = new Entite();
  * Initialise plusieurs propriétés essentielles.
  * TODO : Split into combattant_init() and init() ~ No parent.stuff() in JavaScript... sorry
  */
-Combattant.prototype.initialise = function() {
+Combattant.prototype.combattant_init = function() {
     this.derniereAnimationTimestamp = window.performance.now();
 
     this.derniereActionTimestamp[navigator.Action.ACTION] = window.performance.now();
@@ -70,6 +69,11 @@ Combattant.prototype.initialise = function() {
     this.lineOfSight = new Rectangle();
     this.etat = navigator.Etat.DEPLACEMENT;
 };
+
+/**
+ * Child-specific init function
+ */
+Combattant.prototype.init = function() {};
 
 Combattant.prototype.isEnnemi = function(combattant) {
     return combattant.gentil != this.gentil;
@@ -133,10 +137,6 @@ Combattant.prototype.getNbrActions = function(action) {
     var times = deltaTime / tempsPourAction;
     this.derniereActionTimestamp[action] = time;
 
-    if(action == navigator.Action.DEPLACEMENT) {
-        console.log(deltaTime + ' ' + tempsPourAction + ' ' + times);
-    }
-
     return times;
 };
 
@@ -186,9 +186,9 @@ Combattant.prototype.ennemies = function() {
 }
 
 Combattant.prototype.attaquer = function(times) {
-    if(this.isProjectile && nbFois > 0) {
+    if(this.isProjectile && times > 0) {
         this.vie = 0;
-        nbFois = 1;
+        times = 1;
     }
 
     // Ensures to iterate on ennemies only
@@ -198,6 +198,17 @@ Combattant.prototype.attaquer = function(times) {
         this.cibles[index].vie -= times * this.attaque;
     }
 
+    this.remove_dead_ennemies();
+
+    if (this.cibles.length == 0) {
+        this.setEtat(navigator.Etat.DEPLACEMENT);
+    }
+};
+
+/**
+ * Removes dead ennemies from this.cibles
+ */
+Combattant.prototype.remove_dead_ennemies = function() {
     var deads = [];
     for (var index in this.cibles) {
         if (this.cibles[index].vie <= 0) {
@@ -211,10 +222,6 @@ Combattant.prototype.attaquer = function(times) {
     }
 
     this.cibles = array_remove_elements(this.cibles, deads);
-
-    if (this.cibles.length == 0) {
-        this.setEtat(navigator.Etat.DEPLACEMENT);
-    }
 };
 
 /**
@@ -232,6 +239,7 @@ Combattant.prototype.action = function(times) {
  */
 Combattant.prototype.clone = function() {
     var clone = clone_json(this);
-    clone.initialise();
+    clone.combattant_init();
+    clone.init();
     return clone;
 };

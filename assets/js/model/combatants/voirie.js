@@ -5,12 +5,13 @@
  */
 function Voirie() {
     Veggie.apply(this);
-    this.initialise();
+    this.combattant_init();
+    this.init();
 }
 
 Voirie.prototype = new Veggie();
 
-Voirie.prototype.initialise = function() {
+Voirie.prototype.init = function() {
     this.attaque = 1;
     this.gentil = false;
     this.hitbox.h = 80;

@@ -4,12 +4,13 @@
  */
 function BodySnatcher() {
     Combattant.apply(this);
-    this.initialise();
+    this.combattant_init();
+    this.init();
 }
 
 BodySnatcher.prototype = new Combattant();
 
-BodySnatcher.prototype.initialise = function() {
+BodySnatcher.prototype.init = function() {
     this.vie = 100;
     this.gentil = true;
     this.hitbox.w = 80;

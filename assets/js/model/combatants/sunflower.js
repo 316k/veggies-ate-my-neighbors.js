@@ -5,13 +5,13 @@
  */
 function Sunflower() {
     Combattant.apply(this);
-    this.vie = 10;
-    this.initialise();
+    this.combattant_init();
+    this.init();
 }
 
 Sunflower.prototype = new Combattant();
 
-Sunflower.prototype.initialise = function() {
+Sunflower.prototype.init = function() {
     this.gentil = true;
     this.hitbox.w = 80;
     this.hitbox.h = 80;
@@ -28,6 +28,7 @@ Sunflower.prototype.initialise = function() {
 
     this.etat = navigator.Etat.ATTENTE;
 
+    this.vie = 10;
     this.sun_recharge = 0;
 };
 

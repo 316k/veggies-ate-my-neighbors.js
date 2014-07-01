@@ -5,12 +5,13 @@
  */
 function Pois() {
     Combattant.apply(this);
-    this.initialise();
+    this.combattant_init();
+    this.init();
 }
 
 Pois.prototype = new Combattant();
 
-Pois.prototype.initialise = function() {
+Pois.prototype.init = function() {
     this.gentil = true;
     this.isProjectile = true;
     this.vitesseAction[navigator.Action.DEPLACEMENT] = 220;

@@ -5,12 +5,13 @@
  */
 function Swastika() {
     Combattant.apply(this);
-    this.initialise();
+    this.combattant_init();
+    this.init();
 }
 
 Swastika.prototype = new Combattant();
 
-Swastika.prototype.initialise = function() {
+Swastika.prototype.init = function() {
     this.gentil = false;
     this.isProjectile = true;
     this.vitesseAction[Action.DEPLACEMENT] = -190;

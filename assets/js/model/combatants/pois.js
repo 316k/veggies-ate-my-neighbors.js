@@ -29,17 +29,3 @@ Pois.prototype.initialise = function() {
     this.sprites[navigator.Etat.DEPLACEMENT] = new RepresentationImage(["plants", "pea"]);
     this.sprites[navigator.Etat.ATTAQUE] = new RepresentationImage(["plants", "pea"]);
 };
-
-Combattant.prototype.getNbrActions = function(action) {
-    var temps = window.performance.now();
-    var accumulateur = this.accumulateurAction[action] || 0;
-
-    accumulateur += temps - this.derniereActionTimestamp[action];
-
-    var tempsPourAction = 1000 / this.vitesseAction[action];
-    var nbrActions = parseInt(accumulateur / tempsPourAction);
-    accumulateur -= nbrActions * tempsPourAction;
-    this.accumulateurAction[action] = accumulateur;
-    this.derniereActionTimestamp[action] = temps;
-    return nbrActions;
-};

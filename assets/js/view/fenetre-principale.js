@@ -131,7 +131,7 @@ FenetrePrincipale.prototype.draw_panel = function() {
             this.context.fillRect(itemSprite.position.x, itemSprite.position.y, navigator.SpriteManager.getImage(itemSprite).width, navigator.SpriteManager.getImage(itemSprite).height);
         }
 
-        position.x += Terrain.ITEM_WIDTH;
+        position.x += Terrain.ITEM_WIDTH + Terrain.MARGIN_ITEMS;
     }
 };
 

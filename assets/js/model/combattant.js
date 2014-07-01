@@ -6,6 +6,7 @@
 function Combattant() {
     Entite.apply(this);
 
+    console.log('init combattant');
     this.vie = 6;
     // Array of Combattants
     this.cibles = [];
@@ -37,11 +38,6 @@ function Combattant() {
      */
     this.derniereActionTimestamp = {};
     /**
-     * Accumulateur de milisecondes de l'action.
-     * HashMap<Action, Long>
-     */
-    this.accumulateurAction = {};
-    /**
      * Dernier timestamp calculé pour l'animation.
      */
     this.derniereAnimationTimestamp;
@@ -61,13 +57,10 @@ Combattant.prototype = new Entite();
 
 /**
  * Initialise plusieurs propriétés essentielles.
+ * TODO : Split into combattant_init() and init() ~ No parent.stuff() in JavaScript... sorry
  */
 Combattant.prototype.initialise = function() {
     this.derniereAnimationTimestamp = window.performance.now();
-
-    this.accumulateurAction[navigator.Action.ACTION] = 0;
-    this.accumulateurAction[navigator.Action.DEPLACEMENT] = 0;
-    this.accumulateurAction[navigator.Action.ATTAQUE] = 0;
 
     this.derniereActionTimestamp[navigator.Action.ACTION] = window.performance.now();
     this.derniereActionTimestamp[navigator.Action.DEPLACEMENT] = window.performance.now();
@@ -91,13 +84,15 @@ Combattant.prototype.getEtat = function() {
 };
 
 /**
- * Reset les accumulateurs et les derniers timestamps pour éviter des bugs.
+ * Resets timestamps and animations to avoid bugs/glitches
  * @param Etat etat
  */
 Combattant.prototype.setEtat = function(etat) {
     this.animationCompteur = 0;
     this.derniereAnimationTimestamp = window.performance.now();
-    this.resetActions();
+    this.derniereActionTimestamp[navigator.Action.ACTION] = window.performance.now();
+    this.derniereActionTimestamp[navigator.Action.DEPLACEMENT] = window.performance.now();
+    this.derniereActionTimestamp[navigator.Action.ATTAQUE] = window.performance.now();
     this.etat = etat;
 };
 
@@ -126,34 +121,23 @@ Combattant.prototype.multiplyStats = function(multiplicateur) {
 };
 
 /**
- * @return int combien de fois faire une action selon l'action et sa vitesse.
+ * @return float combien de fois faire une action selon l'action et sa vitesse.
  */
 Combattant.prototype.getNbrActions = function(action) {
-    var temps = window.performance.now();
-    var accumulateur = this.accumulateurAction[action] || 0;
+    var time = window.performance.now();
 
-    accumulateur += temps - this.derniereActionTimestamp[action];
+    // Time elapsed since the last action
+    var deltaTime = time - this.derniereActionTimestamp[action];
 
     var tempsPourAction = 1000 / this.vitesseAction[action];
-    var nbrActions = parseInt(accumulateur / tempsPourAction);
-    accumulateur -= nbrActions * tempsPourAction;
-    this.accumulateurAction[action] = accumulateur;
-    this.derniereActionTimestamp[action] = temps;
+    var times = deltaTime / tempsPourAction;
+    this.derniereActionTimestamp[action] = time;
 
-    return nbrActions;
-};
+    if(action == navigator.Action.DEPLACEMENT) {
+        console.log(deltaTime + ' ' + tempsPourAction + ' ' + times);
+    }
 
-/**
- * Remet les accumulateurs et les timestamps des actions à 0.
- */
-Combattant.prototype.resetActions = function() {
-    this.accumulateurAction[Action.ACTION] = 0;
-    this.accumulateurAction[Action.DEPLACEMENT] = 0;
-    this.accumulateurAction[Action.ATTAQUE] = 0;
-
-    this.derniereActionTimestamp[Action.ACTION] = window.performance.now();
-    this.derniereActionTimestamp[Action.DEPLACEMENT] = window.performance.now();
-    this.derniereActionTimestamp[Action.ATTAQUE] = window.performance.now();
+    return times;
 };
 
 /**
@@ -185,39 +169,48 @@ Combattant.prototype.tic = function() {
     return null;
 };
 
-Combattant.prototype.attaquer = function(nbFois) {
+/**
+ * @return a array containing only opponent fighters (fighters can
+ * become allies/ennemies)
+ */
+Combattant.prototype.ennemies = function() {
+    var opponents = [];
+
+    for(var index in this.cibles) {
+        if(this.isEnnemi(this.cibles[index])) {
+            opponents.push(this.cibles[index]);
+        }
+    }
+
+    return opponents.length ? opponents : null;
+}
+
+Combattant.prototype.attaquer = function(times) {
     if(this.isProjectile && nbFois > 0) {
         this.vie = 0;
         nbFois = 1;
     }
 
-    // Entite[]
-    var aEnlever = [];
-    for (var j = 0; j < nbFois; j++) {
+    // Ensures to iterate on ennemies only
+    this.cibles = this.ennemies();
 
-        for (var index in this.cibles) {
-            var cible = this.cibles[index];
-
-            if (this.isEnnemi(cible)) {
-                cible.vie -= this.attaque;
-            } else {
-                aEnlever.push(cible);
-            }
-
-        }
+    for(var index in this.cibles) {
+        this.cibles[index].vie -= times * this.attaque;
     }
 
+    var deads = [];
     for (var index in this.cibles) {
-        var cible = this.cibles[index];
-        if (cible.vie <= 0) {
-            aEnlever.push(cible);
-            if(!cible.isProjectile) {
+        if (this.cibles[index].vie <= 0) {
+            deads.push(this.cibles[index]);
+
+            // Vibrate devices when fighters are killed
+            if(!this.cibles[index].isProjectile) {
                 navigator.vibrate(90);
             }
         }
     }
 
-    this.cibles = array_remove_elements(this.cibles, aEnlever);
+    this.cibles = array_remove_elements(this.cibles, deads);
 
     if (this.cibles.length == 0) {
         this.setEtat(navigator.Etat.DEPLACEMENT);
@@ -229,7 +222,7 @@ Combattant.prototype.attaquer = function(nbFois) {
  *
  * @return Entite
  */
-Combattant.prototype.action = function(nbrFois) {
+Combattant.prototype.action = function(times) {
     return null;
 };
 

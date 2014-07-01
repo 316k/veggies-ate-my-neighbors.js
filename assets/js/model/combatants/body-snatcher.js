@@ -68,6 +68,6 @@ BodySnatcher.prototype.attaquer = function(nbFois) {
     return;
 };
 
-BodySnatcher.prototype.action = function(nbrFois) {
+BodySnatcher.prototype.action = function(times) {
     return null;
 };

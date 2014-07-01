@@ -20,7 +20,6 @@ CheatCodeController.prototype.onkeytyped = function(character) {
 
 
     this.cheat_code += character;
-    console.log(this.cheat_code);
     if (this.cheat_code.toLowerCase().endsWith("helios")) {
         navigator.Joueur.nbrSoleils += 100;
     } else if (this.cheat_code.toLowerCase().endsWith("monsinti")) {

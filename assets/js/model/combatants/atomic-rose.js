@@ -49,9 +49,9 @@ AtomicRose.prototype.tic = function() {
  * @param nbFois si c'est 0, pas d'explosion, sinon, explose.
  * @return Entite une explosion.
  */
-AtomicRose.prototype.action = function(nbFois) {
+AtomicRose.prototype.action = function(times) {
 
-    if (nbFois > 0) {
+    if (times > 0) {
         return new ExplosionNucleaire();
     }
 

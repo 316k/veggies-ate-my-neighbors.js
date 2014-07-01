@@ -44,9 +44,9 @@ Terrain.CASES_X = 9;
 Terrain.CASES_Y = 5;
 Terrain.TAILLE_CASE_X = 80;
 Terrain.TAILLE_CASE_Y = 80;
-Terrain.ITEM_WIDTH = 75;
+Terrain.ITEM_WIDTH = 65;
 Terrain.OFFSET_ITEMS = parseInt(1.2 * Terrain.TAILLE_CASE_X);
-Terrain.MARGIN_ITEMS = parseInt(0.2 * Terrain.ITEM_WIDTH);
+Terrain.MARGIN_ITEMS = 10;
 
 /**
  * Calls all the required tic() methods

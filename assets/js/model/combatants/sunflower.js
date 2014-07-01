@@ -27,6 +27,8 @@ Sunflower.prototype.initialise = function() {
     this.sprites[navigator.Etat.ATTENTE] = new RepresentationImage(["plants", "sunflower"]);
 
     this.etat = navigator.Etat.ATTENTE;
+
+    this.sun_recharge = 0;
 };
 
 Sunflower.prototype.tic = function() {
@@ -40,23 +42,13 @@ Sunflower.prototype.tic = function() {
     return soleil;
 };
 
-Sunflower.prototype.action = function(nbFois) {
-//        for (int i = 0; i < nbFois; i++) {
-//
-//            long ts = System.currentTimeMillis();
-//            Soleil soleil = null;
-//
-//            if (this.soleil != null && !this.soleil.isUsed()) {
-//                dernierSoleilTimestamp = ts;
-//            } else if (ts - dernierSoleilTimestamp >= tempsGenerationSoleil * 1000.0) {
-//                soleil = new Soleil(25, hitbox.x, hitbox.y);
-//                dernierSoleilTimestamp = ts;
-//                this.soleil = soleil;
-//            }
-//        }
-    if (nbFois > 0) {
+Sunflower.prototype.action = function(times) {
+    this.sun_recharge += times;
+
+    if (this.sun_recharge > 1) {
+        this.sun_recharge = 0;
         return new Soleil(25, new Point(this.hitbox.x, this.hitbox.y));
-    } else {
-        return null;
     }
+
+    return null;
 };
